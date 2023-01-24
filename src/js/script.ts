@@ -76,6 +76,27 @@ function downloadCardImage() {
   });
 }
 
+function genereteCardImage() {
+  document.getElementsByClassName("js_monthLabel")[0].innerHTML = (<HTMLInputElement>(
+    document.getElementsByClassName("js_input-text")[0]
+  )).value;
+
+  // html2canvas(<HTMLElement>document.querySelector("#capture"), {
+  //   scale: 5,
+  // }).then((canvas) => {
+  //   let downloadEle = document.createElement("a");
+  //   downloadEle.href = canvas.toDataURL("image/png");
+  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
+  //   downloadEle.click();
+  // });
+}
+
+document
+  .getElementsByClassName("js_generateButton")[0]
+  .addEventListener("click", (event) => {
+    genereteCardImage();
+  });
+
 document.addEventListener("DOMContentLoaded", function () {
   setCurrentMonth();
 

@@ -1,90 +1,86 @@
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>みてね風ましかくマンスリーカード</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <h1>みてね風ましかくマンスリーカード</h1>
-    <h2>これは何？</h2>
-    <div class="introduction">
-      <p>
-        「<a href="https://mitene.us/" target="_blank">家族アルバム みてね</a
-        >」のましかく写真プリントに同梱されるマンスリーカードと（ほぼ）同じデザインのカード画像を作成するツールです。
-      </p>
-      <div class="images">
-        <img src="./assets/MonthlyCard_2022-08.png" alt="" />
-        <img src="./assets/MonthlyCard_2022-09.png" alt="" />
-        <img src="./assets/MonthlyCard_2022-10.png" alt="" />
-      </div>
-      <p>
-        「みてね」では過去のマンスリーカードを印刷できないため、このツールで作成した画像を他の写真と同様にアップロード＆注文することで任意の年月のマンスリーカードを作成できます。
-      </p>
-    </div>
-    <h2>注意事項</h2>
-    <div class="terms">
-      <ul>
-        <li>
-          本ツールは<a href="https://mitene.us/" target="_blank"
-            >家族アルバム みてね</a
-          >とは無関係な非公式のツールです。
-        </li>
-        <li>
-          本ツールに関する問い合わせを株式会社ミクシィおよび<a
-            href="https://mitene.us/"
-            target="_blank"
-            >家族アルバム みてね</a
-          >に送らないでください。
-        </li>
-        <li>
-          本ツールの使用によって生じたいかなる問題・損害について一切責任は取れません。自己責任で利用してください。
-        </li>
-      </ul>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>みてね風ましかくマンスリーカード</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
+</head>
 
-    <h2>使い方</h2>
-    <div class="howtouse">
-      <ol>
-        <li>年月を選択する</li>
-        <li>プレビューを確認する</li>
-        <li>ダウンロードする</li>
-        <li>（印刷する）</li>
-      </ol>
+<body>
+  <h1>みてね風ましかくマンスリーカード</h1>
+  <h2>これは何？</h2>
+  <div class="introduction">
+    <p>
+      「<a href="https://mitene.us/" target="_blank">家族アルバム みてね</a>」のましかく写真プリントに同梱されるマンスリーカードと（ほぼ）同じデザインのカード画像を作成するツールです。
+    </p>
+    <div class="images">
+      <img src="./assets/MonthlyCard_2022-08.png" alt="" />
+      <img src="./assets/MonthlyCard_2022-09.png" alt="" />
+      <img src="./assets/MonthlyCard_2022-10.png" alt="" />
     </div>
-    <div class="editor">
-      <div class="monthlycard_border">
-        <div id="capture" class="monthlycard__mitene_square">
-          <div class="labels">
-            <div class="month_text js_monthLabel">November</div>
-            <div class="month_number js_month">11</div>
-            <div class="year js_year">2022</div>
-          </div>
+    <p>
+      「みてね」では過去のマンスリーカードを印刷できないため、このツールで作成した画像を他の写真と同様にアップロード＆注文することで任意の年月のマンスリーカードを作成できます。
+    </p>
+  </div>
+  <h2>注意事項</h2>
+  <div class="terms">
+    <ul>
+      <li>
+        本ツールは<a href="https://mitene.us/" target="_blank">家族アルバム みてね</a>とは無関係な非公式のツールです。
+      </li>
+      <li>
+        本ツールに関する問い合わせを株式会社ミクシィおよび<a href="https://mitene.us/" target="_blank">家族アルバム みてね</a>に送らないでください。
+      </li>
+      <li>
+        本ツールの使用によって生じたいかなる問題・損害について一切責任は取れません。自己責任で利用してください。
+      </li>
+    </ul>
+  </div>
+
+  <h2>使い方</h2>
+  <div class="howtouse">
+    <ol>
+      <li>年月を選択する</li>
+      <li>プレビューを確認する</li>
+      <li>ダウンロードする</li>
+      <li>（印刷する）</li>
+    </ol>
+  </div>
+  <div class="editor">
+    <div class="images">
+      <img src="./assets/1500*2000.png" alt="" />
+    </div>
+    <div class="monthlycard_border">
+      <div id="capture" class="textcard_square">
+        <div class="labels">
+          <div class="month_text js_monthLabel">November</div>
         </div>
       </div>
-      <input class="month js_monthInput" type="month" />
-      <input
-        class="js_downloadButton button019"
-        type="button"
-        value="ダウンロード"
-      />
     </div>
+    <textarea name="text" id="capture" class="js_input-text text-area" maxlength="45"
+      placeholder="短歌を入力">はなのいろは　うつりにけりな　いたづらに　わが身世にふる　ながめせしまに</textarea>
+    <input class="js_generateButton button019" type="button" value="生成" />
 
-    <div class="footer">
-      <a class="copyright" href="https://twitter.com/naichilab" target="_blank"
-        >© 2023 naichilab</a
-      >
-      <a
-        class="github"
-        href="https://github.com/naichilab/monthly-card-image"
-        target="_blank"
-      >
-        <img src="assets/github-mark.svg" width="30px" />
-      </a>
+    <div class="monthlycard_border">
+      <div id="capture2" class="monthlycard__mitene_square">
+        <div class="labels">
+          <div class="month_text js_monthLabel">November</div>
+          <div class="month_number js_month">11</div>
+          <div class="year js_year">2022</div>
+        </div>
+      </div>
     </div>
-  </body>
+    <input class="month js_monthInput" type="month" />
+    <input class="js_downloadButton button019" type="button" value="ダウンロード" />
+  </div>
+
+  <div class="footer">
+    <a class="copyright" href="https://twitter.com/naichilab" target="_blank">© 2023 naichilab</a>
+    <a class="github" href="https://github.com/naichilab/monthly-card-image" target="_blank">
+      <img src="assets/github-mark.svg" width="30px" />
+    </a>
+  </div>
+</body>
+
 </html>

@@ -15,7 +15,18 @@ h2 {
   background: linear-gradient(transparent 70%, #a7d6ff 70%);
 }
 
-.title {
+.title {}
+
+.text-area {
+  width: 100%;
+  max-width: 320px;
+  // transform: rotate(90deg);
+  // width: 300px;
+  // height: 400px;
+  // line-height: 1.5em;
+  // writing-mode: initial;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 
 .introduction {
@@ -37,6 +48,17 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+
+  .images {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+
+    img {
+      max-width: 400px;
+      border: 1px solid #ddd;
+    }
+  }
 
   input[type="month"] {
     max-width: 320px;
@@ -126,5 +148,46 @@ h2 {
 
   a.copyright {
     text-decoration: none;
+  }
+}
+
+.textcard_square {
+  width: 300px;
+  height: 400px;
+  font-family: "Noto Sans Tangsa", sans-serif;
+
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-orientation: upright;
+  writing-mode: vertical-rl;
+
+
+  .labels {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    // height: 215px;
+
+    .month_text {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1em;
+    }
+
+    .month_number {
+      font-weight: 700;
+      font-size: 110px;
+      line-height: 1em;
+    }
+
+    .year {
+      font-weight: 700;
+      font-size: 21px;
+      line-height: 1em;
+    }
   }
 }
