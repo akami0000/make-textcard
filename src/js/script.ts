@@ -1,4 +1,5 @@
 import "../css/style.scss";
+import "../css/style_radio.scss";
 import html2canvas from "html2canvas";
 
 function formatDate(date: Date, format: string) {
@@ -77,6 +78,29 @@ function downloadCardImage() {
 }
 
 function genereteCardImage() {
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check1")[0]
+  )).checked) {
+    // var $fontFamily = "sans-serif";
+    // document.getElementsByClassName("js_monthLabel")[0].innerHTML = $fontFamily;
+    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
+    obj.style.fontFamily = "M PLUS Rounded 1c";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check2")[0]
+  )).checked) {
+    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
+    obj.style.fontFamily = "Noto Sans JP";
+
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check3")[0]
+  )).checked) {
+    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
+    obj.style.fontFamily = 'lineseed';
+
+  }
+
   document.getElementsByClassName("js_monthLabel")[0].innerHTML = (<HTMLInputElement>(
     document.getElementsByClassName("js_input-text")[0]
   )).value;

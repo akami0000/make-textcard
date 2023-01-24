@@ -92,6 +92,89 @@ h2 {
       border-color: #bbb;
     }
   }
+
+  input[type="radio"] {
+    align-self: unset;
+    // align-items: unset;
+    // text-align: right;
+    // align-items: right;
+  }
+
+
+  // .labels {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   height: 215px;
+
+  //   font-weight: 700;
+  //   font-size: 20px;
+  //   line-height: 1em;
+
+  //   .month_text {
+  //     font-weight: 700;
+  //     font-size: 20px;
+  //     line-height: 1em;
+  //   }
+
+  //   .month_number {
+  //     font-weight: 700;
+  //     font-size: 110px;
+  //     line-height: 1em;
+  //   }
+
+  //   .year {
+  //     font-weight: 700;
+  //     font-size: 21px;
+  //     line-height: 1em;
+  //   }
+  // }
+}
+
+.font {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+
+  input[type="radio"] {
+    align-self: unset;
+    // align-items: unset;
+    // text-align: right;
+    // align-items: right;
+  }
+
+
+  // .labels {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   height: 215px;
+
+  //   font-weight: 700;
+  //   font-size: 20px;
+  //   line-height: 1em;
+
+  //   .month_text {
+  //     font-weight: 700;
+  //     font-size: 20px;
+  //     line-height: 1em;
+  //   }
+
+  //   .month_number {
+  //     font-weight: 700;
+  //     font-size: 110px;
+  //     line-height: 1em;
+  //   }
+
+  //   .year {
+  //     font-weight: 700;
+  //     font-size: 21px;
+  //     line-height: 1em;
+  //   }
+  // }
 }
 
 .monthlycard_border {
@@ -153,8 +236,8 @@ h2 {
 
 .textcard_square {
   // max-width: 600px;
-  width: 600px;
-  height: 400px;
+  width: 400px;
+  height: 1000px;
   // width: 300px;
   // height: 400px;
   font-family: "Noto Sans Tangsa", sans-serif;
@@ -177,7 +260,7 @@ h2 {
 
     .month_text {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1em;
     }
 
@@ -193,4 +276,21 @@ h2 {
       line-height: 1em;
     }
   }
+}
+
+.wf-roundedmplus1c {
+  font-family: "M PLUS Rounded 1c";
+}
+
+.wf-notosansjapanese {
+  font-family: "Noto Sans JP";
+}
+
+@font-face {
+  font-family: 'lineseed';
+  src: url('../assets/LINESeedJP_OTF_Rg.woff') format('woff');
+}
+
+.wf-lineseed {
+  font-family: 'lineseed', sans-serif
 }
