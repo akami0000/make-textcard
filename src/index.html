@@ -2,6 +2,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title></title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
@@ -20,7 +21,7 @@
     </div>
     <!-- </div> -->
 
-    <!-- 
+
     <div class="monthlycard_border">
       <div id="capture2" class="monthlycard__mitene_square">
         <div class="labels">
@@ -30,8 +31,9 @@
         </div>
       </div>
     </div>
+    <canvas width=300 height=400 id="canvas">代替コンテンツ</canvas>
     <input class="month js_monthInput" type="month" />
-    <input class="js_downloadButton button019" type="button" value="ダウンロード" /> -->
+    <input class="js_downloadButton button019" type="button" value="ダウンロード" />
   </div>
   <h2>使い方</h2>
   <div class="howtouse">
@@ -56,6 +58,9 @@
     <textarea name="text" id="capture" class="js_input-text text-area" maxlength="45"
       placeholder="短歌を入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
     <input class="js_generateButton button019" type="button" value="反映" />
+    <a href="//twitter.com/share" class="twitter-share-button" data-hashtags="駆け出しエンジニアのタイピングゲーム"
+      data-url="https://make-textcard.netlify.app/" data-lang="ja"><input class="button019" type="button"
+        value="tweet" /></a>
   </div>
   <div class="footer">
     <a class="copyright" href="https://twitter.com/akaiakaikinomi" target="_blank">製作者：あかみ</a>

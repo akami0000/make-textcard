@@ -67,14 +67,33 @@ function selectedMonthChanged() {
 }
 
 function downloadCardImage() {
-  html2canvas(<HTMLElement>document.querySelector("#capture"), {
-    scale: 5,
-  }).then((canvas) => {
-    let downloadEle = document.createElement("a");
-    downloadEle.href = canvas.toDataURL("image/png");
-    downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
-    downloadEle.click();
-  });
+  // <HTMLCanvasElement>document.getElementById('canvas').then((canvas) => {
+  //   let downloadEle = document.createElement("a");
+  //   downloadEle.href = canvas.toDataURL("image/png");
+  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
+  //   downloadEle.click();
+  // });
+
+  var canvas = <HTMLCanvasElement>document.getElementById('canvas');
+  if (canvas != null) {
+    //アンカータグを作成
+    var a = document.createElement('a');
+    //canvasをJPEG変換し、そのBase64文字列をhrefへセット
+    a.href = canvas.toDataURL('image/png');
+    //ダウンロード時のファイル名を指定
+    a.download = `mc${getInputMonthValue().replace("-", "")}.png`;
+    //クリックイベントを発生させる
+    a.click();
+  }
+
+  // html2canvas(<HTMLElement>document.querySelector("#capture"), {
+  //   scale: 5,
+  // }).then((canvas) => {
+  //   let downloadEle = document.createElement("a");
+  //   downloadEle.href = canvas.toDataURL("image/png");
+  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
+  //   downloadEle.click();
+  // });
 }
 
 function genereteCardImage() {
@@ -114,6 +133,37 @@ function genereteCardImage() {
   //   downloadEle.click();
   // });
 }
+
+/*
+ * @author phi_jp
+ */
+
+window.onload = function () {
+  var canvas = <HTMLCanvasElement>document.getElementById("canvas");
+  var context = canvas.getContext("2d");
+  if (context !== null) {
+    //background color
+    context.beginPath();
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.font = "16px 'メイリオ'";
+    context.fillStyle = 'black';
+    var text = "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら";
+    tategaki(context, text, 150, 50);
+  }
+};
+
+var tategaki = function (context: CanvasRenderingContext2D, text: string, x: number, y: number) {
+  var textList = text.split('\n');
+  var lineHeight = context.measureText("あ").width;
+  textList.forEach(function (elm, i) {
+    Array.prototype.forEach.call(elm, function (ch, j) {
+      context.fillText(ch, x - lineHeight * i, y + lineHeight * j);
+    });
+  });
+};
+
 
 document
   .getElementsByClassName("js_generateButton")[0]

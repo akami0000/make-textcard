@@ -70,7 +70,7 @@ h2 {
   }
 
   input[type="button"] {
-    width: 100%;
+    width: 320px;
     max-width: 320px;
     padding: 10px;
     font-size: 1em;
@@ -95,9 +95,6 @@ h2 {
 
   input[type="radio"] {
     align-self: unset;
-    // align-items: unset;
-    // text-align: right;
-    // align-items: right;
   }
 
 
@@ -144,37 +141,6 @@ h2 {
     // text-align: right;
     // align-items: right;
   }
-
-
-  // .labels {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   justify-content: space-between;
-  //   height: 215px;
-
-  //   font-weight: 700;
-  //   font-size: 20px;
-  //   line-height: 1em;
-
-  //   .month_text {
-  //     font-weight: 700;
-  //     font-size: 20px;
-  //     line-height: 1em;
-  //   }
-
-  //   .month_number {
-  //     font-weight: 700;
-  //     font-size: 110px;
-  //     line-height: 1em;
-  //   }
-
-  //   .year {
-  //     font-weight: 700;
-  //     font-size: 21px;
-  //     line-height: 1em;
-  //   }
-  // }
 }
 
 .monthlycard_border {
@@ -218,6 +184,16 @@ h2 {
       line-height: 1em;
     }
   }
+}
+
+canvas {
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  // box-shadow: 0px 0px 4px 0px #aaa;
+  border: 1px solid #ddd;
+  background: rgb(255, 255, 255);
 }
 
 .footer {
