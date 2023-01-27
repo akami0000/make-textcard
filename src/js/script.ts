@@ -1,6 +1,20 @@
 import "../css/style.scss";
 import "../css/style_radio.scss";
 
+// ツイートボタン押下時にテキストを動的に変更してツイート
+function tweet() {
+  // 出力結果を取得
+  var text = (<HTMLInputElement>(
+    document.getElementsByClassName("js_input-text")[0]
+  )).value;
+
+  // オプションパラメータを設定
+  let hashtags = "縦書き画像メーカー";
+  let url = encodeURIComponent(location.href)  // location.hrefは今いるURL
+
+  // URLを生成して遷移
+  window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
+}
 
 function downloadCardImage() {
   var canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -19,32 +33,7 @@ function downloadCardImage() {
 }
 
 function genereteCardImage() {
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check1")[0]
-  )).checked) {
-    // var $fontFamily = "sans-serif";
-    // document.getElementsByClassName("js_monthLabel")[0].innerHTML = $fontFamily;
-    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
-    obj.style.fontFamily = "M PLUS Rounded 1c";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check2")[0]
-  )).checked) {
-    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
-    obj.style.fontFamily = "Noto Sans JP";
-
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check3")[0]
-  )).checked) {
-    var obj = (<HTMLInputElement>(document.getElementById("displaytext")));
-    obj.style.fontFamily = 'lineseed';
-
-  }
-
-  document.getElementsByClassName("js_monthLabel")[0].innerHTML = (<HTMLInputElement>(
-    document.getElementsByClassName("js_input-text")[0]
-  )).value;
+  drawCanvas();
 }
 
 /*
@@ -52,6 +41,70 @@ function genereteCardImage() {
  */
 
 window.onload = function () {
+  drawCanvas();
+};
+
+var tategaki = function (context: CanvasRenderingContext2D, text: string, x: number, y: number) {
+  var textList = text.split('\n');
+  var lineHeight = context.measureText("あ").width;
+
+  // Canvasの縦サイズ・文章の長さによる描画開始位置Xの調整
+  var drawX = x / 2 - (lineHeight / 2);
+
+  // Canvasの横サイズ描画開始位置Yの調整
+  var drawY = ((y - (lineHeight * (textList[0].length - 0))) / 2) + (lineHeight);
+
+  // console.log();
+
+  textList.forEach(function (elm, i) {
+    Array.prototype.forEach.call(elm, function (ch, j) {
+      var rotate = chkRotate(ch);
+      // パスをリセット
+      context.beginPath();
+      // 回転 (n度)
+      context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+      context.rotate(rotate[0] * Math.PI / 180);
+      context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+
+      context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+
+      // 回転 (n度)
+      context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+      context.rotate(-rotate[0] * Math.PI / 180);
+      context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+    });
+  });
+
+};
+
+function chkRotate(text: string): number[] {
+  const nums: number[] = [];
+  if (text === "ー" || text === "〜") {
+    nums.push(90);  // 角度
+    nums.push(0);   // 回転位置Xの調整値
+    nums.push(2);   // 回転位置Yの調整値
+    nums.push(1);   // 描画位置Xの調整値
+    nums.push(0);   // 描画位置Yの調整値
+  }
+  else if (text === "、" || text === "。") {
+    nums.push(180);
+    nums.push(0);
+    nums.push(2);
+    nums.push(1);
+    nums.push(1);
+  }
+  else {
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+  }
+  return nums;
+};
+
+function drawCanvas() {
+
   var canvas = <HTMLCanvasElement>document.getElementById("canvas");
   var context = canvas.getContext("2d");
   if (context !== null) {
@@ -60,54 +113,30 @@ window.onload = function () {
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    context.font = '700 14px "M PLUS Rounded 1c"';
+    if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check1")[0]
+    )).checked) {
+      context.font = '400 16px "M PLUS Rounded 1c"';
+    }
+    else if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check2")[0]
+    )).checked) {
+      context.font = '400 16px "Noto Sans JP"';
+    }
+    else if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check3")[0]
+    )).checked) {
+      context.font = '400 16px "lineseed"';
+    }
+
     context.fillStyle = 'black';
-    var text = "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら";
-    tategaki(context, text, 200, 50);
+    var text = (<HTMLInputElement>(
+      document.getElementsByClassName("js_input-text")[0]
+    )).value;
+    tategaki(context, text, canvas.width, canvas.height);
   }
 };
 
-var tategaki = function (context: CanvasRenderingContext2D, text: string, x: number, y: number) {
-  var textList = text.split('\n');
-  var lineHeight = context.measureText("あ").width;
-  textList.forEach(function (elm, i) {
-    var chk = chkRotate(elm);
-    Array.prototype.forEach.call(elm, function (ch, j) {
-      if (chk) {
-        // パスをリセット
-        context.beginPath();
-        // 回転 (50度)
-        context.translate(x - lineHeight * i, y + lineHeight * j);
-        context.rotate(50 * Math.PI / 180);
-        context.translate(-(x - lineHeight * i), -(y + lineHeight * j));
-      }
-      context.fillText(ch, x - lineHeight * i, y + lineHeight * j);
-      if (chk) {
-        // 回転 (50度)
-        context.translate(x - lineHeight * i, y + lineHeight * j);
-        context.rotate(-50 * Math.PI / 180);
-        context.translate(-(x - lineHeight * i), -(y + lineHeight * j));
-      }
-    });
-  });
-};
-
-var chkRotate = function (text: string) {
-  if (text == "ー")
-    return 1;
-  return 0;
-};
-
-// document
-//   .getElementsByClassName("js_generateButton")[0]
-//   .addEventListener("click", (event) => {
-//     genereteCardImage();
-//   });
-// document
-//   .getElementsByClassName("js_downloadButton")[0]
-//   .addEventListener("click", (event) => {
-//     downloadCardImage();
-//   });
 
 document.addEventListener("DOMContentLoaded", function () {
   document
@@ -119,5 +148,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementsByClassName("js_downloadButton")[0]
     .addEventListener("click", (event) => {
       downloadCardImage();
+    });
+
+  document.getElementsByClassName("js_tweetButton")[0]
+    .addEventListener("click", (event) => {
+      tweet();
     });
 });
