@@ -60,14 +60,14 @@ h2 {
     }
   }
 
-  input[type="month"] {
-    max-width: 320px;
-    border: solid 1px #ccc;
-    border-radius: 3px;
-    padding: 10px;
-    font-size: 1.3em;
-    width: 100%;
-  }
+  // input[type="month"] {
+  //   max-width: 320px;
+  //   border: solid 1px #ccc;
+  //   border-radius: 3px;
+  //   padding: 10px;
+  //   font-size: 1.3em;
+  //   width: 100%;
+  // }
 
   input[type="button"] {
     width: 320px;
@@ -143,54 +143,146 @@ h2 {
   }
 }
 
-.monthlycard_border {
-  border: 1px solid #ddd;
-}
-
-.monthlycard__mitene_square {
-  width: 320px;
-  height: 320px;
-  font-family: "Noto Sans Tangsa", sans-serif;
-
-  background-color: white;
-  color: black;
-
+.display {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 8px;
 
-  .labels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 215px;
+  // .images {
+  //   display: flex;
+  //   gap: 4px;
+  //   justify-content: center;
 
-    .month_text {
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 1em;
+  //   img {
+  //     max-width: 400px;
+  //     border: 1px solid #ddd;
+  //   }
+  // }
+
+  input[type="button"] {
+    width: 320px;
+    max-width: 320px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #27acd9;
+    background: #27acd9;
+    color: #fff;
+    transition: 0.5s;
+
+    &:hover {
+      color: #27acd9;
+      background: #fff;
     }
 
-    .month_number {
-      font-weight: 700;
-      font-size: 110px;
-      line-height: 1em;
-    }
-
-    .year {
-      font-weight: 700;
-      font-size: 21px;
-      line-height: 1em;
+    &:disabled {
+      color: #bbb;
+      background-color: white;
+      border-color: #bbb;
     }
   }
+
+  // input[type="radio"] {
+  //   align-self: unset;
+  // }
+
+
+  // .labels {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   height: 215px;
+
+  //   font-weight: 700;
+  //   font-size: 20px;
+  //   line-height: 1em;
+
+  //   .month_text {
+  //     font-weight: 700;
+  //     font-size: 20px;
+  //     line-height: 1em;
+  //   }
+
+  //   .month_number {
+  //     font-weight: 700;
+  //     font-size: 110px;
+  //     line-height: 1em;
+  //   }
+
+  //   .year {
+  //     font-weight: 700;
+  //     font-size: 21px;
+  //     line-height: 1em;
+  //   }
+  // }
 }
+
+.font {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+
+  input[type="radio"] {
+    align-self: unset;
+    // align-items: unset;
+    // text-align: right;
+    // align-items: right;
+  }
+}
+
+// .monthlycard_border {
+//   border: 1px solid #ddd;
+// }
+
+// .monthlycard__mitene_square {
+//   width: 320px;
+//   height: 320px;
+//   font-family: "Noto Sans Tangsa", sans-serif;
+
+//   background-color: white;
+//   color: black;
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   .labels {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: space-between;
+//     height: 215px;
+
+//     .month_text {
+//       font-weight: 700;
+//       font-size: 20px;
+//       line-height: 1em;
+//     }
+
+//     .month_number {
+//       font-weight: 700;
+//       font-size: 110px;
+//       line-height: 1em;
+//     }
+
+//     .year {
+//       font-weight: 700;
+//       font-size: 21px;
+//       line-height: 1em;
+//     }
+//   }
+// }
 
 canvas {
   left: 0px;
   right: 0px;
   top: 0px;
   bottom: 0px;
+  // width: 70%;
   // box-shadow: 0px 0px 4px 0px #aaa;
   border: 1px solid #ddd;
   background: rgb(255, 255, 255);
@@ -216,7 +308,7 @@ canvas {
   height: 1000px;
   // width: 300px;
   // height: 400px;
-  font-family: "Noto Sans Tangsa", sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
 
   background-color: white;
   color: black;
@@ -268,5 +360,22 @@ canvas {
 }
 
 .wf-lineseed {
+  font-family: 'lineseed', sans-serif
+}
+
+
+// ディスプレイ用
+.display-roundedmplus1c {
+  font-size: 110px;
+  font-family: "M PLUS Rounded 1c";
+}
+
+.display--notosansjapanese {
+  font-size: 110px;
+  font-family: "Noto Sans JP";
+}
+
+.display--lineseed {
+  font-size: 110px;
   font-family: 'lineseed', sans-serif
 }

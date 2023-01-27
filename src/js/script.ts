@@ -1,79 +1,8 @@
 import "../css/style.scss";
 import "../css/style_radio.scss";
-import html2canvas from "html2canvas";
 
-function formatDate(date: Date, format: string) {
-  format = format.replace(/yyyy/g, String(date.getFullYear()));
-  format = format.replace(/MM/g, ("0" + (date.getMonth() + 1)).slice(-2));
-  format = format.replace(/dd/g, ("0" + date.getDate()).slice(-2));
-  format = format.replace(/HH/g, ("0" + date.getHours()).slice(-2));
-  format = format.replace(/mm/g, ("0" + date.getMinutes()).slice(-2));
-  format = format.replace(/ss/g, ("0" + date.getSeconds()).slice(-2));
-  format = format.replace(/SSS/g, ("00" + date.getMilliseconds()).slice(-3));
-  return format;
-}
-
-function getMonthName(month: number) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return months[month - 1];
-}
-
-function setCurrentMonth() {
-  let monthInput = <HTMLInputElement>(
-    document.getElementsByClassName("js_monthInput")[0]
-  );
-  monthInput.value = formatDate(new Date(), "yyyy-MM");
-  monthInput.value = "2022-12";
-  selectedMonthChanged();
-}
-
-function getInputMonthValue() {
-  return (<HTMLInputElement>document.getElementsByClassName("js_monthInput")[0])
-    .value;
-}
-
-function selectedMonthChanged() {
-  const inputValue = getInputMonthValue();
-
-  if (inputValue == "") {
-    (<HTMLInputElement>(
-      document.getElementsByClassName("js_downloadButton")[0]
-    )).disabled = true;
-  } else {
-    const year = Number(inputValue.substr(0, 4));
-    const month = Number(inputValue.substr(5, 2));
-
-    document.getElementsByClassName("js_monthLabel")[0].innerHTML =
-      getMonthName(month);
-    document.getElementsByClassName("js_month")[0].innerHTML = String(month);
-    document.getElementsByClassName("js_year")[0].innerHTML = String(year);
-    (<HTMLInputElement>(
-      document.getElementsByClassName("js_downloadButton")[0]
-    )).disabled = false;
-  }
-}
 
 function downloadCardImage() {
-  // <HTMLCanvasElement>document.getElementById('canvas').then((canvas) => {
-  //   let downloadEle = document.createElement("a");
-  //   downloadEle.href = canvas.toDataURL("image/png");
-  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
-  //   downloadEle.click();
-  // });
-
   var canvas = <HTMLCanvasElement>document.getElementById('canvas');
   if (canvas != null) {
     //アンカータグを作成
@@ -81,19 +10,12 @@ function downloadCardImage() {
     //canvasをJPEG変換し、そのBase64文字列をhrefへセット
     a.href = canvas.toDataURL('image/png');
     //ダウンロード時のファイル名を指定
-    a.download = `mc${getInputMonthValue().replace("-", "")}.png`;
+    let date = new Date();
+    let filename = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    a.download = `${filename}.png`;
     //クリックイベントを発生させる
     a.click();
   }
-
-  // html2canvas(<HTMLElement>document.querySelector("#capture"), {
-  //   scale: 5,
-  // }).then((canvas) => {
-  //   let downloadEle = document.createElement("a");
-  //   downloadEle.href = canvas.toDataURL("image/png");
-  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
-  //   downloadEle.click();
-  // });
 }
 
 function genereteCardImage() {
@@ -123,15 +45,6 @@ function genereteCardImage() {
   document.getElementsByClassName("js_monthLabel")[0].innerHTML = (<HTMLInputElement>(
     document.getElementsByClassName("js_input-text")[0]
   )).value;
-
-  // html2canvas(<HTMLElement>document.querySelector("#capture"), {
-  //   scale: 5,
-  // }).then((canvas) => {
-  //   let downloadEle = document.createElement("a");
-  //   downloadEle.href = canvas.toDataURL("image/png");
-  //   downloadEle.download = `mc${getInputMonthValue().replace("-", "")}.png`;
-  //   downloadEle.click();
-  // });
 }
 
 /*
@@ -147,10 +60,10 @@ window.onload = function () {
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    context.font = "16px 'メイリオ'";
+    context.font = '700 14px "M PLUS Rounded 1c"';
     context.fillStyle = 'black';
     var text = "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら";
-    tategaki(context, text, 150, 50);
+    tategaki(context, text, 200, 50);
   }
 };
 
@@ -158,28 +71,50 @@ var tategaki = function (context: CanvasRenderingContext2D, text: string, x: num
   var textList = text.split('\n');
   var lineHeight = context.measureText("あ").width;
   textList.forEach(function (elm, i) {
+    var chk = chkRotate(elm);
     Array.prototype.forEach.call(elm, function (ch, j) {
+      if (chk) {
+        // パスをリセット
+        context.beginPath();
+        // 回転 (50度)
+        context.translate(x - lineHeight * i, y + lineHeight * j);
+        context.rotate(50 * Math.PI / 180);
+        context.translate(-(x - lineHeight * i), -(y + lineHeight * j));
+      }
       context.fillText(ch, x - lineHeight * i, y + lineHeight * j);
+      if (chk) {
+        // 回転 (50度)
+        context.translate(x - lineHeight * i, y + lineHeight * j);
+        context.rotate(-50 * Math.PI / 180);
+        context.translate(-(x - lineHeight * i), -(y + lineHeight * j));
+      }
     });
   });
 };
 
+var chkRotate = function (text: string) {
+  if (text == "ー")
+    return 1;
+  return 0;
+};
 
-document
-  .getElementsByClassName("js_generateButton")[0]
-  .addEventListener("click", (event) => {
-    genereteCardImage();
-  });
+// document
+//   .getElementsByClassName("js_generateButton")[0]
+//   .addEventListener("click", (event) => {
+//     genereteCardImage();
+//   });
+// document
+//   .getElementsByClassName("js_downloadButton")[0]
+//   .addEventListener("click", (event) => {
+//     downloadCardImage();
+//   });
 
 document.addEventListener("DOMContentLoaded", function () {
-  setCurrentMonth();
-
   document
-    .getElementsByClassName("js_monthInput")[0]
-    .addEventListener("change", (event) => {
-      selectedMonthChanged();
+    .getElementsByClassName("js_generateButton")[0]
+    .addEventListener("click", (event) => {
+      genereteCardImage();
     });
-
   document
     .getElementsByClassName("js_downloadButton")[0]
     .addEventListener("click", (event) => {
