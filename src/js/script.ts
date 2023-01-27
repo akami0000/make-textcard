@@ -1,20 +1,20 @@
 import "../css/style.scss";
 import "../css/style_radio.scss";
 
-// ツイートボタン押下時にテキストを動的に変更してツイート
-function tweet() {
-  // 出力結果を取得
-  var text = (<HTMLInputElement>(
-    document.getElementsByClassName("js_input-text")[0]
-  )).value;
+// // ツイートボタン押下時にテキストを動的に変更してツイート
+// function tweet() {
+//   // 出力結果を取得
+//   var text = (<HTMLInputElement>(
+//     document.getElementsByClassName("js_input-text")[0]
+//   )).value;
 
-  // オプションパラメータを設定
-  let hashtags = "縦書き画像メーカー";
-  let url = "https://make-textcard.netlify.app/";  // location.hrefは今いるURL
+//   // オプションパラメータを設定
+//   let hashtags = "縦書き画像メーカー";
+//   let url = "https://make-textcard.netlify.app/";  // location.hrefは今いるURL
 
-  // URLを生成して遷移
-  window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
-}
+//   // URLを生成して遷移
+//   window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
+// }
 
 function downloadCardImage() {
   var canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -150,8 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
       downloadCardImage();
     });
 
-  document.getElementsByClassName("js_tweetButton")[0]
-    .addEventListener("click", (event) => {
-      tweet();
-    });
+  // document.getElementsByClassName("js_tweetButton")[0]
+  //   .addEventListener("click", (event) => {
+  //     tweet();
+  //   });
 });
