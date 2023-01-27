@@ -10,7 +10,7 @@ function tweet() {
 
   // オプションパラメータを設定
   let hashtags = "縦書き画像メーカー";
-  let url = encodeURIComponent(location.href)  // location.hrefは今いるURL
+  let url = "https://make-textcard.netlify.app/";  // location.hrefは今いるURL
 
   // URLを生成して遷移
   window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
