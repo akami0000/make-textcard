@@ -95,12 +95,30 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var drawX = x / 2 - (lineWidth / 2) + (textList.length * lineWidth) / 2;
 
     // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-    var drawY = ((y - (lineHeight * (countLength(text) - 0))) / 2) + (lineHeight);
-    console.log(countLength(text));
+
+    // var list = chkText.split('\n');
+    var num = 0;
+
+    textList.forEach(function (elm, i) {
+      if (!isIncludeKotobagaki(elm)) {
+        num = textList[i].length;
+      }
+    });
+    if (num == 0)
+      num = textList[0].length;
+    // num = textList[0].length;
+    console.log(num);
+
+    //var drawY = ((y - (lineHeight * (countLength(textList) - 0))) / 2) + (lineHeight);
+
+    var drawY = ((y - (lineHeight * (num - 0))) / 2) + (lineHeight);
+    // console.log(countLength(textList));
+    // console.log(lineHeight);
 
     textList.forEach(function (elm, i) {
       // 詞書
       if (isIncludeKotobagaki(elm)) {
+        console.log(true, elm, i);
         // フォント設定
         fontSetting(context, 2);
 
@@ -123,6 +141,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       }
       // ふつうの短歌
       else {
+        console.log(false, elm, i);
         // フォント設定
         fontSetting(context, 1);
 
@@ -264,9 +283,8 @@ function chkRotate(text: string): number[] {
   return nums;
 };
 
-function countLength(chkText: string): number {
-  var list = chkText.split('\n');
-  console.log(list.length);
+function countLength(list: string[]): number {
+  // var list = chkText.split('\n');
   if (list.length == 1) {
     return list[0].length;
   }
@@ -285,7 +303,7 @@ function countLength(chkText: string): number {
 function isIncludeKotobagaki(t: string): boolean {
   var kotobagaki = "詞書：";
 
-  if (kotobagaki.indexOf(t) !== -1) {
+  if (t.indexOf(kotobagaki) !== -1) {
     return true;
   }
   else
@@ -294,13 +312,14 @@ function isIncludeKotobagaki(t: string): boolean {
 
 function fontSetting(context: CanvasRenderingContext2D, mode: number) {
 
-  var fontText = "400 ";
+  var fontText = "";
+
   if (mode == 0)
-    fontText += "24px "
+    fontText += "400 24px "
   else if (mode == 1)
-    fontText += "16px "
+    fontText += "400 16px "
   else
-    fontText += "12px ";
+    fontText += "400 12px ";
 
   if (context !== null) {
     if ((<HTMLInputElement>(
