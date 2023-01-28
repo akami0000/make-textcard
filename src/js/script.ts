@@ -194,6 +194,16 @@ function chkRotate(text: string): number[] {
     || text === "："
     || text === "；"
     || text === "｜"
+
+
+    || text === "「"
+    || text === "」"
+    || text === "【"
+    || text === "】"
+    || text === "『"
+    || text === "』"
+    || text === "［"
+    || text === "］"
   ) {
     nums.push(90);
     nums.push(0);
