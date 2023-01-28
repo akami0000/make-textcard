@@ -44,54 +44,215 @@ window.onload = function () {
   drawCanvas();
 };
 
-var tategaki = function (context: CanvasRenderingContext2D, text: string, x: number, y: number) {
-  var textList = text.split('\n');
-  var lineHeight = context.measureText("あ").width;
+var tategaki = function (context: CanvasRenderingContext2D, title: string, text: string, x: number, y: number) {
 
-  // Canvasの縦サイズ・文章の長さによる描画開始位置Xの調整
-  var drawX = x / 2 - (lineHeight / 2);
+  // タイトル出力
+  {
+    var titleList = title.split('\n');
+    // フォント設定
+    fontSetting(context, 0);
 
-  // Canvasの横サイズ描画開始位置Yの調整
-  var drawY = ((y - (lineHeight * (textList[0].length - 0))) / 2) + (lineHeight);
+    var lineHeight = context.measureText("あ").width;
+    var lineWidth = context.measureText("あ").actualBoundingBoxAscent
+      + context.measureText("あ").actualBoundingBoxDescent;
 
-  // console.log();
+    // タイトル
+    titleList.forEach(function (elm, i) {
+      Array.prototype.forEach.call(elm, function (ch, j) {
+        var drawX = x - 80;
+        var drawY = y - 600;
 
-  textList.forEach(function (elm, i) {
-    Array.prototype.forEach.call(elm, function (ch, j) {
-      var rotate = chkRotate(ch);
-      // パスをリセット
-      context.beginPath();
-      // 回転 (n度)
-      context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
-      context.rotate(rotate[0] * Math.PI / 180);
-      context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        var rotate = chkRotate(ch);
+        // パスをリセット
+        context.beginPath();
+        // 回転 (n度)
+        context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+        context.rotate(rotate[0] * Math.PI / 180);
+        context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
 
-      context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+        context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
 
-      // 回転 (n度)
-      context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
-      context.rotate(-rotate[0] * Math.PI / 180);
-      context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        // 回転 (n度)
+        context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+        context.rotate(-rotate[0] * Math.PI / 180);
+        context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+      });
     });
-  });
+  }
+
+  // 本文出力
+  {
+    var textList = text.split('\n');
+
+    // フォント設定
+    fontSetting(context, 1);
+
+    var lineHeight = context.measureText("あ").width;
+    var lineWidth = context.measureText("あ").actualBoundingBoxAscent
+      + context.measureText("あ").actualBoundingBoxDescent;
+
+    // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
+    var drawX = x / 2 - (lineWidth / 2) + (textList.length * lineWidth) / 2;
+
+    // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+    var drawY = ((y - (lineHeight * (countLength(text) - 0))) / 2) + (lineHeight);
+    console.log(countLength(text));
+
+    textList.forEach(function (elm, i) {
+      // 詞書
+      if (isIncludeKotobagaki(elm)) {
+        // フォント設定
+        fontSetting(context, 2);
+
+        Array.prototype.forEach.call(elm, function (ch, j) {
+          var rotate = chkRotate(ch);
+          // パスをリセット
+          context.beginPath();
+          // 回転 (n度)
+          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.rotate(rotate[0] * Math.PI / 180);
+          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+
+          context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+
+          // 回転 (n度)
+          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.rotate(-rotate[0] * Math.PI / 180);
+          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        });
+      }
+      // ふつうの短歌
+      else {
+        // フォント設定
+        fontSetting(context, 1);
+
+        Array.prototype.forEach.call(elm, function (ch, j) {
+          var rotate = chkRotate(ch);
+          // パスをリセット
+          context.beginPath();
+          // 回転 (n度)
+          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.rotate(rotate[0] * Math.PI / 180);
+          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+
+          context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+
+          // 回転 (n度)
+          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.rotate(-rotate[0] * Math.PI / 180);
+          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        });
+      }
+    });
+  }
 
 };
 
 function chkRotate(text: string): number[] {
   const nums: number[] = [];
-  if (text === "ー" || text === "〜") {
-    nums.push(90);  // 角度
-    nums.push(0);   // 回転位置Xの調整値
-    nums.push(2);   // 回転位置Yの調整値
-    nums.push(1);   // 描画位置Xの調整値
-    nums.push(0);   // 描画位置Yの調整値
+  // nums[0]   // 角度
+  // nums[1]   // 回転位置Xの調整値
+  // nums[2]   // 回転位置Yの調整値
+  // nums[3]   // 描画位置Xの調整値
+  // nums[4]   // 描画位置Yの調整値
+
+  //無視した記号　→ '`”·‘’¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾‘’｀…≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔＾“/\−／＼―＿
+  var hankaku = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  if (hankaku.indexOf(text) !== -1) {
+    nums.push(90);
+    nums.push(0);
+    nums.push(2);
+    nums.push(0.8);
+    nums.push(0);
   }
-  else if (text === "、" || text === "。") {
+  else if (text === "ー"
+    || text === "〜"
+    || text === "～"
+    || text === "（"
+    || text === "）"
+    || text === "="
+    || text === "_"
+    || text === ";"
+    || text === "~"
+    || text === "|"
+    || text === ">"
+    || text === "<"
+
+    || text === "}"
+    || text === "{"
+    || text === "]"
+    || text === "["
+    || text === "＜"
+    || text === "＞"
+
+    || text === "…"
+    || text === "‥"
+
+    || text === "："
+    || text === "；"
+    || text === "｜"
+  ) {
+    nums.push(90);
+    nums.push(0);
+    nums.push(2);
+    nums.push(1);
+    nums.push(0);
+  }
+  else if (text === "、" || text === "。" || text === "，" || text === "．") {
     nums.push(180);
     nums.push(0);
     nums.push(2);
     nums.push(1);
     nums.push(1);
+  }
+  else if (text === "!") {
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+    nums.push(-0.25);
+    nums.push(0);
+  }
+  else if (text === "+") {
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+    nums.push(-0.1);
+    nums.push(0);
+  }
+  else if (text === "-" || text === "＝") {
+    nums.push(90);
+    nums.push(0);
+    nums.push(2);
+    nums.push(0.8);
+    nums.push(0);
+  }
+  else if (text === "(") {
+    nums.push(90);
+    nums.push(1);
+    nums.push(2);
+    nums.push(0.5);
+    nums.push(0);
+  }
+  else if (text === ")") {
+    nums.push(90);
+    nums.push(1);
+    nums.push(2);
+    nums.push(0.75);
+    nums.push(0);
+  }
+  else if (text === ":") {
+    nums.push(90);
+    nums.push(1);
+    nums.push(2);
+    nums.push(0.6);
+    nums.push(0);
+  }
+  else if (text === "+") {
+    nums.push(0);
+    nums.push(0);
+    nums.push(0);
+    nums.push(-0.1);
+    nums.push(0);
   }
   else {
     nums.push(0);
@@ -101,6 +262,66 @@ function chkRotate(text: string): number[] {
     nums.push(0);
   }
   return nums;
+};
+
+function countLength(chkText: string): number {
+  var list = chkText.split('\n');
+  console.log(list.length);
+  if (list.length == 1) {
+    return list[0].length;
+  }
+  else {
+    list.forEach(function (elm, i) {
+      if (isIncludeKotobagaki(elm)) {
+      }
+      else {
+        return list[i].length;
+      }
+    });
+    return list[0].length;
+  }
+};
+
+function isIncludeKotobagaki(t: string): boolean {
+  var kotobagaki = "詞書：";
+
+  if (kotobagaki.indexOf(t) !== -1) {
+    return true;
+  }
+  else
+    return false;
+};
+
+function fontSetting(context: CanvasRenderingContext2D, mode: number) {
+
+  var fontText = "400 ";
+  if (mode == 0)
+    fontText += "24px "
+  else if (mode == 1)
+    fontText += "16px "
+  else
+    fontText += "12px ";
+
+  if (context !== null) {
+    if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check1")[0]
+    )).checked) {
+      fontText += '"M PLUS Rounded 1c"';
+    }
+    else if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check2")[0]
+    )).checked) {
+      fontText += '"Noto Sans JP"';
+    }
+    else if ((<HTMLInputElement>(
+      document.getElementsByClassName("js_check3")[0]
+    )).checked) {
+      fontText += '"lineseed"';
+    }
+    context.font = fontText;
+  }
+
+  context.fillStyle = 'black';
 };
 
 function drawCanvas() {
@@ -113,27 +334,32 @@ function drawCanvas() {
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check1")[0]
-    )).checked) {
-      context.font = '400 16px "M PLUS Rounded 1c"';
-    }
-    else if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check2")[0]
-    )).checked) {
-      context.font = '400 16px "Noto Sans JP"';
-    }
-    else if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check3")[0]
-    )).checked) {
-      context.font = '400 16px "lineseed"';
-    }
+    // if ((<HTMLInputElement>(
+    //   document.getElementsByClassName("js_check1")[0]
+    // )).checked) {
+    //   context.font = '400 16px "M PLUS Rounded 1c"';
+    // }
+    // else if ((<HTMLInputElement>(
+    //   document.getElementsByClassName("js_check2")[0]
+    // )).checked) {
+    //   context.font = '400 16px "Noto Sans JP"';
+    // }
+    // else if ((<HTMLInputElement>(
+    //   document.getElementsByClassName("js_check3")[0]
+    // )).checked) {
+    //   context.font = '400 16px "lineseed"';
+    // }
+    // context.fillStyle = 'black';
 
-    context.fillStyle = 'black';
-    var text = (<HTMLInputElement>(
+    var title = (<HTMLInputElement>(
       document.getElementsByClassName("js_input-text")[0]
     )).value;
-    tategaki(context, text, canvas.width, canvas.height);
+
+    var text = (<HTMLInputElement>(
+      document.getElementsByClassName("js_input-text")[1]
+    )).value;
+
+    tategaki(context, title, text, canvas.width, canvas.height);
   }
 };
 

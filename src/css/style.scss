@@ -50,7 +50,7 @@ h2 {
     right: 0px;
     top: 0px;
     bottom: 0px;
-    //border: 1px solid #ddd;
+    border: 1px solid #ddd;
     background: rgb(255, 255, 255);
   }
 }
@@ -71,8 +71,16 @@ h2 {
   align-items: center;
   gap: 8px;
 
+  .text-area-title {
+    width: 100%;
+    max-width: 320px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+
   .text-area {
     width: 100%;
+    height: 200px;
     max-width: 320px;
     writing-mode: vertical-rl;
     text-orientation: upright;
