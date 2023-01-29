@@ -173,7 +173,7 @@ function chkRotate(text: string): number[] {
   // nums[3]   // 描画位置Xの調整値
   // nums[4]   // 描画位置Yの調整値
 
-  //無視した記号　→ '`”·‘’¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾‘’｀…≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔＾“/\−／＼―＿
+  //無視した記号　→ ¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔
   var hankaku = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   if (hankaku.indexOf(text) !== -1) {
     nums.push(90);
@@ -218,6 +218,11 @@ function chkRotate(text: string): number[] {
     || text === "』"
     || text === "［"
     || text === "］"
+
+    || text === "−"
+    || text === "―"
+    || text === "／"
+    || text === "＼"
   ) {
     nums.push(90);
     nums.push(0);
@@ -274,13 +279,21 @@ function chkRotate(text: string): number[] {
     nums.push(0.6);
     nums.push(0);
   }
-  else if (text === "+") {
+  else if (text === "·" || text === "\“" || text === "\'" || text === "`" || text === "”" || text === "‘" || text === "’") {
     nums.push(0);
     nums.push(0);
     nums.push(0);
-    nums.push(-0.1);
+    nums.push(-0.35);
     nums.push(0);
   }
+  else if (text === "/" || text === "\\" || text === "＿") {
+    nums.push(90);
+    nums.push(0);
+    nums.push(2);
+    nums.push(0.8);
+    nums.push(0);
+  }
+
   else {
     nums.push(0);
     nums.push(0);
