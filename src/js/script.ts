@@ -104,6 +104,8 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         // フォント設定
         fontSetting(context, 2);
 
+        var lineHeight = context.measureText("あ").width;
+
         elm = elm.replace("詞書：", "");
 
         Array.prototype.forEach.call(elm, function (ch, j) {
@@ -128,6 +130,8 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         console.log(false, elm, i);
         // フォント設定
         fontSetting(context, 1);
+
+        var lineHeight = context.measureText("あ").width;
 
         Array.prototype.forEach.call(elm, function (ch, j) {
           var rotate = chkRotate(ch);
