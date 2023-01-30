@@ -111,7 +111,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         // フォント設定
         fontSetting(context, 2);
 
-        var lineHeight = context.measureText("あ").width;
+        var lineWidth2 = context.measureText("あ").width;
 
         elm = elm.replace("詞書：", "");
 
@@ -120,16 +120,16 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
           context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
 
-          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
+          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth2 * j + rotate[4]);
 
           // 回転 (n度)
-          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
           context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
         });
       }
       // ふつうの短歌
@@ -137,23 +137,23 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         // フォント設定
         fontSetting(context, 1);
 
-        var lineHeight = context.measureText("あ").width;
+        var lineWidth2 = context.measureText("あ").width;
 
         Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch, lineWidth);
+          var rotate = chkRotate(ch, lineWidth2);
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
           context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
 
           context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
 
           // 回転 (n度)
-          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
           context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
         });
       }
     });
