@@ -71,13 +71,14 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  font-size: 16px;
 
   input[type="radio"] {
     align-self: unset;
   }
 
   input[type="button"] {
+    margin-top: 30px;
     width: 320px;
     max-width: 320px;
     padding: 10px;
@@ -181,3 +182,58 @@ h2 {
 .wf-lineseed {
   font-family: 'lineseed', sans-serif
 }
+
+// RocknRoll One
+.wf-rocknroll {
+  font-family: 'RocknRoll One', sans-serif;
+}
+
+// Zen Antique
+.wf-zenAntique {
+  font-family: 'Zen Antique', serif;
+}
+
+// Kiwi Maru
+.wf-kiwiMaru {
+  font-family: 'Kiwi Maru', serif;
+}
+
+// Mochiy Pop One
+.wf-mochiyPop {
+  font-family: 'Mochiy Pop One', sans-serif;
+}
+
+// DotGothic16
+.wf-dotGothic16 {
+  font-family: 'DotGothic16', sans-serif;
+}
+
+// Kaisei Decol
+.wf-kaiseiDecol {
+  font-family: 'Kaisei Decol', sans-serif;
+}
+
+// Zen Kurenaido
+.wf-zenKurenaido {
+  font-family: 'Zen Kurenaido', sans-serif;
+}
+
+// Yusei Magic
+.wf-yuseiMagic {
+  font-family: 'Yusei Magic', sans-serif;
+}
+
+// Dela Gothic One
+.wf-delaGothicOne {
+  font-family: 'Dela Gothic One', sans-serif;
+}
+
+// Hachi Maru Pop
+.wf-hachiMaruPop {
+  font-family: 'Hachi Maru Pop', sans-serif;
+}
+
+// // Rampart One
+// .wf-rampartOne {
+//   font-family: 'Rampart One', sans-serif;
+// }

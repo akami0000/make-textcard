@@ -333,22 +333,7 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
     fontText += "400 12px ";
 
   if (context !== null) {
-    if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check1")[0]
-    )).checked) {
-      fontText += '"M PLUS Rounded 1c"';
-    }
-    else if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check2")[0]
-    )).checked) {
-      fontText += '"Noto Sans JP"';
-    }
-    else if ((<HTMLInputElement>(
-      document.getElementsByClassName("js_check3")[0]
-    )).checked) {
-      fontText += '"lineseed"';
-    }
-    context.font = fontText;
+    context.font = check2fontname(fontText);
   }
 
   context.fillStyle = 'black';
@@ -364,6 +349,10 @@ function drawCanvas() {
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
+
+    var fontText = "";
+    (<HTMLInputElement>(document.getElementsByClassName("js_display")[0])).style.fontFamily = check2fontname(fontText);
+
     var title = (<HTMLInputElement>(
       document.getElementsByClassName("js_input-text")[0]
     )).value;
@@ -376,10 +365,87 @@ function drawCanvas() {
   }
 };
 
+function check2fontname(a: string): string {
+
+  var b = a;
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[0]
+  )).checked) {
+    b += "\"M PLUS Rounded 1c\"";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[1]
+  )).checked) {
+    b += "\"Noto Sans JP\"";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[2]
+  )).checked) {
+    b += "\'lineseed\'";
+  }
+
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[3]
+  )).checked) {
+    b += "\'RocknRoll One\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[4]
+  )).checked) {
+    b += "\'Zen Antique\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[5]
+  )).checked) {
+    b += "\'Kiwi Maru\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[6]
+  )).checked) {
+    b += "\'Mochiy Pop One\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[7]
+  )).checked) {
+    b += "\'DotGothic16\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[8]
+  )).checked) {
+    b += "\'Kaisei Decol\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[9]
+  )).checked) {
+    b += "\'Zen Kurenaido\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[10]
+  )).checked) {
+    b += "\'Yusei Magic\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[11]
+  )).checked) {
+    b += "\'Dela Gothic One\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("js_check")[12]
+  )).checked) {
+    b += "\'Hachi Maru Pop\'";
+  }
+  return b;
+};
+
 
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementsByClassName("js_generateButton")[0]
+    .addEventListener("click", (event) => {
+      genereteCardImage();
+    });
+  document
+    .getElementsByClassName("js_generateButton")[1]
     .addEventListener("click", (event) => {
       genereteCardImage();
     });

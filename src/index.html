@@ -8,23 +8,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="assets/favicon.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <div class="display">
     <!-- 縦書き表示確認用 -->
-    <div id="displaytext" class="labels">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</div>
+    <!-- あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら -->
+    <div id="displaytext" class="labels js_display"></div>
     <canvas width=600 height=800 id="canvas">代替コンテンツ</canvas>
     <input class="js_downloadButton button019" type="button" value="ダウンロード" />
   </div>
   <h2>入力</h2>
   <div class="editor">
-    <textarea name="text" id="capture" class="js_input-text text-area-title"
-      placeholder="タイトルを入力してください（任意）">えおえお</textarea>
+    <textarea name="text" id="capture" class="js_input-text text-area-title" placeholder="タイトルを入力してください（任意）"></textarea>
     <textarea name="text" id="capture" class="js_input-text text-area"
-      placeholder="入力">あのイーハトーヴォのすきとおった風、き!あ+い＝う(え)お:か·き＿く</textarea>
+      placeholder="入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
     <p>
       詞書は「詞書：」を行頭につけてください。
     </p>
@@ -37,13 +50,34 @@
   </div>
   <h2>フォント設定</h2>
   <div class="font">
-    <label class="wf-roundedmplus1c"><input type="radio" id="check_1" class="js_check1" name="font" checked />M PLUS
-      Rounded
-      1c　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-notosansjapanese"><input type="radio" id="check_2" class="js_check2" name="font" />Noto Sans
+    <label class="wf-roundedmplus1c"><input type="radio" class="js_check" name="font" checked />M PLUS
+      Rounded 1c　あのイーハトーヴォのすきとおった</label>
+    <label class="wf-notosansjapanese"><input type="radio" class="js_check" name="font" />Noto Sans
       JP　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-lineseed"><input type="radio" id="check_3" class="js_check3"
-        name="font" />LINESeedJP　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-lineseed"><input type="radio" class="js_check" name="font" />LINESeedJP　あのイーハトーヴォのすきとおった風</label>
+
+
+
+    <label class="wf-rocknroll"><input type="radio" class="js_check" name="font" />RocknRoll
+      One　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-zenAntique"><input type="radio" class="js_check" name="font" />Zen
+      Antique　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-kiwiMaru"><input type="radio" class="js_check" name="font" />Kiwi Maru　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-mochiyPop"><input type="radio" class="js_check" name="font" />Mochiy Pop
+      One　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-dotGothic16"><input type="radio" class="js_check"
+        name="font" />DotGothic16　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-kaiseiDecol"><input type="radio" class="js_check" name="font" />Kaisei
+      Decol　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-zenKurenaido"><input type="radio" class="js_check" name="font" />Zen
+      Kurenaido　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-yuseiMagic"><input type="radio" class="js_check" name="font" />Yusei
+      Magic　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-delaGothicOne"><input type="radio" class="js_check" name="font" />Dela Gothic
+      One　あのイーハトーヴォのすきとおった風</label>
+    <label class="wf-hachiMaruPop"><input type="radio" class="js_check" name="font" />Hachi Maru
+      Pop　あのイーハトーヴォのすきとおった風</label>
+
     <input class="js_generateButton button019" type="button" value="反映" />
   </div>
 
