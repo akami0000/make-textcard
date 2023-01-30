@@ -60,7 +60,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         var drawX = x - 80;
         var drawY = y - 600;
 
-        var rotate = chkRotate(ch);
+        var rotate = chkRotate(ch, lineWidth);
         // パスをリセット
         context.beginPath();
         // 回転 (n度)
@@ -68,7 +68,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         context.rotate(rotate[0] * Math.PI / 180);
         context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
 
-        context.fillText(ch, drawX - lineWidth * (i + rotate[3]), drawY + lineWidth * (j + rotate[4]));
+        context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
 
         // 回転 (n度)
         context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
@@ -85,9 +85,11 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     // フォント設定
     fontSetting(context, 1);
 
-    var lineHeight = context.measureText("あ").width;
-    var lineWidth = context.measureText("あ").actualBoundingBoxAscent
+    var lineWidth = context.measureText("あ").width;
+    var lineHeight = context.measureText("あ").actualBoundingBoxAscent
       + context.measureText("あ").actualBoundingBoxDescent;
+
+    console.log(lineWidth);
 
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
     var drawX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
@@ -117,7 +119,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         elm = elm.replace("詞書：", "");
 
         Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch);
+          var rotate = chkRotate(ch, lineWidth);
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
@@ -125,7 +127,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           context.rotate(rotate[0] * Math.PI / 180);
           context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
 
-          context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+          context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
 
           // 回転 (n度)
           context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
@@ -142,7 +144,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         var lineHeight = context.measureText("あ").width;
 
         Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch);
+          var rotate = chkRotate(ch, lineWidth);
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
@@ -150,7 +152,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           context.rotate(rotate[0] * Math.PI / 180);
           context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
 
-          context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+          context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
 
           // 回転 (n度)
           context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
@@ -163,7 +165,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
 };
 
-function chkRotate(text: string): number[] {
+function chkRotate(text: string, width: number): number[] {
   const nums: number[] = [];
   // nums[0]   // 角度
   // nums[1]   // 回転位置Xの調整値
@@ -225,70 +227,70 @@ function chkRotate(text: string): number[] {
     nums.push(90);
     nums.push(0);
     nums.push(2);
-    nums.push(1);
+    nums.push(-width);
     nums.push(0);
   }
   else if (text === "、" || text === "。" || text === "，" || text === "．") {
     nums.push(180);
     nums.push(0);
     nums.push(2);
-    nums.push(1);
-    nums.push(1);
+    nums.push(-width);
+    nums.push(width);
   }
   else if (text === "!") {
     nums.push(0);
     nums.push(0);
     nums.push(0);
-    nums.push(-0.25);
+    nums.push(0.3 * width);
     nums.push(0);
   }
   else if (text === "+") {
     nums.push(0);
     nums.push(0);
     nums.push(0);
-    nums.push(-0.1);
+    nums.push(0.1 * width);
     nums.push(0);
   }
   else if (text === "-" || text === "＝") {
     nums.push(90);
     nums.push(0);
-    nums.push(2);
-    nums.push(0.8);
     nums.push(0);
+    nums.push(-width);
+    nums.push(-0.1 * width);
   }
   else if (text === "(") {
     nums.push(90);
     nums.push(1);
     nums.push(2);
-    nums.push(0.5);
+    nums.push(-0.5 * width);
     nums.push(0);
   }
   else if (text === ")") {
     nums.push(90);
     nums.push(1);
     nums.push(2);
-    nums.push(0.75);
+    nums.push(-0.75 * width);
     nums.push(0);
   }
   else if (text === ":") {
     nums.push(90);
     nums.push(1);
     nums.push(2);
-    nums.push(0.6);
+    nums.push(-0.6 * width);
     nums.push(0);
   }
   else if (text === "·" || text === "\“" || text === "\'" || text === "`" || text === "”" || text === "‘" || text === "’") {
     nums.push(0);
     nums.push(0);
     nums.push(0);
-    nums.push(-0.35);
+    nums.push(0.3 * width);
     nums.push(0);
   }
   else if (text === "/" || text === "\\" || text === "＿") {
     nums.push(90);
     nums.push(0);
     nums.push(2);
-    nums.push(0.8);
+    nums.push(-0.8 * width);
     nums.push(0);
   }
 
