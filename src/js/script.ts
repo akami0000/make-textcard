@@ -52,9 +52,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     // フォント設定
     fontSetting(context, 0);
 
-    var lineHeight = context.measureText("あ").width;
-    var lineWidth = context.measureText("あ").actualBoundingBoxAscent
-      + context.measureText("あ").actualBoundingBoxDescent;
+    var lineWidth = context.measureText("あ").width;
 
     // タイトル
     titleList.forEach(function (elm, i) {
@@ -66,16 +64,16 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         // パスをリセット
         context.beginPath();
         // 回転 (n度)
-        context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
         context.rotate(rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
 
-        context.fillText(ch, drawX - lineHeight * (i + rotate[3]), drawY + lineHeight * (j + rotate[4]));
+        context.fillText(ch, drawX - lineWidth * (i + rotate[3]), drawY + lineWidth * (j + rotate[4]));
 
         // 回転 (n度)
-        context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
         context.rotate(-rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
       });
     });
   }
@@ -92,7 +90,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       + context.measureText("あ").actualBoundingBoxDescent;
 
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
-    var drawX = x / 2 - (lineWidth / 2) + (textList.length * lineWidth) / 2;
+    var drawX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
 
     // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
     var num = 0;
