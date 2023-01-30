@@ -30,13 +30,13 @@ h2 {
     font-size: 1em;
     text-decoration: none;
     font-weight: bold;
-    border: 2px solid #27acd9;
-    background: #27acd9;
+    border: 2px solid #6777E6;
+    background: #6777E6;
     color: #fff;
     transition: 0.5s;
 
     &:hover {
-      color: #27acd9;
+      color: #6777E6;
       background: #fff;
     }
 
@@ -112,7 +112,7 @@ h2 {
   align-items: center;
   gap: 8px;
 
-  .text-area-title {
+  .text-area-small {
     width: 100%;
     max-width: 320px;
     writing-mode: vertical-rl;

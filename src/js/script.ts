@@ -44,122 +44,7 @@ window.onload = function () {
   drawCanvas();
 };
 
-var tategaki = function (context: CanvasRenderingContext2D, title: string, text: string, x: number, y: number) {
 
-  // タイトル出力
-  {
-    var titleList = title.split('\n');
-    // フォント設定
-    fontSetting(context, 0);
-
-    var lineWidth = context.measureText("あ").width;
-
-    // タイトル
-    titleList.forEach(function (elm, i) {
-      Array.prototype.forEach.call(elm, function (ch, j) {
-        var drawX = x - 80;
-        var drawY = y - 600;
-
-        var rotate = chkRotate(ch, lineWidth);
-        // パスをリセット
-        context.beginPath();
-        // 回転 (n度)
-        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
-        context.rotate(rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
-
-        context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
-
-        // 回転 (n度)
-        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
-        context.rotate(-rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
-      });
-    });
-  }
-
-  // 本文出力
-  {
-    var textList = text.split('\n');
-
-    // フォント設定
-    fontSetting(context, 1);
-
-    var lineWidth = context.measureText("あ").width;
-    var lineHeight = context.measureText("あ").actualBoundingBoxAscent
-      + context.measureText("あ").actualBoundingBoxDescent;
-
-    // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
-    var startX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
-
-    // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-    var num = 0;
-    textList.forEach(function (elm, i) {
-      if (!isIncludeKotobagaki(elm)) {
-        if (num == 0)
-          num = textList[i].length;
-      }
-    });
-    if (num == 0)
-      num = textList[0].length;
-
-    var startY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
-
-    textList.forEach(function (elm, i) {
-      // 詞書
-      if (isIncludeKotobagaki(elm)) {
-        // フォント設定
-        fontSetting(context, 2);
-
-        var lineWidth2 = context.measureText("あ").width;
-
-        elm = elm.replace("詞書：", "");
-
-        Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch, lineWidth);
-          // パスをリセット
-          context.beginPath();
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
-
-          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth2 * j + rotate[4]);
-
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
-        });
-      }
-      // ふつうの短歌
-      else {
-        // フォント設定
-        fontSetting(context, 1);
-
-        var lineWidth2 = context.measureText("あ").width;
-
-        Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch, lineWidth2);
-          // パスをリセット
-          context.beginPath();
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
-
-          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
-
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
-        });
-      }
-    });
-  }
-
-};
 
 function chkRotate(text: string, width: number): number[] {
   const nums: number[] = [];
@@ -361,8 +246,146 @@ function drawCanvas() {
       document.getElementsByClassName("js_input-text")[1]
     )).value;
 
-    tategaki(context, title, text, canvas.width, canvas.height);
+    var note1 = (<HTMLInputElement>(
+      document.getElementsByClassName("js_input-text")[2]
+    )).value;
+
+    tategaki(context, title, text, note1, canvas.width, canvas.height);
   }
+};
+
+var tategaki = function (context: CanvasRenderingContext2D, title: string, text: string, note1: string, x: number, y: number) {
+
+  // タイトル出力
+  {
+    var titleList = title.split('\n');
+    // フォント設定
+    fontSetting(context, 0);
+
+    var lineWidth = context.measureText("あ").width;
+
+    // タイトル
+    titleList.forEach(function (elm, i) {
+      Array.prototype.forEach.call(elm, function (ch, j) {
+        var drawX = x - 80;
+        var drawY = y - 600;
+
+        var rotate = chkRotate(ch, lineWidth);
+        // パスをリセット
+        context.beginPath();
+        // 回転 (n度)
+        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
+        context.rotate(rotate[0] * Math.PI / 180);
+        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
+
+        context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
+
+        // 回転 (n度)
+        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
+        context.rotate(-rotate[0] * Math.PI / 180);
+        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
+      });
+    });
+  }
+
+  // 付記1出力
+  {
+    var noteList = note1.split('\n');
+    // フォント設定
+    fontSetting(context, 2);
+
+    var lineWidth = context.measureText("あ").width;
+
+    // タイトル
+    noteList.forEach(function (elm, i) {
+      var drawX = x - 560;
+      var drawY = y - 40;
+      context.fillText(elm, drawX, drawY);
+    });
+  }
+
+
+  // 本文出力
+  {
+    var textList = text.split('\n');
+
+    // フォント設定
+    fontSetting(context, 1);
+
+    var lineWidth = context.measureText("あ").width;
+    var lineHeight = context.measureText("あ").actualBoundingBoxAscent
+      + context.measureText("あ").actualBoundingBoxDescent;
+
+    // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
+    var startX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
+
+    // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+    var num = 0;
+    textList.forEach(function (elm, i) {
+      if (!isIncludeKotobagaki(elm)) {
+        if (num == 0)
+          num = textList[i].length;
+      }
+    });
+    if (num == 0)
+      num = textList[0].length;
+
+    var startY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
+
+    textList.forEach(function (elm, i) {
+      // 詞書
+      if (isIncludeKotobagaki(elm)) {
+        // フォント設定
+        fontSetting(context, 2);
+
+        var lineWidth2 = context.measureText("あ").width;
+
+        elm = elm.replace("詞書：", "");
+
+        Array.prototype.forEach.call(elm, function (ch, j) {
+          var rotate = chkRotate(ch, lineWidth);
+          // パスをリセット
+          context.beginPath();
+          // 回転 (n度)
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
+          context.rotate(rotate[0] * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+
+          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth2 * j + rotate[4]);
+
+          // 回転 (n度)
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
+          context.rotate(-rotate[0] * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+        });
+      }
+      // ふつうの短歌
+      else {
+        // フォント設定
+        fontSetting(context, 1);
+
+        var lineWidth2 = context.measureText("あ").width;
+
+        Array.prototype.forEach.call(elm, function (ch, j) {
+          var rotate = chkRotate(ch, lineWidth2);
+          // パスをリセット
+          context.beginPath();
+          // 回転 (n度)
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
+          context.rotate(rotate[0] * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+
+          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
+
+          // 回転 (n度)
+          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
+          context.rotate(-rotate[0] * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+        });
+      }
+    });
+  }
+
 };
 
 function check2fontname(a: string): string {
@@ -437,6 +460,18 @@ function check2fontname(a: string): string {
   return b;
 };
 
+function insertText() {
+  var text = (<HTMLInputElement>(
+    document.getElementsByClassName("js_input-text")[1]
+  )).value;
+
+  text += "\n詞書：";
+
+  (<HTMLInputElement>(
+    document.getElementsByClassName("js_input-text")[1]
+  )).value = text;
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
   document
@@ -453,6 +488,11 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementsByClassName("js_downloadButton")[0]
     .addEventListener("click", (event) => {
       downloadCardImage();
+    });
+  document
+    .getElementsByClassName("js_insertButton")[0]
+    .addEventListener("click", (event) => {
+      insertText();
     });
 
   // document.getElementsByClassName("js_tweetButton")[0]

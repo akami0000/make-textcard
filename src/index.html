@@ -31,17 +31,21 @@
     <!-- 縦書き表示確認用 -->
     <!-- あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら -->
     <div id="displaytext" class="labels js_display"></div>
-    <input class="js_downloadButton button019" type="button" value="ダウンロード" />
+    <input class="js_downloadButton" type="button" value="ダウンロード" />
   </div>
   <h2>入力</h2>
   <div class="editor">
-    <textarea name="text" id="capture" class="js_input-text text-area-title" placeholder="タイトルを入力してください（任意）"></textarea>
+    <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="タイトルを入力してください（任意）"></textarea>
     <textarea name="text" id="capture" class="js_input-text text-area"
       placeholder="入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
+    <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記１　（任意）"></textarea>
+    <button class="js_insertButton" type="button">
+      詞書を挿入
+    </button>
     <p>
-      詞書は「詞書：」を行頭につけてください。
+      「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。
     </p>
-    <input class="js_generateButton button019" type="button" value="反映" />
+    <input class="js_generateButton" type="button" value="反映" />
 
     <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
       data-hashtags="縦書き画像メーカー" data-lang="ja" data-show-count="false">Tweet</a>
@@ -78,7 +82,7 @@
     <label class="wf-hachiMaruPop"><input type="radio" class="js_check" name="font" />Hachi Maru
       Pop　あのイーハトーヴォのすきとおった風</label>
 
-    <input class="js_generateButton button019" type="button" value="反映" />
+    <input class="js_generateButton" type="button" value="反映" />
   </div>
 
   <h1>縦書き画像メーカー</h1>
