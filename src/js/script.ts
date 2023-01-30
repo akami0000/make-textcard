@@ -92,20 +92,20 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     console.log(lineWidth);
 
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
-    var drawX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
+    var startX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
 
     // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
     var num = 0;
     textList.forEach(function (elm, i) {
       if (!isIncludeKotobagaki(elm)) {
-        num = textList[i].length;
+        if (num == 0)
+          num = textList[i].length;
       }
     });
     if (num == 0)
       num = textList[0].length;
-    // num = textList[0].length;
-    console.log(num);
-    var drawY = ((y - (lineHeight * (num - 0))) / 2) + (lineHeight);
+
+    var startY = ((y - (lineHeight * (num - 0))) / 2) + (lineHeight);
 
     textList.forEach(function (elm, i) {
       // 詞書
@@ -123,16 +123,16 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
           context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
 
-          context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
+          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
 
           // 回転 (n度)
-          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
           context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
         });
       }
       // ふつうの短歌
@@ -148,16 +148,16 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
           context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
 
-          context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
+          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
 
           // 回転 (n度)
-          context.translate((drawX - lineHeight * i + rotate[1]), (drawY + (lineHeight * j + rotate[2])));
+          context.translate((startX - lineHeight * i + rotate[1]), (startY + (lineHeight * j + rotate[2])));
           context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(drawX - lineHeight * i + rotate[1]), -(drawY + (lineHeight * j + rotate[2])));
+          context.translate(-(startX - lineHeight * i + rotate[1]), -(startY + (lineHeight * j + rotate[2])));
         });
       }
     });
