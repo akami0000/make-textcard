@@ -89,8 +89,6 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var lineHeight = context.measureText("あ").actualBoundingBoxAscent
       + context.measureText("あ").actualBoundingBoxDescent;
 
-    console.log(lineWidth);
-
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
     var startX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
 
@@ -105,12 +103,11 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     if (num == 0)
       num = textList[0].length;
 
-    var startY = ((y - (lineHeight * (num - 0))) / 2) + (lineHeight);
+    var startY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
 
     textList.forEach(function (elm, i) {
       // 詞書
       if (isIncludeKotobagaki(elm)) {
-        console.log(true, elm, i);
         // フォント設定
         fontSetting(context, 2);
 
@@ -137,7 +134,6 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       }
       // ふつうの短歌
       else {
-        console.log(false, elm, i);
         // フォント設定
         fontSetting(context, 1);
 

@@ -8,7 +8,9 @@ body {
 }
 
 h1 {
-  margin: 0;
+  border-top: 1px solid #ddd;
+  margin-top: 50px;
+  padding: 10px;
 }
 
 h2 {
@@ -68,10 +70,38 @@ h2 {
 .font {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
 
   input[type="radio"] {
     align-self: unset;
+  }
+
+  input[type="button"] {
+    width: 320px;
+    max-width: 320px;
+    padding: 10px;
+    font-size: 1em;
+
+    align-items: center;
+
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #27acd9;
+    background: #27acd9;
+    color: #fff;
+    transition: 0.5s;
+
+    &:hover {
+      color: #27acd9;
+      background: #fff;
+    }
+
+    &:disabled {
+      color: #bbb;
+      background-color: white;
+      border-color: #bbb;
+    }
   }
 }
 
