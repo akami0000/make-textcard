@@ -2,14 +2,13 @@
 
 <head>
   <meta charset="UTF-8" />
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>縦書き画像メーカー</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="assets/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
@@ -23,6 +22,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Klee+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -33,56 +41,96 @@
     <div id="displaytext" class="labels js_display"></div>
     <input class="js_downloadButton" type="button" value="ダウンロード" />
   </div>
-  <h2>入力</h2>
-  <div class="editor">
-    <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="タイトルを入力してください（任意）"></textarea>
-    <textarea name="text" id="capture" class="js_input-text text-area"
-      placeholder="入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
-    <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記１　（任意）"></textarea>
-    <button class="js_insertButton" type="button">
-      詞書を挿入
-    </button>
-    <p>
-      「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。
-    </p>
-    <input class="js_generateButton" type="button" value="反映" />
+  <div class="tabs">
+    <input id="all" type="radio" name="tab_item" checked>
+    <label class="tab_item" for="all">文章入力</label>
+    <input id="programming" type="radio" name="tab_item">
+    <label class="tab_item" for="programming">フォント設定</label>
+    <input id="design" type="radio" name="tab_item">
+    <label class="tab_item" for="design">その他設定</label>
+    <div class="tab_content" id="all_content">
+      <div class="tab_content_description">
+        <!-- タブ① -->
+        <div class="editor">
+          <textarea name="text" id="capture" class="js_input-text text-area-small"
+            placeholder="タイトルを入力してください（任意）"></textarea>
+          <textarea name="text" id="capture" class="js_input-text text-area"
+            placeholder="入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
+          <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記１　（任意）"></textarea>
+          <button class="js_insertButton" type="button">
+            詞書を挿入
+          </button>
+          <p>
+            「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。
+          </p>
+          <input class="js_generateButton" type="button" value="反映" />
 
-    <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
-      data-hashtags="縦書き画像メーカー" data-lang="ja" data-show-count="false">Tweet</a>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-
-  </div>
-  <h2>フォント設定</h2>
-  <div class="font">
-    <label class="wf-roundedmplus1c"><input type="radio" class="js_check" name="font" checked />M PLUS
-      Rounded 1c　あのイーハトーヴォのすきとおった</label>
-    <label class="wf-notosansjapanese"><input type="radio" class="js_check" name="font" />Noto Sans
-      JP　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-lineseed"><input type="radio" class="js_check" name="font" />LINESeedJP　あのイーハトーヴォのすきとおった風</label>
-
-
-
-    <label class="wf-rocknroll"><input type="radio" class="js_check" name="font" />RocknRoll
-      One　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-zenAntique"><input type="radio" class="js_check" name="font" />Zen
-      Antique　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-kiwiMaru"><input type="radio" class="js_check" name="font" />Kiwi Maru　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-mochiyPop"><input type="radio" class="js_check" name="font" />Mochiy Pop
-      One　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-dotGothic16"><input type="radio" class="js_check"
-        name="font" />DotGothic16　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-kaiseiDecol"><input type="radio" class="js_check" name="font" />Kaisei
-      Decol　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-zenKurenaido"><input type="radio" class="js_check" name="font" />Zen
-      Kurenaido　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-yuseiMagic"><input type="radio" class="js_check" name="font" />Yusei
-      Magic　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-delaGothicOne"><input type="radio" class="js_check" name="font" />Dela Gothic
-      One　あのイーハトーヴォのすきとおった風</label>
-    <label class="wf-hachiMaruPop"><input type="radio" class="js_check" name="font" />Hachi Maru
-      Pop　あのイーハトーヴォのすきとおった風</label>
-
-    <input class="js_generateButton" type="button" value="反映" />
+          <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
+            data-hashtags="縦書き画像メーカー" data-lang="ja" data-show-count="false">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+        </div>
+      </div>
+    </div>
+    <div class="tab_content" id="programming_content">
+      <div class="tab_content_description">
+        <!-- タブ② -->
+        <div class="font">
+          <label class="wf-roundedmplus1c"><input type="radio" class="js_check roundedmplus1c" name="font" checked />M
+            PLUS
+            Rounded 1c　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-HinaMincho"><input type="radio" class="js_check HinaMincho"
+              name="font" />ひな明朝　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-ShipporiMincho"><input type="radio" class="js_check ShipporiMincho"
+              name="font" />しっぽり明朝　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-SawarabiMincho"><input type="radio" class="js_check SawarabiMincho"
+              name="font" />さわらび明朝　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-SawarabiGothic"><input type="radio" class="js_check SawarabiGothic"
+              name="font" />さわらびゴシック　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-notosansjapanese"><input type="radio" class="js_check notosansjapanese" name="font" />Noto
+            Sans
+            JP　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-lineseed"><input type="radio" class="js_check lineseed"
+              name="font" />LINESeedJP　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-zenAntique"><input type="radio" class="js_check zenAntique" name="font" />Zen
+            Antique　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-kiwiMaru"><input type="radio" class="js_check kiwiMaru" name="font" />Kiwi
+            Maru　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-zenKakuGothicNew"><input type="radio" class="js_check zenKakuGothicNew" name="font" />Zen
+            Kaku
+            Gothic
+            New　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-KleeOne"><input type="radio" class="js_check KleeOne" name="font" />Klee
+            One　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-zenKurenaido"><input type="radio" class="js_check zenKurenaido" name="font" />Zen
+            Kurenaido　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-hachiMaruPop"><input type="radio" class="js_check hachiMaruPop" name="font" />Hachi Maru
+            Pop　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-kaiseiDecol"><input type="radio" class="js_check kaiseiDecol" name="font" />Kaisei
+            Decol　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-dotGothic16"><input type="radio" class="js_check dotGothic16"
+              name="font" />DotGothic16　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-Stick"><input type="radio" class="js_check Stick"
+              name="font" />Stick　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-rocknroll"><input type="radio" class="js_check rocknroll" name="font" />RocknRoll
+            One　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-yuseiMagic"><input type="radio" class="js_check yuseiMagic" name="font" />Yusei
+            Magic　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-PottaOne"><input type="radio" class="js_check PottaOne" name="font" />Potta
+            One　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-mochiyPop"><input type="radio" class="js_check mochiyPop" name="font" />Mochiy Pop
+            One　あのイーハトーヴォのすきとおった風</label>
+          <label class="wf-delaGothicOne"><input type="radio" class="js_check delaGothicOne" name="font" />Dela Gothic
+            One　あのイーハトーヴォのすきとおった風</label>
+          <input class="js_generateButton" type="button" value="反映" />
+        </div>
+      </div>
+    </div>
+    <div class="tab_content" id="design_content">
+      <div class="tab_content_description">
+        <!-- タブ② -->
+        <p class="c-txtsp">※工事中</p>
+      </div>
+    </div>
   </div>
 
   <h1>縦書き画像メーカー</h1>
@@ -107,6 +155,7 @@
       <img src="assets/github-mark.svg" width="30px" />
     </a>
   </div>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 
 </html>

@@ -16,6 +16,24 @@ import "../css/style_radio.scss";
 //   window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
 // }
 
+class charPosition {
+  // プロパティ
+  angle: number;
+  transPosX: number;
+  transPosY: number;
+  drawPosX: number;
+  drawPosY: number;
+
+  // コンストラクタ
+  constructor(angle: number, transPosX: number, transPosY: number, drawPosX: number, drawPosY: number) {
+    this.angle = angle;
+    this.transPosX = transPosX;
+    this.transPosY = transPosY;
+    this.drawPosX = drawPosX;
+    this.drawPosY = drawPosY;
+  }
+}
+
 function downloadCardImage() {
   var canvas = <HTMLCanvasElement>document.getElementById('canvas');
   if (canvas != null) {
@@ -46,143 +64,78 @@ window.onload = function () {
 
 
 
-function chkRotate(text: string, width: number): number[] {
+function chkRotate(text: string, width: number): charPosition {
   const nums: number[] = [];
-  // nums[0]   // 角度
-  // nums[1]   // 回転位置Xの調整値
-  // nums[2]   // 回転位置Yの調整値
-  // nums[3]   // 描画位置Xの調整値
-  // nums[4]   // 描画位置Yの調整値
 
   //無視した記号　→ ¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔
-  var hankaku = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-  if (hankaku.indexOf(text) !== -1) {
-    nums.push(90);
-    nums.push(0);
-    nums.push(2);
-    nums.push(0.8);
-    nums.push(0);
-  }
-  else if (text === "ー"
-    || text === "〜"
-    || text === "～"
-    || text === "（"
-    || text === "）"
-    || text === "="
-    || text === "_"
-    || text === ";"
-    || text === "~"
-    || text === "|"
-    || text === ">"
-    || text === "<"
-
-    || text === "}"
-    || text === "{"
-    || text === "]"
-    || text === "["
-    || text === "＜"
-    || text === "＞"
-
-    || text === "…"
-    || text === "‥"
-
-    || text === "："
-    || text === "；"
-    || text === "｜"
-
-
-    || text === "「"
-    || text === "」"
-    || text === "【"
-    || text === "】"
-    || text === "『"
-    || text === "』"
-    || text === "［"
-    || text === "］"
-
-    || text === "−"
-    || text === "―"
-    || text === "／"
-    || text === "＼"
-  ) {
-    nums.push(90);
-    nums.push(0);
-    nums.push(2);
-    nums.push(-width);
-    nums.push(0);
-  }
-  else if (text === "、" || text === "。" || text === "，" || text === "．") {
-    nums.push(180);
-    nums.push(0);
-    nums.push(2);
-    nums.push(-width);
-    nums.push(width);
-  }
-  else if (text === "!") {
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
-    nums.push(0.3 * width);
-    nums.push(0);
-  }
-  else if (text === "+") {
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
-    nums.push(0.1 * width);
-    nums.push(0);
-  }
-  else if (text === "-" || text === "＝") {
-    nums.push(90);
-    nums.push(0);
-    nums.push(0);
-    nums.push(-width);
-    nums.push(-0.1 * width);
-  }
-  else if (text === "(") {
-    nums.push(90);
-    nums.push(1);
-    nums.push(2);
-    nums.push(-0.5 * width);
-    nums.push(0);
-  }
-  else if (text === ")") {
-    nums.push(90);
-    nums.push(1);
-    nums.push(2);
-    nums.push(-0.75 * width);
-    nums.push(0);
-  }
-  else if (text === ":") {
-    nums.push(90);
-    nums.push(1);
-    nums.push(2);
-    nums.push(-0.6 * width);
-    nums.push(0);
-  }
-  else if (text === "·" || text === "\“" || text === "\'" || text === "`" || text === "”" || text === "‘" || text === "’") {
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
-    nums.push(0.3 * width);
-    nums.push(0);
-  }
-  else if (text === "/" || text === "\\" || text === "＿") {
+  if (text.match(/[0-9a-zA-Z]/)) {
     nums.push(90);
     nums.push(0);
     nums.push(2);
     nums.push(-0.8 * width);
     nums.push(0);
+    return new charPosition(90, 0, 2, -0.8 * width, 0);
   }
-
-  else {
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
-    nums.push(0);
+  {
+    var kigou = "ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―／＼";
+    if (kigou.indexOf(text) !== -1)
+      return new charPosition(90, 0, 2, -width, 0);
   }
-  return nums;
+  {
+    var kigou = "、。，．";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(180, 0, 2, -width, width);
+    }
+  }
+  {
+    var kigou = "!";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(0, 0, 0, 0.3 * width, 0);
+    }
+  }
+  {
+    var kigou = "+";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(0, 0, 0, 0.1 * width, 0);
+    }
+  }
+  {
+    var kigou = "-＝";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(90, 0, 0, -width, -0.1 * width);
+    }
+  }
+  {
+    var kigou = "(";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(90, 1, 2, -0.5 * width, 0);
+    }
+  }
+  {
+    var kigou = ")";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(90, 1, 2, -0.75 * width, 0);
+    }
+  }
+  {
+    var kigou = ":";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(90, 1, 2, -0.6 * width, 0);
+    }
+  }
+  {
+    var kigou = "·\“\'`”‘’";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(0, 0, 0, 0.3 * width, 0);
+    }
+  }
+  {
+    var kigou = "/\\＿";
+    if (kigou.indexOf(text) !== -1) {
+      return new charPosition(90, 0, 2, -0.8 * width, 0);
+    }
+  }
+  return new charPosition(0, 0, 0, 0, 0);
 };
 
 function countLength(tex: string): number {
@@ -270,20 +223,20 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         var drawX = x - 80;
         var drawY = y - 600;
 
-        var rotate = chkRotate(ch, lineWidth);
+        var charPos = chkRotate(ch, lineWidth);
         // パスをリセット
         context.beginPath();
         // 回転 (n度)
-        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
-        context.rotate(rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
+        context.translate((drawX - lineWidth * i + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
+        context.rotate(charPos.angle * Math.PI / 180);
+        context.translate(-(drawX - lineWidth * i + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
 
-        context.fillText(ch, drawX - lineWidth * i + rotate[3], drawY + lineWidth * j + rotate[4]);
+        context.fillText(ch, drawX - lineWidth * i + charPos.drawPosX, drawY + lineWidth * j + charPos.drawPosY);
 
         // 回転 (n度)
-        context.translate((drawX - lineWidth * i + rotate[1]), (drawY + (lineWidth * j + rotate[2])));
-        context.rotate(-rotate[0] * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + rotate[1]), -(drawY + (lineWidth * j + rotate[2])));
+        context.translate((drawX - lineWidth * i + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
+        context.rotate(-charPos.angle * Math.PI / 180);
+        context.translate(-(drawX - lineWidth * i + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
       });
     });
   }
@@ -343,20 +296,20 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         elm = elm.replace("詞書：", "");
 
         Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch, lineWidth);
+          var charPos = chkRotate(ch, lineWidth);
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
+          context.rotate(charPos.angle * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
 
-          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth2 * j + rotate[4]);
+          context.fillText(ch, startX - lineWidth * i + charPos.drawPosX, startY + lineWidth2 * j + charPos.drawPosY);
 
           // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
+          context.rotate(-charPos.angle * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
         });
       }
       // ふつうの短歌
@@ -367,20 +320,20 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         var lineWidth2 = context.measureText("あ").width;
 
         Array.prototype.forEach.call(elm, function (ch, j) {
-          var rotate = chkRotate(ch, lineWidth2);
+          var charPos = chkRotate(ch, lineWidth2);
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
+          context.rotate(charPos.angle * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
 
-          context.fillText(ch, startX - lineWidth * i + rotate[3], startY + lineWidth * j + rotate[4]);
+          context.fillText(ch, startX - lineWidth * i + charPos.drawPosX, startY + lineWidth2 * j + charPos.drawPosY);
 
           // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + rotate[1]), (startY + (lineWidth2 * j + rotate[2])));
-          context.rotate(-rotate[0] * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + rotate[1]), -(startY + (lineWidth2 * j + rotate[2])));
+          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
+          context.rotate(-charPos.angle * Math.PI / 180);
+          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
         });
       }
     });
@@ -392,70 +345,112 @@ function check2fontname(a: string): string {
 
   var b = a;
   if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[0]
+    document.getElementsByClassName("roundedmplus1c")[0]
   )).checked) {
     b += "\"M PLUS Rounded 1c\"";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[1]
+    document.getElementsByClassName("notosansjapanese")[0]
   )).checked) {
     b += "\"Noto Sans JP\"";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[2]
+    document.getElementsByClassName("lineseed")[0]
   )).checked) {
     b += "\'lineseed\'";
   }
 
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[3]
+    document.getElementsByClassName("rocknroll")[0]
   )).checked) {
     b += "\'RocknRoll One\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[4]
+    document.getElementsByClassName("zenAntique")[0]
   )).checked) {
     b += "\'Zen Antique\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[5]
+    document.getElementsByClassName("kiwiMaru")[0]
   )).checked) {
     b += "\'Kiwi Maru\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[6]
+    document.getElementsByClassName("mochiyPop")[0]
   )).checked) {
     b += "\'Mochiy Pop One\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[7]
+    document.getElementsByClassName("dotGothic16")[0]
   )).checked) {
     b += "\'DotGothic16\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[8]
+    document.getElementsByClassName("kaiseiDecol")[0]
   )).checked) {
     b += "\'Kaisei Decol\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[9]
+    document.getElementsByClassName("zenKurenaido")[0]
   )).checked) {
     b += "\'Zen Kurenaido\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[10]
+    document.getElementsByClassName("yuseiMagic")[0]
   )).checked) {
     b += "\'Yusei Magic\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[11]
+    document.getElementsByClassName("delaGothicOne")[0]
   )).checked) {
     b += "\'Dela Gothic One\'";
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("js_check")[12]
+    document.getElementsByClassName("hachiMaruPop")[0]
   )).checked) {
     b += "\'Hachi Maru Pop\'";
+  }
+
+
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("zenKakuGothicNew")[0]
+  )).checked) {
+    b += "\'Zen Kaku Gothic New\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("ShipporiMincho")[0]
+  )).checked) {
+    b += "\'Shippori Mincho\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("PottaOne")[0]
+  )).checked) {
+    b += "\'Potta One\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("KleeOne")[0]
+  )).checked) {
+    b += "\'Klee One\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("Stick")[0]
+  )).checked) {
+    b += "\'Stick\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("HinaMincho")[0]
+  )).checked) {
+    b += "\'Hina Mincho\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("SawarabiMincho")[0]
+  )).checked) {
+    b += "\'Sawarabi Mincho\'";
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("SawarabiGothic")[0]
+  )).checked) {
+    b += "\'Sawarabi Gothic\'";
   }
   return b;
 };

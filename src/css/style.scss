@@ -166,6 +166,67 @@ h2 {
   }
 }
 
+/*タブ切り替え全体のスタイル*/
+.tabs {
+  margin-top: 50px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #fff;
+  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 560px;
+  margin: 0 auto;
+
+  align-items: center;
+}
+
+/*タブのスタイル*/
+.tab_item {
+  width: calc(100%/3);
+  height: 50px;
+  border-bottom: 3px solid #27acd9;
+  background-color: #d9d9d9;
+  line-height: 50px;
+  font-size: 16px;
+  text-align: center;
+  color: #565656;
+  display: block;
+  float: left;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.tab_item:hover {
+  opacity: 0.75;
+}
+
+/*ラジオボタンを全て消す*/
+input[name="tab_item"] {
+  display: none;
+}
+
+/*タブ切り替えの中身のスタイル*/
+.tab_content {
+  display: none;
+  padding: 40px 40px 0;
+  clear: both;
+  overflow: hidden;
+}
+
+
+/*選択されているタブのコンテンツのみを表示*/
+#all:checked~#all_content,
+#programming:checked~#programming_content,
+#design:checked~#design_content {
+  display: block;
+}
+
+/*選択されているタブのスタイルを変える*/
+.tabs input:checked+.tab_item {
+  background-color: #27acd9;
+  color: #fff;
+}
+
 .wf-roundedmplus1c {
   font-family: "M PLUS Rounded 1c";
 }
@@ -190,12 +251,12 @@ h2 {
 
 // Zen Antique
 .wf-zenAntique {
-  font-family: 'Zen Antique', serif;
+  font-family: 'Zen Antique', sans-serif;
 }
 
 // Kiwi Maru
 .wf-kiwiMaru {
-  font-family: 'Kiwi Maru', serif;
+  font-family: 'Kiwi Maru', sans-serif;
 }
 
 // Mochiy Pop One
@@ -233,7 +294,44 @@ h2 {
   font-family: 'Hachi Maru Pop', sans-serif;
 }
 
-// // Rampart One
-// .wf-rampartOne {
-//   font-family: 'Rampart One', sans-serif;
-// }
+
+
+// Zen Kaku Gothic New
+.wf-zenKakuGothicNew {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+// しっぽり明朝
+.wf-ShipporiMincho {
+  font-family: 'Shippori Mincho', sans-serif;
+}
+
+// Potta One
+.wf-PottaOne {
+  font-family: 'Potta One', sans-serif;
+}
+
+// Klee One
+.wf-KleeOne {
+  font-family: 'Klee One', sans-serif;
+}
+
+// Stick
+.wf-Stick {
+  font-family: 'Stick', sans-serif;
+}
+
+// ひな明朝
+.wf-HinaMincho {
+  font-family: 'Hina Mincho', sans-serif;
+}
+
+// さわらび明朝
+.wf-SawarabiMincho {
+  font-family: 'Sawarabi Mincho', sans-serif;
+}
+
+// さわらびゴシック
+.wf-SawarabiGothic {
+  font-family: 'Sawarabi Gothic', sans-serif;
+}
