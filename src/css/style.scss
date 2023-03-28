@@ -112,6 +112,11 @@ h2 {
   align-items: center;
   font-size: 16px;
 
+  .line {
+    // background: linear-gradient(transparent 80%, #a7d6ff 80%);
+    border-bottom: solid 3px #a7d6ff;
+  }
+
   input[type="radio"] {
     align-self: unset;
   }

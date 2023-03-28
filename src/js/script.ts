@@ -473,6 +473,12 @@ function changeCanvasSize() {
     canvas.setAttribute("width", "800");
     canvas.setAttribute("height", "800");
   }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("matiuke")[0]
+  )).checked) {
+    canvas.setAttribute("width", "600");
+    canvas.setAttribute("height", "1200");
+  }
 };
 
 function insertText() {
