@@ -35,7 +35,7 @@
 
 <body>
   <div class="display">
-    <canvas width=600 height=800 id="canvas">代替コンテンツ</canvas>
+    <canvas id="canvas">代替コンテンツ</canvas>
     <!-- 縦書き表示確認用 -->
     <!-- あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら -->
     <div id="displaytext" class="labels js_display"></div>
@@ -128,7 +128,14 @@
     <div class="tab_content" id="design_content">
       <div class="tab_content_description">
         <!-- タブ② -->
-        <p class="c-txtsp">※工事中</p>
+        <div class="otherSetting">
+          <div class="size">
+            <p class="c-txtsp">キャンバスサイズ</p>
+            <label><input type="radio" class="js_check_size yokonaga1" name="size" checked />基本(600px*800px)</label>
+            <label><input type="radio" class="js_check_size masikaku" name="size" />正方形(800px*800px)</label>
+          </div>
+          <input class="js_generateButton" type="button" value="反映" />
+        </div>
       </div>
     </div>
   </div>

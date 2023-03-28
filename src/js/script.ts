@@ -179,6 +179,7 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
 
 function drawCanvas() {
 
+  changeCanvasSize();
   var canvas = <HTMLCanvasElement>document.getElementById("canvas");
   var context = canvas.getContext("2d");
   if (context !== null) {
@@ -455,6 +456,25 @@ function check2fontname(a: string): string {
   return b;
 };
 
+
+function changeCanvasSize() {
+  var canvas = document.getElementById('canvas');
+  if (!canvas) return;
+
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("yokonaga1")[0]
+  )).checked) {
+    canvas.setAttribute("width", "600");
+    canvas.setAttribute("height", "800");
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("masikaku")[0]
+  )).checked) {
+    canvas.setAttribute("width", "800");
+    canvas.setAttribute("height", "800");
+  }
+};
+
 function insertText() {
   var text = (<HTMLInputElement>(
     document.getElementsByClassName("js_input-text")[1]
@@ -476,6 +496,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   document
     .getElementsByClassName("js_generateButton")[1]
+    .addEventListener("click", (event) => {
+      genereteCardImage();
+    });
+  document
+    .getElementsByClassName("js_generateButton")[2]
     .addEventListener("click", (event) => {
       genereteCardImage();
     });
