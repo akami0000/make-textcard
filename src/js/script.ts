@@ -476,8 +476,8 @@ function changeCanvasSize() {
   else if ((<HTMLInputElement>(
     document.getElementsByClassName("matiuke")[0]
   )).checked) {
-    canvas.setAttribute("width", "600");
-    canvas.setAttribute("height", "1200");
+    canvas.setAttribute("width", "500");
+    canvas.setAttribute("height", "1500");
   }
 };
 
