@@ -84,7 +84,7 @@ function chkRotate(text: string, width: number): charPosition {
   {
     var kigou = "、。，．";
     if (kigou.indexOf(text) !== -1) {
-      return new charPosition(180, 0, 2, -width, width);
+      return new charPosition(180, 0, 2, -width, 0.8 * width);
     }
   }
   {
@@ -108,19 +108,19 @@ function chkRotate(text: string, width: number): charPosition {
   {
     var kigou = "(";
     if (kigou.indexOf(text) !== -1) {
-      return new charPosition(90, 1, 2, -0.5 * width, 0);
+      return new charPosition(90, 1, 2, -0.5 * width, -0.1 * width);
     }
   }
   {
     var kigou = ")";
     if (kigou.indexOf(text) !== -1) {
-      return new charPosition(90, 1, 2, -0.75 * width, 0);
+      return new charPosition(90, 1, 2, -0.75 * width, -0.1 * width);
     }
   }
   {
     var kigou = ":";
     if (kigou.indexOf(text) !== -1) {
-      return new charPosition(90, 1, 2, -0.6 * width, 0);
+      return new charPosition(90, 1, 2, -0.5 * width, -0.1 * width);
     }
   }
   {
@@ -132,7 +132,7 @@ function chkRotate(text: string, width: number): charPosition {
   {
     var kigou = "/\\＿";
     if (kigou.indexOf(text) !== -1) {
-      return new charPosition(90, 0, 2, -0.8 * width, 0);
+      return new charPosition(90, 0, 2, -0.8 * width, -0.1 * width);
     }
   }
   return new charPosition(0, 0, 0, 0, 0);
