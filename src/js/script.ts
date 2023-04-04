@@ -163,12 +163,15 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
 
   var fontText = "";
 
+  // タイトル
   if (mode == 0)
-    fontText += "400 24px "
+    fontText += "400 60px "
+  // 文字
   else if (mode == 1)
-    fontText += "400 16px "
+    fontText += "400 48px "
+  // 付記・詞書
   else
-    fontText += "400 12px ";
+    fontText += "400 36px ";
 
   if (context !== null) {
     context.font = check2fontname(fontText);
@@ -221,8 +224,8 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     // タイトル
     titleList.forEach(function (elm, i) {
       Array.prototype.forEach.call(elm, function (ch, j) {
-        var drawX = x - 80;
-        var drawY = y - 600;
+        var drawX = x * 0.9;
+        var drawY = y * 0.3;
 
         var charPos = chkRotate(ch, lineWidth);
         // パスをリセット
@@ -250,10 +253,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
     var lineWidth = context.measureText("あ").width;
 
-    // タイトル
+
     noteList.forEach(function (elm, i) {
-      var drawX = x - 560;
-      var drawY = y - 40;
+      var drawX = x * 0.5 - 600;
+      var drawY = y * 0.95;
       context.fillText(elm, drawX, drawY);
     });
   }
@@ -464,20 +467,20 @@ function changeCanvasSize() {
   if ((<HTMLInputElement>(
     document.getElementsByClassName("yokonaga1")[0]
   )).checked) {
-    canvas.setAttribute("width", "600");
-    canvas.setAttribute("height", "800");
+    canvas.setAttribute("width", "1500");
+    canvas.setAttribute("height", "2000");
   }
   else if ((<HTMLInputElement>(
     document.getElementsByClassName("masikaku")[0]
   )).checked) {
-    canvas.setAttribute("width", "800");
-    canvas.setAttribute("height", "800");
+    canvas.setAttribute("width", "2000");
+    canvas.setAttribute("height", "2000");
   }
   else if ((<HTMLInputElement>(
     document.getElementsByClassName("matiuke")[0]
   )).checked) {
-    canvas.setAttribute("width", "500");
-    canvas.setAttribute("height", "1500");
+    canvas.setAttribute("width", "2000");
+    canvas.setAttribute("height", "4000");
   }
 };
 
