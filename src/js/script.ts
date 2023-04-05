@@ -177,20 +177,33 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
     context.font = check2fontname(fontText);
   }
 
-  context.fillStyle = 'black';
+  context.fillStyle = getSelectedColor(1);
 };
 
 function drawCanvas() {
 
   changeCanvasSize();
+  // changeCanvasColor();
+
   var canvas = <HTMLCanvasElement>document.getElementById("canvas");
   var context = canvas.getContext("2d");
   if (context !== null) {
     //background color
-    context.beginPath();
-    context.fillStyle = 'white';
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    // context.beginPath();
+    // context.fillStyle = 'white';
+    // context.fillRect(0, 0, canvas.width, canvas.height);
 
+    // var canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    // if (!canvas) return;
+    // var ctx = canvas.getContext("2d");
+    // if (!ctx) return;
+
+    var color = getSelectedColor(0);
+
+    //background color
+    context.beginPath();
+    context.fillStyle = color;
+    context.fillRect(0, 0, canvas.width, canvas.height);
 
     var fontText = "";
     (<HTMLInputElement>(document.getElementsByClassName("js_display")[0])).style.fontFamily = check2fontname(fontText);
@@ -482,6 +495,68 @@ function changeCanvasSize() {
     canvas.setAttribute("width", "2000");
     canvas.setAttribute("height", "4000");
   }
+};
+
+function getSelectedColor(x: number): string {
+  var color = "";
+
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_siro")[x]
+  )).checked) {
+    color = '#ffffff';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_koniro")[x]
+  )).checked) {
+    color = '#223a70';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_aiiro")[x]
+  )).checked) {
+    color = '#165e83';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_enjiiro")[x]
+  )).checked) {
+    color = '#b94047';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_fujiiro")[x]
+  )).checked) {
+    color = '#bbbcde';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_azukiiro")[x]
+  )).checked) {
+    color = '#96514d';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_sakurairo")[x]
+  )).checked) {
+    color = '#fef4f4';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_momoiro")[x]
+  )).checked) {
+    color = '#f09199';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_nezumiiro")[x]
+  )).checked) {
+    color = '#949495';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_syuiro")[x]
+  )).checked) {
+    color = '#ba2636';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("c_kuro")[x]
+  )).checked) {
+    color = '#000000';
+  }
+
+  return color;
 };
 
 function insertText() {

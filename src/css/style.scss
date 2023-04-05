@@ -58,65 +58,40 @@ h2 {
   }
 
   canvas {
-    max-width: 600px;
+    max-width: 320px;
     left: 0px;
     right: 0px;
     top: 0px;
     bottom: 0px;
     border: 1px solid #ddd;
-    background: rgb(255, 255, 255);
+    // background: rgb(255, 255, 255);
+    background: #165e83;
   }
 }
 
 .font {
   display: flex;
   flex-direction: column;
-  align-items: center;
   font-size: 16px;
-
-  input[type="radio"] {
-    align-self: unset;
-  }
-
-  input[type="button"] {
-    margin-top: 30px;
-    width: 320px;
-    max-width: 320px;
-    padding: 10px;
-    font-size: 1em;
-
-    align-items: center;
-
-    text-decoration: none;
-    font-weight: bold;
-    border: 2px solid #27acd9;
-    background: #27acd9;
-    color: #fff;
-    transition: 0.5s;
-
-    &:hover {
-      color: #27acd9;
-      background: #fff;
-    }
-
-    &:disabled {
-      color: #bbb;
-      background-color: white;
-      border-color: #bbb;
-    }
-  }
 }
 
 .otherSetting {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 16px;
+  width: 100%;
+  // display: flex;
+  // flex-direction: column;
 
   .line {
     // background: linear-gradient(transparent 80%, #a7d6ff 80%);
     border-bottom: solid 3px #a7d6ff;
   }
+
+
+}
+
+.HaneiButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   input[type="radio"] {
     align-self: unset;
@@ -170,30 +145,6 @@ h2 {
     max-width: 320px;
     writing-mode: vertical-rl;
     text-orientation: upright;
-  }
-
-  input[type="button"] {
-    width: 320px;
-    max-width: 320px;
-    padding: 10px;
-    font-size: 1em;
-    text-decoration: none;
-    font-weight: bold;
-    border: 2px solid #27acd9;
-    background: #27acd9;
-    color: #fff;
-    transition: 0.5s;
-
-    &:hover {
-      color: #27acd9;
-      background: #fff;
-    }
-
-    &:disabled {
-      color: #bbb;
-      background-color: white;
-      border-color: #bbb;
-    }
   }
 }
 
@@ -379,4 +330,51 @@ input[name="tab_item"] {
 // さわらびゴシック
 .wf-SawarabiGothic {
   font-family: 'Sawarabi Gothic', sans-serif;
+}
+
+.siro {
+  color: #ffffff;
+  background: #2b2b2b;
+}
+
+.koniro {
+  color: #223a70;
+}
+
+.aiiro {
+  color: #165e83;
+}
+
+.enjiiro {
+  color: #b94047;
+}
+
+.fujiiro {
+  color: #bbbcde;
+  background: #2b2b2b;
+}
+
+.azukiiro {
+  color: #96514d;
+}
+
+.sakurairo {
+  color: #fef4f4;
+  background: #2b2b2b;
+}
+
+.momoiro {
+  color: #f09199;
+}
+
+.nezumiiro {
+  color: #949495;
+}
+
+.syuiro {
+  color: #ba2636;
+}
+
+.kuro {
+  color: black;
 }
