@@ -177,26 +177,17 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
     context.font = check2fontname(fontText);
   }
 
+  // Canvasの文字色設定
   context.fillStyle = getSelectedColor(1);
 };
 
 function drawCanvas() {
 
   changeCanvasSize();
-  // changeCanvasColor();
 
   var canvas = <HTMLCanvasElement>document.getElementById("canvas");
   var context = canvas.getContext("2d");
   if (context !== null) {
-    //background color
-    // context.beginPath();
-    // context.fillStyle = 'white';
-    // context.fillRect(0, 0, canvas.width, canvas.height);
-
-    // var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    // if (!canvas) return;
-    // var ctx = canvas.getContext("2d");
-    // if (!ctx) return;
 
     var color = getSelectedColor(0);
 
