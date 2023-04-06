@@ -55,13 +55,13 @@
           <textarea name="text" id="capture" class="js_input-text text-area-small"
             placeholder="タイトルを入力してください（任意）"></textarea>
           <textarea name="text" id="capture" class="js_input-text text-area"
-            placeholder="入力">あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら</textarea>
+            placeholder="入力">あのイーハトーヴォのすきとおった***風***、夏でも底に冷たさをもつ青いそら</textarea>
           <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記１　（任意）"></textarea>
           <button class="js_insertButton" type="button">
             詞書を挿入
           </button>
-          <p>
-            「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。
+          <p>「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。<br>
+            ***で囲んだ文字はサブ文字色で描画されます。
           </p>
           <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
             data-hashtags="縦書き画像メーカー" data-lang="ja" data-show-count="false">Tweet</a>
@@ -155,7 +155,7 @@
             <p class="line">メイン文字色</p>
             <label class="siro"><input type="radio" class="c_siro" name="ms_color" />■白</label>
             <label class="koniro"><input type="radio" class="c_koniro" name="ms_color" />■紺色</label>
-            <label class="aiiro"><input type="radio" class="c_aiiro" name="ms_color" />■藍色</label>
+            <label class="aiiro"><input type="radio" class="c_aiiro" name="ms_color" checked />■藍色</label>
             <label class="enjiiro"><input type="radio" class="c_enjiiro" name="ms_color" />■臙脂色</label>
             <label class="fujiiro"><input type="radio" class="c_fujiiro" name="ms_color" />■藤色</label>
             <label class="azukiiro"><input type="radio" class="c_azukiiro" name="ms_color" />■小豆色</label>
@@ -163,13 +163,22 @@
             <label class="momoiro"><input type="radio" class="c_momoiro" name="ms_color" />■桃色</label>
             <label class="nezumiiro"><input type="radio" class="c_nezumiiro" name="ms_color" />■鼠色</label>
             <label class="syuiro"><input type="radio" class="c_syuiro" name="ms_color" />■朱色</label>
-            <label class="kuro"><input type="radio" class="c_kuro" name="ms_color" checked />■黒色</label>
+            <label class="kuro"><input type="radio" class="c_kuro" name="ms_color" />■黒色</label>
           </div>
-          <!-- <div class="otherSetting">
+          <div class="otherSetting">
             <p class="line">サブ文字色（***で囲った範囲の文字色）</p>
-            <label><input type="radio" class="js_check_size yokonaga1" name="size" checked />基本(600px*800px)</label>
-            <label><input type="radio" class="js_check_size masikaku" name="size" />正方形(800px*800px)</label>
-          </div> -->
+            <label class="siro"><input type="radio" class="c_siro" name="ss_color" />■白</label>
+            <label class="koniro"><input type="radio" class="c_koniro" name="ss_color" />■紺色</label>
+            <label class="aiiro"><input type="radio" class="c_aiiro" name="ss_color" />■藍色</label>
+            <label class="enjiiro"><input type="radio" class="c_enjiiro" name="ss_color" />■臙脂色</label>
+            <label class="fujiiro"><input type="radio" class="c_fujiiro" name="ss_color" />■藤色</label>
+            <label class="azukiiro"><input type="radio" class="c_azukiiro" name="ss_color" />■小豆色</label>
+            <label class="sakurairo"><input type="radio" class="c_sakurairo" name="ss_color" />■桜色</label>
+            <label class="momoiro"><input type="radio" class="c_momoiro" name="ss_color" />■桃色</label>
+            <label class="nezumiiro"><input type="radio" class="c_nezumiiro" name="ss_color" />■鼠色</label>
+            <label class="syuiro"><input type="radio" class="c_syuiro" name="ss_color" />■朱色</label>
+            <label class="kuro"><input type="radio" class="c_kuro" name="ss_color" checked />■黒色</label>
+          </div>
         </div>
         <div class=" HaneiButton">
           <input class="js_generateButton" type="button" value="反映" />

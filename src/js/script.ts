@@ -33,6 +33,7 @@ class charPosition {
     this.drawPosY = drawPosY;
   }
 }
+const kotobagaki: string = "詞書：";
 
 function downloadCardImage() {
   var canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -138,21 +139,10 @@ function chkRotate(text: string, width: number): charPosition {
   return new charPosition(0, 0, 0, 0, 0);
 };
 
-function countLength(tex: string): number {
-  var list = tex.split('\n');
-  var number = 0;
-  list.forEach(function (elm, i) {
-    if (!isIncludeKotobagaki(elm)) {
-      return list[i].length;
-    }
-  });
-  return list[0].length;
-};
+function isIncludeStr(str: string, t: string): boolean {
+  var s = str;
 
-function isIncludeKotobagaki(t: string): boolean {
-  var kotobagaki = "詞書：";
-
-  if (t.indexOf(kotobagaki) !== -1) {
+  if (t.indexOf(s) !== -1) {
     return true;
   }
   else
@@ -178,11 +168,10 @@ function fontSetting(context: CanvasRenderingContext2D, mode: number) {
   }
 
   // Canvasの文字色設定
-  context.fillStyle = getSelectedColor(1);
+  // context.fillStyle = getSelectedColor(1);
 };
 
 function drawCanvas() {
-
   changeCanvasSize();
 
   var canvas = <HTMLCanvasElement>document.getElementById("canvas");
@@ -227,9 +216,48 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
     // タイトル
     titleList.forEach(function (elm, i) {
+      const text: string = elm;
+      let start_index_1: number = -1;
+      let start_index_2: number = -1;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text.charAt(i);
+        if (char === '*') {
+          if (text.substring(i, i + 3) === '***') {
+            if (start_index_1 === -1) {
+              start_index_1 = i;
+            } else {
+              start_index_2 = i;
+              break;
+            }
+          }
+        }
+      }
+
+      if (start_index_1 != -1)
+        elm = elm.replace(/\*/g, "");
+
+      if (start_index_2 != -1)
+        start_index_2 -= 4;
+
+
       Array.prototype.forEach.call(elm, function (ch, j) {
+
+        // Canvasの文字色設定
+        if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
+          context.fillStyle = getSelectedColor(2);
+        }
+        else {
+          context.fillStyle = getSelectedColor(1);
+        }
+
         var drawX = x * 0.9;
-        var drawY = y * 0.3;
+        // var drawY = y * 0.3;
+        // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+        var num = elm.length;
+
+        var drawY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
+
 
         var charPos = chkRotate(ch, lineWidth);
         // パスをリセット
@@ -282,28 +310,80 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
     // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
     var num = 0;
+    var text = "";
     textList.forEach(function (elm, i) {
-      if (!isIncludeKotobagaki(elm)) {
-        if (num == 0)
-          num = textList[i].length;
+      if (!isIncludeStr(kotobagaki, elm)) {
+        if (num == 0) {
+          text = textList[i];
+        }
       }
     });
-    if (num == 0)
-      num = textList[0].length;
+    if (num == 0) {
+      text = textList[0];
+      if (isIncludeStr(kotobagaki, text))
+        text = text.replace("詞書：", "");
+    }
+    if (isIncludeStr("***", text))
+      text = text.replace(/\*/g, "");
 
-    var startY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
+
+    var startY = ((y - (lineWidth * (text.length - 0))) / 2) + (lineWidth);
 
     textList.forEach(function (elm, i) {
+
+      const text: string = elm;
+      let start_index_1: number = -1;
+      let start_index_2: number = -1;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text.charAt(i);
+        if (char === '*') {
+          if (text.substring(i, i + 3) === '***') {
+            if (start_index_1 === -1) {
+              start_index_1 = i;
+            } else {
+              start_index_2 = i;
+              break;
+            }
+          }
+        }
+      }
+
+      if (start_index_1 != -1)
+        elm = elm.replace(/\*/g, "");
+
+      if (start_index_2 != -1)
+        start_index_2 -= 4;
+
+      console.log(start_index_1 + "test" + start_index_2);
+
       // 詞書
-      if (isIncludeKotobagaki(elm)) {
+      if (isIncludeStr(kotobagaki, text)) {
         // フォント設定
         fontSetting(context, 2);
+
+        if (start_index_1 != -1) {
+          start_index_1 -= 3;
+          start_index_2 -= 3;
+        }
 
         var lineWidth2 = context.measureText("あ").width;
 
         elm = elm.replace("詞書：", "");
 
         Array.prototype.forEach.call(elm, function (ch, j) {
+
+          // Canvasの文字色設定
+          console.log(start_index_1 + "te" + start_index_2);
+
+
+          if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
+            context.fillStyle = getSelectedColor(2);
+          }
+          else {
+            context.fillStyle = getSelectedColor(1);
+          }
+
           var charPos = chkRotate(ch, lineWidth);
           // パスをリセット
           context.beginPath();
@@ -328,7 +408,17 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
         var lineWidth2 = context.measureText("あ").width;
 
         Array.prototype.forEach.call(elm, function (ch, j) {
+
+          // Canvasの文字色設定
+          if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
+            context.fillStyle = getSelectedColor(2);
+          }
+          else {
+            context.fillStyle = getSelectedColor(1);
+          }
+
           var charPos = chkRotate(ch, lineWidth2);
+
           // パスをリセット
           context.beginPath();
           // 回転 (n度)
