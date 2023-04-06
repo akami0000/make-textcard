@@ -178,7 +178,7 @@ function drawCanvas() {
   var context = canvas.getContext("2d");
   if (context !== null) {
 
-    var color = getSelectedColor(0);
+    var color = getSelectedCanvasColor();
 
     //background color
     context.beginPath();
@@ -245,10 +245,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
         // Canvasの文字色設定
         if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-          context.fillStyle = getSelectedColor(2);
+          context.fillStyle = getSelectedMainStrColor();
         }
         else {
-          context.fillStyle = getSelectedColor(1);
+          context.fillStyle = getSelectedSubStrColor();
         }
 
         var drawX = x * 0.9;
@@ -378,10 +378,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
 
           if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-            context.fillStyle = getSelectedColor(2);
+            context.fillStyle = getSelectedMainStrColor();
           }
           else {
-            context.fillStyle = getSelectedColor(1);
+            context.fillStyle = getSelectedSubStrColor();
           }
 
           var charPos = chkRotate(ch, lineWidth);
@@ -411,10 +411,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
           // Canvasの文字色設定
           if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-            context.fillStyle = getSelectedColor(2);
+            context.fillStyle = getSelectedMainStrColor();
           }
           else {
-            context.fillStyle = getSelectedColor(1);
+            context.fillStyle = getSelectedSubStrColor();
           }
 
           var charPos = chkRotate(ch, lineWidth2);
@@ -578,61 +578,185 @@ function changeCanvasSize() {
   }
 };
 
-function getSelectedColor(x: number): string {
+function getSelectedCanvasColor(): string {
   var color = "";
 
   if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_siro")[x]
+    document.getElementsByClassName("c_siro")[0]
   )).checked) {
     color = '#ffffff';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_koniro")[x]
+    document.getElementsByClassName("c_koniro")[0]
   )).checked) {
     color = '#223a70';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_aiiro")[x]
+    document.getElementsByClassName("c_aiiro")[0]
   )).checked) {
     color = '#165e83';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_enjiiro")[x]
+    document.getElementsByClassName("c_enjiiro")[0]
   )).checked) {
     color = '#b94047';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_fujiiro")[x]
+    document.getElementsByClassName("c_fujiiro")[0]
   )).checked) {
     color = '#bbbcde';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_azukiiro")[x]
+    document.getElementsByClassName("c_azukiiro")[0]
   )).checked) {
     color = '#96514d';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_sakurairo")[x]
+    document.getElementsByClassName("c_sakurairo")[0]
   )).checked) {
     color = '#fef4f4';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_momoiro")[x]
+    document.getElementsByClassName("c_momoiro")[0]
   )).checked) {
     color = '#f09199';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_nezumiiro")[x]
+    document.getElementsByClassName("c_nezumiiro")[0]
   )).checked) {
     color = '#949495';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_syuiro")[x]
+    document.getElementsByClassName("c_syuiro")[0]
   )).checked) {
     color = '#ba2636';
   }
   else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_kuro")[x]
+    document.getElementsByClassName("c_kuro")[0]
+  )).checked) {
+    color = '#000000';
+  }
+
+  return color;
+};
+
+function getSelectedMainStrColor(): string {
+  var color = "";
+
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_siro")[0]
+  )).checked) {
+    color = '#ffffff';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_koniro")[0]
+  )).checked) {
+    color = '#223a70';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_aiiro")[0]
+  )).checked) {
+    color = '#165e83';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_enjiiro")[0]
+  )).checked) {
+    color = '#b94047';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_fujiiro")[0]
+  )).checked) {
+    color = '#bbbcde';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_azukiiro")[0]
+  )).checked) {
+    color = '#96514d';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_sakurairo")[0]
+  )).checked) {
+    color = '#fef4f4';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_momoiro")[0]
+  )).checked) {
+    color = '#f09199';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_nezumiiro")[0]
+  )).checked) {
+    color = '#949495';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_syuiro")[0]
+  )).checked) {
+    color = '#ba2636';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("main_kuro")[0]
+  )).checked) {
+    color = '#000000';
+  }
+
+  return color;
+};
+
+function getSelectedSubStrColor(): string {
+  var color = "";
+
+  if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_siro")[0]
+  )).checked) {
+    color = '#ffffff';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_koniro")[0]
+  )).checked) {
+    color = '#223a70';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_aiiro")[0]
+  )).checked) {
+    color = '#165e83';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_enjiiro")[0]
+  )).checked) {
+    color = '#b94047';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_fujiiro")[0]
+  )).checked) {
+    color = '#bbbcde';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_azukiiro")[0]
+  )).checked) {
+    color = '#96514d';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_sakurairo")[0]
+  )).checked) {
+    color = '#fef4f4';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_momoiro")[0]
+  )).checked) {
+    color = '#f09199';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_nezumiiro")[0]
+  )).checked) {
+    color = '#949495';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_syuiro")[0]
+  )).checked) {
+    color = '#ba2636';
+  }
+  else if ((<HTMLInputElement>(
+    document.getElementsByClassName("sub_kuro")[0]
   )).checked) {
     color = '#000000';
   }
