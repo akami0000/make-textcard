@@ -471,7 +471,8 @@ function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
     momoiro: '#f09199',
     nezumiiro: '#949495',
     syuiro: '#ba2636',
-    kuro: '#000000'
+    kuro: '#000000',
+    picker: 'picker'
   };
   for (let i = 0; i < radioButtons.length; i++) {
     const radioButton = radioButtons[i] as HTMLInputElement;
@@ -485,17 +486,32 @@ function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
 
 function getSelectedCanvasColor(): string {
   const radioButtons = document.getElementsByName('c_color') as NodeListOf<HTMLInputElement>;
-  return check2Color(radioButtons);
+  const color = check2Color(radioButtons);
+  if (color === 'picker') {
+    let title = <HTMLInputElement>document.getElementsByClassName("c_picker")[0] as HTMLInputElement;
+    return title.value;
+  }
+  return color;
 }
 
 function getSelectedMainStrColor(): string {
   const radioButtons = document.getElementsByName('ms_color') as NodeListOf<HTMLInputElement>;
-  return check2Color(radioButtons);
+  const color = check2Color(radioButtons);
+  if (color === 'picker') {
+    let title = <HTMLInputElement>document.getElementsByClassName("ms_picker")[0] as HTMLInputElement;
+    return title.value;
+  }
+  return color;
 };
 
 function getSelectedSubStrColor(): string {
   const radioButtons = document.getElementsByName('ss_color') as NodeListOf<HTMLInputElement>;
-  return check2Color(radioButtons);
+  const color = check2Color(radioButtons);
+  if (color === 'picker') {
+    let title = <HTMLInputElement>document.getElementsByClassName("ss_picker")[0] as HTMLInputElement;
+    return title.value;
+  }
+  return color;
 };
 
 function insertText(): void {
