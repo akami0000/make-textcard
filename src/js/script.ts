@@ -269,69 +269,57 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var titleList = title.split('\n');
     // フォント設定
     fontSetting(context, 0);
-
     var lineWidth = context.measureText("あ").width;
 
     // タイトル
-    titleList.forEach(function (elm, i) {
-      const text: string = elm;
-      let start_index_1: number = -1;
-      let start_index_2: number = -1;
+    let text: string = titleList[0];
+    let start_index_1: number = -1;
+    let start_index_2: number = -1;
 
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i);
-        if (char === '*') {
-          if (text.substring(i, i + 3) === '***') {
-            if (start_index_1 === -1) {
-              start_index_1 = i;
-            } else {
-              start_index_2 = i;
-              break;
-            }
+    for (let i = 0; i < text.length; i++) {
+      const char = text.charAt(i);
+      if (char === '*') {
+        if (text.substring(i, i + 3) === '***') {
+          if (start_index_1 === -1) {
+            start_index_1 = i;
+          } else {
+            start_index_2 = i - 4;
+            break;
           }
         }
       }
+    }
 
-      if (start_index_1 != -1)
-        elm = elm.replace(/\*/g, "");
+    if (text.indexOf("***") !== -1)
+      text = text.replace(/\*/g, "");
 
-      if (start_index_2 != -1)
-        start_index_2 -= 4;
+    Array.prototype.forEach.call(text, function (ch, j) {
 
+      // Canvasの文字色設定
+      if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j))
+        context.fillStyle = getSelectedMainStrColor();
+      else
+        context.fillStyle = getSelectedSubStrColor();
 
-      Array.prototype.forEach.call(elm, function (ch, j) {
+      // Xは固定値
+      var drawX = x * 0.9;
+      // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+      var drawY = ((y - (lineWidth * (text.length))) / 2) + (lineWidth);
 
-        // Canvasの文字色設定
-        if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-          context.fillStyle = getSelectedMainStrColor();
-        }
-        else {
-          context.fillStyle = getSelectedSubStrColor();
-        }
+      var charPos = chkRotate(ch, lineWidth);
+      // パスをリセット
+      context.beginPath();
+      // 回転 (n度)
+      context.translate((drawX - lineWidth + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
+      context.rotate(charPos.angle * Math.PI / 180);
+      context.translate(-(drawX - lineWidth + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
 
-        var drawX = x * 0.9;
-        // var drawY = y * 0.3;
-        // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-        var num = elm.length;
+      context.fillText(ch, drawX - lineWidth + charPos.drawPosX, drawY + lineWidth * j + charPos.drawPosY);
 
-        var drawY = ((y - (lineWidth * (num - 0))) / 2) + (lineWidth);
-
-
-        var charPos = chkRotate(ch, lineWidth);
-        // パスをリセット
-        context.beginPath();
-        // 回転 (n度)
-        context.translate((drawX - lineWidth * i + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
-        context.rotate(charPos.angle * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
-
-        context.fillText(ch, drawX - lineWidth * i + charPos.drawPosX, drawY + lineWidth * j + charPos.drawPosY);
-
-        // 回転 (n度)
-        context.translate((drawX - lineWidth * i + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
-        context.rotate(-charPos.angle * Math.PI / 180);
-        context.translate(-(drawX - lineWidth * i + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
-      });
+      // 回転 (n度)
+      context.translate((drawX - lineWidth + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
+      context.rotate(-charPos.angle * Math.PI / 180);
+      context.translate(-(drawX - lineWidth + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
     });
   }
 
@@ -340,9 +328,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var noteList = note1.split('\n');
     // フォント設定
     fontSetting(context, 2);
-
     var lineWidth = context.measureText("あ").width;
-
 
     noteList.forEach(function (elm, i) {
       var drawX = x * 0.5 - 600;
@@ -358,10 +344,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
     // フォント設定
     fontSetting(context, 1);
-
     var lineWidth = context.measureText("あ").width;
-    var lineHeight = context.measureText("あ").actualBoundingBoxAscent
-      + context.measureText("あ").actualBoundingBoxDescent;
 
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
     var startX = x / 2 - (lineWidth) + (textList.length * lineWidth) / 2;
@@ -383,7 +366,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     }
     if (text.indexOf("***") !== -1)
       text = text.replace(/\*/g, "");
-
+    console.log(text.length);
 
     var startY = ((y - (lineWidth * (text.length - 0))) / 2) + (lineWidth);
 
@@ -406,94 +389,53 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           }
         }
       }
+      let lineWidthA = lineWidth;
 
       if (start_index_1 != -1)
         elm = elm.replace(/\*/g, "");
 
-      if (start_index_2 != -1)
-        start_index_2 -= 4;
-
-      // 詞書
       if (text.indexOf(kotobagaki) !== -1) {
-        // フォント設定
+        // 詞書用フォント設定
         fontSetting(context, 2);
-
+        elm = elm.replace("詞書：", "");
+        lineWidthA = context.measureText("あ").width;
         if (start_index_1 != -1) {
           start_index_1 -= 3;
           start_index_2 -= 3;
         }
-
-        var lineWidth2 = context.measureText("あ").width;
-
-        elm = elm.replace("詞書：", "");
-
-        Array.prototype.forEach.call(elm, function (ch, j) {
-
-          // Canvasの文字色設定
-          console.log(start_index_1 + "te" + start_index_2);
-
-
-          if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-            context.fillStyle = getSelectedMainStrColor();
-          }
-          else {
-            context.fillStyle = getSelectedSubStrColor();
-          }
-
-          var charPos = chkRotate(ch, lineWidth);
-          // パスをリセット
-          context.beginPath();
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
-          context.rotate(charPos.angle * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
-
-          context.fillText(ch, startX - lineWidth * i + charPos.drawPosX, startY + lineWidth2 * j + charPos.drawPosY);
-
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
-          context.rotate(-charPos.angle * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
-        });
       }
-      // ふつうの短歌
-      else {
-        // フォント設定
-        fontSetting(context, 1);
-
-        var lineWidth2 = context.measureText("あ").width;
-
-        Array.prototype.forEach.call(elm, function (ch, j) {
-
-          // Canvasの文字色設定
-          if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
-            context.fillStyle = getSelectedMainStrColor();
-          }
-          else {
-            context.fillStyle = getSelectedSubStrColor();
-          }
-
-          var charPos = chkRotate(ch, lineWidth2);
-
-          // パスをリセット
-          context.beginPath();
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
-          context.rotate(charPos.angle * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
-
-          context.fillText(ch, startX - lineWidth * i + charPos.drawPosX, startY + lineWidth2 * j + charPos.drawPosY);
-
-          // 回転 (n度)
-          context.translate((startX - lineWidth2 * i + charPos.transPosX), (startY + (lineWidth2 * j + charPos.transPosY)));
-          context.rotate(-charPos.angle * Math.PI / 180);
-          context.translate(-(startX - lineWidth2 * i + charPos.transPosX), -(startY + (lineWidth2 * j + charPos.transPosY)));
-        });
+      if (start_index_1 != -1) {
+        start_index_2 -= 4;
       }
+
+      Array.prototype.forEach.call(elm, function (ch, j) {
+
+        // Canvasの文字色設定
+        if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j)) {
+          context.fillStyle = getSelectedMainStrColor();
+        }
+        else {
+          context.fillStyle = getSelectedSubStrColor();
+        }
+
+        var charPos = chkRotate(ch, lineWidthA);
+        // パスをリセット
+        context.beginPath();
+        // 回転 (n度)
+        context.translate((startX - lineWidthA * i + charPos.transPosX), (startY + (lineWidthA * j + charPos.transPosY)));
+        context.rotate(charPos.angle * Math.PI / 180);
+        context.translate(-(startX - lineWidthA * i + charPos.transPosX), -(startY + (lineWidthA * j + charPos.transPosY)));
+
+        context.fillText(ch, startX - lineWidthA * i + charPos.drawPosX, startY + lineWidthA * j + charPos.drawPosY);
+
+        // 回転 (n度)
+        context.translate((startX - lineWidthA * i + charPos.transPosX), (startY + (lineWidthA * j + charPos.transPosY)));
+        context.rotate(-charPos.angle * Math.PI / 180);
+        context.translate(-(startX - lineWidthA * i + charPos.transPosX), -(startY + (lineWidthA * j + charPos.transPosY)));
+      });
     });
   }
-
-};
+}
 
 function changeCanvasSize() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
