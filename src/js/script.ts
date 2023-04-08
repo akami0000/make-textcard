@@ -366,7 +366,6 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     }
     if (text.indexOf("***") !== -1)
       text = text.replace(/\*/g, "");
-    console.log(text.length);
 
     var startY = ((y - (lineWidth * (text.length - 0))) / 2) + (lineWidth);
 
