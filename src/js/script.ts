@@ -35,17 +35,17 @@ class charPosition {
 }
 const kotobagaki: string = "詞書：";
 
-function downloadCardImage() {
-  var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-  if (canvas != null) {
+function downloadCardImage(): void {
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  if (canvas) {
     //アンカータグを作成
-    var a = document.createElement('a');
+    const a = document.createElement('a');
     //canvasをJPEG変換し、そのBase64文字列をhrefへセット
     a.href = canvas.toDataURL('image/png');
     //ダウンロード時のファイル名を指定
-    let date = new Date();
-    let filename = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-    a.download = `${filename}.png`;
+    const date = new Date();
+    const filename = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}.png`;
+    a.download = filename;
     //クリックイベントを発生させる
     a.click();
   }
@@ -63,8 +63,6 @@ window.onload = function () {
   drawCanvas();
 };
 
-
-
 function chkRotate(text: string, width: number): charPosition {
   const nums: number[] = [];
 
@@ -78,60 +76,60 @@ function chkRotate(text: string, width: number): charPosition {
     return new charPosition(90, 0, 2, -0.8 * width, 0);
   }
   {
-    var kigou = "ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―／＼";
+    const kigou = "ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―／＼";
     if (kigou.indexOf(text) !== -1)
       return new charPosition(90, 0, 2, -width, 0);
   }
   {
-    var kigou = "、。，．";
+    const kigou = "、。，．";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(180, 0, 2, -width, 0.8 * width);
     }
   }
   {
-    var kigou = "!";
+    const kigou = "!";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(0, 0, 0, 0.3 * width, 0);
     }
   }
   {
-    var kigou = "+";
+    const kigou = "+";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(0, 0, 0, 0.1 * width, 0);
     }
   }
   {
-    var kigou = "-＝";
+    const kigou = "-＝";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(90, 0, 0, -width, -0.1 * width);
     }
   }
   {
-    var kigou = "(";
+    const kigou = "(";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(90, 1, 2, -0.5 * width, -0.1 * width);
     }
   }
   {
-    var kigou = ")";
+    const kigou = ")";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(90, 1, 2, -0.75 * width, -0.1 * width);
     }
   }
   {
-    var kigou = ":";
+    const kigou = ":";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(90, 1, 2, -0.5 * width, -0.1 * width);
     }
   }
   {
-    var kigou = "·\“\'`”‘’";
+    const kigou = "·\“\'`”‘’";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(0, 0, 0, 0.3 * width, 0);
     }
   }
   {
-    var kigou = "/\\＿";
+    const kigou = "/\\＿";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(90, 0, 2, -0.8 * width, -0.1 * width);
     }
@@ -139,70 +137,130 @@ function chkRotate(text: string, width: number): charPosition {
   return new charPosition(0, 0, 0, 0, 0);
 };
 
-function isIncludeStr(str: string, t: string): boolean {
-  var s = str;
+function fontSetting(context: CanvasRenderingContext2D | null, mode: number): void {
+  let fontText = "";
 
-  if (t.indexOf(s) !== -1) {
-    return true;
+  switch (mode) {
+    // タイトル
+    case 0:
+      fontText += "400 60px ";
+      break;
+    // 文字
+    case 1:
+      fontText += "400 48px ";
+      break;
+    // 付記・詞書
+    case 2:
+      fontText += "400 36px ";
+      break;
   }
-  else
-    return false;
-};
-
-function fontSetting(context: CanvasRenderingContext2D, mode: number) {
-
-  var fontText = "";
-
-  // タイトル
-  if (mode == 0)
-    fontText += "400 60px "
-  // 文字
-  else if (mode == 1)
-    fontText += "400 48px "
-  // 付記・詞書
-  else
-    fontText += "400 36px ";
 
   if (context !== null) {
-    context.font = check2fontname(fontText);
+    context.font = fontText + getCheckedFont();
   }
-
-  // Canvasの文字色設定
-  // context.fillStyle = getSelectedColor(1);
 };
+
+function getCheckedFont(): string {
+  const fontInputs = [
+    "roundedmplus1c",
+    "notosansjapanese",
+    "lineseed",
+    "rocknroll",
+    "zenAntique",
+    "kiwiMaru",
+    "mochiyPop",
+    "dotGothic16",
+    "kaiseiDecol",
+    "zenKurenaido",
+    "yuseiMagic",
+    "delaGothicOne",
+    "hachiMaruPop",
+    "zenKakuGothicNew",
+    "ShipporiMincho",
+    "PottaOne",
+    "KleeOne",
+    "Stick",
+    "HinaMincho",
+    "SawarabiMincho",
+    "SawarabiGothic",
+  ];
+  for (const input of fontInputs) {
+    const checkbox = document.querySelector(`.${input}`) as HTMLInputElement;
+    if (checkbox.checked) {
+      switch (input) {
+        case "roundedmplus1c":
+          return "\"M PLUS Rounded 1c\"";
+        case "notosansjapanese":
+          return "\"Noto Sans JP\"";
+        case "lineseed":
+          return "\'lineseed\'";
+        case "rocknroll":
+          return "\'RocknRoll One\'";
+        case "zenAntique":
+          return "\'Zen Antique\'";
+        case "kiwiMaru":
+          return "\'Kiwi Maru\'";
+        case "mochiyPop":
+          return "\'Mochiy Pop One\'";
+        case "dotGothic16":
+          return "\'DotGothic16\'";
+        case "kaiseiDecol":
+          return "\'Kaisei Decol\'";
+        case "zenKurenaido":
+          return "\'Zen Kurenaido\'";
+        case "yuseiMagic":
+          return "\'Yusei Magic\'";
+        case "delaGothicOne":
+          return "\'Dela Gothic One\'";
+        case "hachiMaruPop":
+          return "\'Hachi Maru Pop\'";
+        case "zenKakuGothicNew":
+          return "\'Zen Kaku Gothic New\'";
+        case "ShipporiMincho":
+          return "\'Shippori Mincho\'";
+        case "PottaOne":
+          return "\'Potta One\'";
+        case "KleeOne":
+          return "\'Klee One\'";
+        case "Stick":
+          return "\'Stick\'";
+        case "HinaMincho":
+          return "\'Hina Mincho\'";
+        case "SawarabiMincho":
+          return "\'Sawarabi Mincho\'";
+        case "SawarabiGothic":
+          return "\'Sawarabi Gothic\'";
+      }
+    }
+  }
+  return "";
+}
 
 function drawCanvas() {
   changeCanvasSize();
 
-  var canvas = <HTMLCanvasElement>document.getElementById("canvas");
-  var context = canvas.getContext("2d");
-  if (context !== null) {
-
-    var color = getSelectedCanvasColor();
-
-    //background color
-    context.beginPath();
-    context.fillStyle = color;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    var fontText = "";
-    (<HTMLInputElement>(document.getElementsByClassName("js_display")[0])).style.fontFamily = check2fontname(fontText);
-
-    var title = (<HTMLInputElement>(
-      document.getElementsByClassName("js_input-text")[0]
-    )).value;
-
-    var text = (<HTMLInputElement>(
-      document.getElementsByClassName("js_input-text")[1]
-    )).value;
-
-    var note1 = (<HTMLInputElement>(
-      document.getElementsByClassName("js_input-text")[2]
-    )).value;
-
-    tategaki(context, title, text, note1, canvas.width, canvas.height);
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return;
   }
-};
+
+  const color = getSelectedCanvasColor();
+
+  //background color
+  context.fillStyle = color;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  const displayElem = document.getElementsByClassName("js_display")[0] as HTMLInputElement;
+  displayElem.style.fontFamily = getCheckedFont();
+
+  const title = document.getElementsByClassName("js_input-text")[0] as HTMLInputElement;
+  const text = document.getElementsByClassName("js_input-text")[1] as HTMLInputElement;
+  const note1 = document.getElementsByClassName("js_input-text")[2] as HTMLInputElement;
+
+  tategaki(context, title.value, text.value, note1.value, canvas.width, canvas.height);
+}
+
 
 var tategaki = function (context: CanvasRenderingContext2D, title: string, text: string, note1: string, x: number, y: number) {
 
@@ -312,7 +370,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var num = 0;
     var text = "";
     textList.forEach(function (elm, i) {
-      if (!isIncludeStr(kotobagaki, elm)) {
+      if (elm.indexOf(kotobagaki) === -1) {
         if (num == 0) {
           text = textList[i];
         }
@@ -320,10 +378,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     });
     if (num == 0) {
       text = textList[0];
-      if (isIncludeStr(kotobagaki, text))
+      if (text.indexOf(kotobagaki) !== -1)
         text = text.replace("詞書：", "");
     }
-    if (isIncludeStr("***", text))
+    if (text.indexOf("***") !== -1)
       text = text.replace(/\*/g, "");
 
 
@@ -355,10 +413,8 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       if (start_index_2 != -1)
         start_index_2 -= 4;
 
-      console.log(start_index_1 + "test" + start_index_2);
-
       // 詞書
-      if (isIncludeStr(kotobagaki, text)) {
+      if (text.indexOf(kotobagaki) !== -1) {
         // フォント設定
         fontSetting(context, 2);
 
@@ -439,373 +495,94 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
 };
 
-function check2fontname(a: string): string {
-
-  var b = a;
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("roundedmplus1c")[0]
-  )).checked) {
-    b += "\"M PLUS Rounded 1c\"";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("notosansjapanese")[0]
-  )).checked) {
-    b += "\"Noto Sans JP\"";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("lineseed")[0]
-  )).checked) {
-    b += "\'lineseed\'";
-  }
-
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("rocknroll")[0]
-  )).checked) {
-    b += "\'RocknRoll One\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("zenAntique")[0]
-  )).checked) {
-    b += "\'Zen Antique\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("kiwiMaru")[0]
-  )).checked) {
-    b += "\'Kiwi Maru\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("mochiyPop")[0]
-  )).checked) {
-    b += "\'Mochiy Pop One\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("dotGothic16")[0]
-  )).checked) {
-    b += "\'DotGothic16\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("kaiseiDecol")[0]
-  )).checked) {
-    b += "\'Kaisei Decol\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("zenKurenaido")[0]
-  )).checked) {
-    b += "\'Zen Kurenaido\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("yuseiMagic")[0]
-  )).checked) {
-    b += "\'Yusei Magic\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("delaGothicOne")[0]
-  )).checked) {
-    b += "\'Dela Gothic One\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("hachiMaruPop")[0]
-  )).checked) {
-    b += "\'Hachi Maru Pop\'";
-  }
-
-
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("zenKakuGothicNew")[0]
-  )).checked) {
-    b += "\'Zen Kaku Gothic New\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("ShipporiMincho")[0]
-  )).checked) {
-    b += "\'Shippori Mincho\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("PottaOne")[0]
-  )).checked) {
-    b += "\'Potta One\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("KleeOne")[0]
-  )).checked) {
-    b += "\'Klee One\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("Stick")[0]
-  )).checked) {
-    b += "\'Stick\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("HinaMincho")[0]
-  )).checked) {
-    b += "\'Hina Mincho\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("SawarabiMincho")[0]
-  )).checked) {
-    b += "\'Sawarabi Mincho\'";
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("SawarabiGothic")[0]
-  )).checked) {
-    b += "\'Sawarabi Gothic\'";
-  }
-  return b;
-};
-
-
 function changeCanvasSize() {
-  var canvas = document.getElementById('canvas');
-  if (!canvas) return;
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  if (!canvas) {
+    return;
+  }
 
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("yokonaga1")[0]
-  )).checked) {
-    canvas.setAttribute("width", "1500");
-    canvas.setAttribute("height", "2000");
+  const canvasSize = getCanvasSize();
+  canvas.setAttribute("width", canvasSize.width.toString());
+  canvas.setAttribute("height", canvasSize.height.toString());
+}
+
+function getCanvasSize() {
+  const yokonaga1 = document.querySelector<HTMLInputElement>('.yokonaga1');
+  const masikaku = document.querySelector<HTMLInputElement>('.masikaku');
+  const matiuke = document.querySelector<HTMLInputElement>('.matiuke');
+
+  if (masikaku?.checked) {
+    return { width: 2000, height: 2000 };
+  } else if (matiuke?.checked) {
+    return { width: 2000, height: 4000 };
+  } else {
+    // デフォルト値を返す
+    return { width: 1500, height: 2000 };
   }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("masikaku")[0]
-  )).checked) {
-    canvas.setAttribute("width", "2000");
-    canvas.setAttribute("height", "2000");
+}
+
+function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
+  const colors: { [key: string]: string } = {
+    siro: '#ffffff',
+    koniro: '#223a70',
+    aiiro: '#165e83',
+    enjiiro: '#b94047',
+    fujiiro: '#bbbcde',
+    azukiiro: '#96514d',
+    sakurairo: '#fef4f4',
+    momoiro: '#f09199',
+    nezumiiro: '#949495',
+    syuiro: '#ba2636',
+    kuro: '#000000'
+  };
+  for (let i = 0; i < radioButtons.length; i++) {
+    const radioButton = radioButtons[i] as HTMLInputElement;
+    if (radioButton.checked) {
+      const propertyName = Object.keys(colors)[i]; // プロパティ名を取得
+      return colors[propertyName];
+    }
   }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("matiuke")[0]
-  )).checked) {
-    canvas.setAttribute("width", "2000");
-    canvas.setAttribute("height", "4000");
-  }
-};
+  return '';
+}
 
 function getSelectedCanvasColor(): string {
-  var color = "";
-
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_siro")[0]
-  )).checked) {
-    color = '#ffffff';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_koniro")[0]
-  )).checked) {
-    color = '#223a70';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_aiiro")[0]
-  )).checked) {
-    color = '#165e83';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_enjiiro")[0]
-  )).checked) {
-    color = '#b94047';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_fujiiro")[0]
-  )).checked) {
-    color = '#bbbcde';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_azukiiro")[0]
-  )).checked) {
-    color = '#96514d';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_sakurairo")[0]
-  )).checked) {
-    color = '#fef4f4';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_momoiro")[0]
-  )).checked) {
-    color = '#f09199';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_nezumiiro")[0]
-  )).checked) {
-    color = '#949495';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_syuiro")[0]
-  )).checked) {
-    color = '#ba2636';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("c_kuro")[0]
-  )).checked) {
-    color = '#000000';
-  }
-
-  return color;
-};
+  const radioButtons = document.getElementsByName('c_color') as NodeListOf<HTMLInputElement>;
+  return check2Color(radioButtons);
+}
 
 function getSelectedMainStrColor(): string {
-  var color = "";
-
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_siro")[0]
-  )).checked) {
-    color = '#ffffff';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_koniro")[0]
-  )).checked) {
-    color = '#223a70';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_aiiro")[0]
-  )).checked) {
-    color = '#165e83';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_enjiiro")[0]
-  )).checked) {
-    color = '#b94047';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_fujiiro")[0]
-  )).checked) {
-    color = '#bbbcde';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_azukiiro")[0]
-  )).checked) {
-    color = '#96514d';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_sakurairo")[0]
-  )).checked) {
-    color = '#fef4f4';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_momoiro")[0]
-  )).checked) {
-    color = '#f09199';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_nezumiiro")[0]
-  )).checked) {
-    color = '#949495';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_syuiro")[0]
-  )).checked) {
-    color = '#ba2636';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("main_kuro")[0]
-  )).checked) {
-    color = '#000000';
-  }
-
-  return color;
+  const radioButtons = document.getElementsByName('ms_color') as NodeListOf<HTMLInputElement>;
+  return check2Color(radioButtons);
 };
 
 function getSelectedSubStrColor(): string {
-  var color = "";
-
-  if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_siro")[0]
-  )).checked) {
-    color = '#ffffff';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_koniro")[0]
-  )).checked) {
-    color = '#223a70';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_aiiro")[0]
-  )).checked) {
-    color = '#165e83';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_enjiiro")[0]
-  )).checked) {
-    color = '#b94047';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_fujiiro")[0]
-  )).checked) {
-    color = '#bbbcde';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_azukiiro")[0]
-  )).checked) {
-    color = '#96514d';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_sakurairo")[0]
-  )).checked) {
-    color = '#fef4f4';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_momoiro")[0]
-  )).checked) {
-    color = '#f09199';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_nezumiiro")[0]
-  )).checked) {
-    color = '#949495';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_syuiro")[0]
-  )).checked) {
-    color = '#ba2636';
-  }
-  else if ((<HTMLInputElement>(
-    document.getElementsByClassName("sub_kuro")[0]
-  )).checked) {
-    color = '#000000';
-  }
-
-  return color;
+  const radioButtons = document.getElementsByName('ss_color') as NodeListOf<HTMLInputElement>;
+  return check2Color(radioButtons);
 };
 
-function insertText() {
-  var text = (<HTMLInputElement>(
-    document.getElementsByClassName("js_input-text")[1]
-  )).value;
+function insertText(): void {
+  const inputTextElements: HTMLCollectionOf<HTMLInputElement> = document.getElementsByClassName("js_input-text") as HTMLCollectionOf<HTMLInputElement>;
+  const inputText: HTMLInputElement = inputTextElements[1];
 
+  let text: string = inputText.value;
   text += "\n詞書：";
 
-  (<HTMLInputElement>(
-    document.getElementsByClassName("js_input-text")[1]
-  )).value = text;
+  inputText.value = text;
 }
 
+function registerButtonEvent(selector: string, callback: () => void) {
+  const button = document.querySelector(selector) as HTMLElement;
+  button.addEventListener('click', callback);
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementsByClassName("js_generateButton")[0]
-    .addEventListener("click", (event) => {
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll(".js_generateButton");
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
       genereteCardImage();
     });
-  document
-    .getElementsByClassName("js_generateButton")[1]
-    .addEventListener("click", (event) => {
-      genereteCardImage();
-    });
-  document
-    .getElementsByClassName("js_generateButton")[2]
-    .addEventListener("click", (event) => {
-      genereteCardImage();
-    });
-  document
-    .getElementsByClassName("js_downloadButton")[0]
-    .addEventListener("click", (event) => {
-      downloadCardImage();
-    });
-  document
-    .getElementsByClassName("js_insertButton")[0]
-    .addEventListener("click", (event) => {
-      insertText();
-    });
-
-  // document.getElementsByClassName("js_tweetButton")[0]
-  //   .addEventListener("click", (event) => {
-  //     tweet();
-  //   });
+  });
+  registerButtonEvent('.js_downloadButton', downloadCardImage);
+  registerButtonEvent('.js_insertButton', insertText);
+  // registerButtonEvent('.js_tweetButton', tweet);
 });
