@@ -383,7 +383,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
             if (start_index_1 === -1) {
               start_index_1 = i;
             } else {
-              start_index_2 = i;
+              start_index_2 = i - 4;
               break;
             }
           }
@@ -403,9 +403,6 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
           start_index_1 -= 3;
           start_index_2 -= 3;
         }
-      }
-      if (start_index_1 != -1) {
-        start_index_2 -= 4;
       }
 
       Array.prototype.forEach.call(elm, function (ch, j) {
