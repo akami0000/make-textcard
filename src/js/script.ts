@@ -371,6 +371,7 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
     var startY = (y - lineWidth * (maxLength - 0)) / 2 + lineWidth;
 
     textList.forEach(function (elm, i) {
+      fontSetting(context, 1);
       const text: string = elm;
       let start_index_1: number = -1;
       let start_index_2: number = -1;
