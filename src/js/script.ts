@@ -265,12 +265,16 @@ function drawCanvas() {
   const note1 = document.getElementsByClassName(
     "js_input-text"
   )[2] as HTMLInputElement;
+  const note2 = document.getElementsByClassName(
+    "js_input-text"
+  )[3] as HTMLInputElement;
 
   tategaki(
     context,
     title.value,
     text.value,
     note1.value,
+    note2.value,
     canvas.width,
     canvas.height
   );
@@ -281,6 +285,7 @@ var tategaki = function (
   title: string,
   text: string,
   note1: string,
+  note2: string,
   x: number,
   y: number
 ) {
@@ -398,7 +403,50 @@ var tategaki = function (
         context.fillStyle = getSelectedMainStrColor();
       else context.fillStyle = getSelectedSubStrColor();
 
-      var drawX = x * 0.5 - 600;
+      var drawX = x * 0.05;
+      var drawY = y * 0.95;
+      context.fillText(ch, drawX + j * lineWidth, drawY);
+    });
+  }
+  // 付記2出力
+  {
+    var noteList = note2.split("\n");
+    // フォント設定
+    fontSetting(context, 2);
+    var lineWidth = context.measureText("あ").width;
+
+    // タイトル
+    let text: string = noteList[0];
+    let start_index_1: number = -1;
+    let start_index_2: number = -1;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text.charAt(i);
+      if (char === "*") {
+        if (text.substring(i, i + 3) === "***") {
+          if (start_index_1 === -1) {
+            start_index_1 = i;
+          } else {
+            start_index_2 = i - 4;
+            break;
+          }
+        }
+      }
+    }
+
+    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
+
+    Array.prototype.forEach.call(text, function (ch, j) {
+      // Canvasの文字色設定
+      if (
+        start_index_1 == -1 ||
+        j < start_index_1 ||
+        (start_index_2 != -1 && start_index_2 < j)
+      )
+        context.fillStyle = getSelectedMainStrColor();
+      else context.fillStyle = getSelectedSubStrColor();
+
+      var drawX = x * 0.95 - text.length * lineWidth;
       var drawY = y * 0.95;
       context.fillText(ch, drawX + j * lineWidth, drawY);
     });
@@ -613,7 +661,7 @@ function getSelectedSubStrColor(): string {
 function insertText(): void {
   const inputTextElements: HTMLCollectionOf<HTMLInputElement> =
     document.getElementsByClassName(
-      "js_input-text-text"
+      "js_input-text"
     ) as HTMLCollectionOf<HTMLInputElement>;
   const inputText: HTMLInputElement = inputTextElements[1];
 
@@ -625,17 +673,103 @@ function insertText(): void {
 
 function registerButtonEvent(selector: string, callback: () => void) {
   const button = document.querySelector(selector) as HTMLElement;
-  button.addEventListener('click', callback);
+  button.addEventListener("click", callback);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll(".js_generateButton");
-  buttons.forEach((button) => {
-    button.addEventListener("click", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
+  registerButtonEvent(".js_downloadButton", downloadCardImage);
+  registerButtonEvent(".js_insertButton", insertText);
+  // registerButtonEvent('.js_tweetButton', tweet);
+
+  const textareas = document.querySelectorAll(".js_input-text");
+  textareas.forEach((areas) => {
+    areas.addEventListener("input", function () {
       genereteCardImage();
     });
   });
-  registerButtonEvent('.js_downloadButton', downloadCardImage);
-  registerButtonEvent('.js_insertButton', insertText);
-  // registerButtonEvent('.js_tweetButton', tweet);
+
+  const radioFontInputs = document.querySelectorAll(
+    'input[type="radio"][name="font"]'
+  );
+  radioFontInputs.forEach((fontInput) => {
+    fontInput.addEventListener("change", function () {
+      genereteCardImage();
+    });
+  });
+
+  const radioSizeInputs = document.querySelectorAll(
+    'input[type="radio"][name="size"]'
+  );
+  radioSizeInputs.forEach((sizeInput) => {
+    sizeInput.addEventListener("change", function () {
+      genereteCardImage();
+    });
+  });
+
+  const radioCColorInputs = document.querySelectorAll(
+    'input[type="radio"][name="c_color"]'
+  );
+  radioCColorInputs.forEach((ccolorInput) => {
+    ccolorInput.addEventListener("change", function () {
+      genereteCardImage();
+    });
+  });
+
+  const radioMsColorInputs = document.querySelectorAll(
+    'input[type="radio"][name="ms_color"]'
+  );
+  radioMsColorInputs.forEach((mscolorInput) => {
+    mscolorInput.addEventListener("change", function () {
+      genereteCardImage();
+    });
+  });
+
+  const radioSsColorInputs = document.querySelectorAll(
+    'input[type="radio"][name="ss_color"]'
+  );
+  radioSsColorInputs.forEach((sscolorInput) => {
+    sscolorInput.addEventListener("change", function () {
+      genereteCardImage();
+    });
+  });
+
+  const colorPicker1 = document.querySelector(".c_picker") as HTMLInputElement;
+  if (colorPicker1) {
+    colorPicker1.addEventListener("change", function (event) {
+      const selectedRadio = document.querySelector(
+        `input[type="radio"][class="picker"][name="c_color"]`
+      ) as HTMLInputElement;
+      if (selectedRadio) {
+        selectedRadio.checked = true;
+      }
+      genereteCardImage();
+    });
+  }
+
+  const colorPicker2 = document.querySelector(".ms_picker") as HTMLInputElement;
+  if (colorPicker2) {
+    colorPicker2.addEventListener("change", function (event) {
+      const selectedRadio = document.querySelector(
+        `input[type="radio"][class="picker"][name="ms_color"]`
+      ) as HTMLInputElement;
+      if (selectedRadio) {
+        selectedRadio.checked = true;
+      }
+      genereteCardImage();
+    });
+  }
+
+  const colorPicker3 = document.querySelector(".ss_picker") as HTMLInputElement;
+  if (colorPicker3) {
+    colorPicker3.addEventListener("change", function (event) {
+      const selectedRadio = document.querySelector(
+        `input[type="radio"][class="picker"][name="ss_color"]`
+      ) as HTMLInputElement;
+      if (selectedRadio) {
+        selectedRadio.checked = true;
+      }
+      genereteCardImage();
+    });
+  }
 });
+
