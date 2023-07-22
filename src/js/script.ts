@@ -251,22 +251,42 @@ function drawCanvas() {
   context.fillStyle = color;
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  const displayElem = document.getElementsByClassName("js_display")[0] as HTMLInputElement;
+  const displayElem = document.getElementsByClassName(
+    "js_display"
+  )[0] as HTMLInputElement;
   displayElem.style.fontFamily = getCheckedFont();
 
-  const title = document.getElementsByClassName("js_input-text")[0] as HTMLInputElement;
-  const text = document.getElementsByClassName("js_input-text")[1] as HTMLInputElement;
-  const note1 = document.getElementsByClassName("js_input-text")[2] as HTMLInputElement;
+  const title = document.getElementsByClassName(
+    "js_input-text"
+  )[0] as HTMLInputElement;
+  const text = document.getElementsByClassName(
+    "js_input-text"
+  )[1] as HTMLInputElement;
+  const note1 = document.getElementsByClassName(
+    "js_input-text"
+  )[2] as HTMLInputElement;
 
-  tategaki(context, title.value, text.value, note1.value, canvas.width, canvas.height);
+  tategaki(
+    context,
+    title.value,
+    text.value,
+    note1.value,
+    canvas.width,
+    canvas.height
+  );
 }
 
-
-var tategaki = function (context: CanvasRenderingContext2D, title: string, text: string, note1: string, x: number, y: number) {
-
+var tategaki = function (
+  context: CanvasRenderingContext2D,
+  title: string,
+  text: string,
+  note1: string,
+  x: number,
+  y: number
+) {
   // タイトル出力
   {
-    var titleList = title.split('\n');
+    var titleList = title.split("\n");
     // フォント設定
     fontSetting(context, 0);
     var lineWidth = context.measureText("あ").width;
@@ -278,8 +298,8 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
 
     for (let i = 0; i < text.length; i++) {
       const char = text.charAt(i);
-      if (char === '*') {
-        if (text.substring(i, i + 3) === '***') {
+      if (char === "*") {
+        if (text.substring(i, i + 3) === "***") {
           if (start_index_1 === -1) {
             start_index_1 = i;
           } else {
@@ -290,53 +310,99 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       }
     }
 
-    if (text.indexOf("***") !== -1)
-      text = text.replace(/\*/g, "");
+    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
 
     Array.prototype.forEach.call(text, function (ch, j) {
-
       // Canvasの文字色設定
-      if (start_index_1 == -1 || (j < start_index_1) || (start_index_2 != -1 && start_index_2 < j))
+      if (
+        start_index_1 == -1 ||
+        j < start_index_1 ||
+        (start_index_2 != -1 && start_index_2 < j)
+      )
         context.fillStyle = getSelectedMainStrColor();
-      else
-        context.fillStyle = getSelectedSubStrColor();
+      else context.fillStyle = getSelectedSubStrColor();
 
       // Xは固定値
       var drawX = x * 0.9;
       // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-      var drawY = ((y - (lineWidth * (text.length))) / 2) + (lineWidth);
+      var drawY = (y - lineWidth * text.length) / 2 + lineWidth;
 
       var charPos = chkRotate(ch, lineWidth);
       // パスをリセット
       context.beginPath();
       // 回転 (n度)
-      context.translate((drawX - lineWidth + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
-      context.rotate(charPos.angle * Math.PI / 180);
-      context.translate(-(drawX - lineWidth + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
+      context.translate(
+        drawX - lineWidth + charPos.transPosX,
+        drawY + (lineWidth * j + charPos.transPosY)
+      );
+      context.rotate((charPos.angle * Math.PI) / 180);
+      context.translate(
+        -(drawX - lineWidth + charPos.transPosX),
+        -(drawY + (lineWidth * j + charPos.transPosY))
+      );
 
-      context.fillText(ch, drawX - lineWidth + charPos.drawPosX, drawY + lineWidth * j + charPos.drawPosY);
+      context.fillText(
+        ch,
+        drawX - lineWidth + charPos.drawPosX,
+        drawY + lineWidth * j + charPos.drawPosY
+      );
 
       // 回転 (n度)
-      context.translate((drawX - lineWidth + charPos.transPosX), (drawY + (lineWidth * j + charPos.transPosY)));
-      context.rotate(-charPos.angle * Math.PI / 180);
-      context.translate(-(drawX - lineWidth + charPos.transPosX), -(drawY + (lineWidth * j + charPos.transPosY)));
+      context.translate(
+        drawX - lineWidth + charPos.transPosX,
+        drawY + (lineWidth * j + charPos.transPosY)
+      );
+      context.rotate((-charPos.angle * Math.PI) / 180);
+      context.translate(
+        -(drawX - lineWidth + charPos.transPosX),
+        -(drawY + (lineWidth * j + charPos.transPosY))
+      );
     });
   }
 
   // 付記1出力
   {
-    var noteList = note1.split('\n');
+    var noteList = note1.split("\n");
     // フォント設定
     fontSetting(context, 2);
     var lineWidth = context.measureText("あ").width;
 
-    noteList.forEach(function (elm, i) {
+    // タイトル
+    let text: string = noteList[0];
+    let start_index_1: number = -1;
+    let start_index_2: number = -1;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text.charAt(i);
+      if (char === "*") {
+        if (text.substring(i, i + 3) === "***") {
+          if (start_index_1 === -1) {
+            start_index_1 = i;
+          } else {
+            start_index_2 = i - 4;
+            break;
+          }
+        }
+      }
+    }
+
+    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
+
+    Array.prototype.forEach.call(text, function (ch, j) {
+      // Canvasの文字色設定
+      if (
+        start_index_1 == -1 ||
+        j < start_index_1 ||
+        (start_index_2 != -1 && start_index_2 < j)
+      )
+        context.fillStyle = getSelectedMainStrColor();
+      else context.fillStyle = getSelectedSubStrColor();
+
       var drawX = x * 0.5 - 600;
       var drawY = y * 0.95;
-      context.fillText(elm, drawX, drawY);
+      context.fillText(ch, drawX + j * lineWidth, drawY);
     });
   }
-
 
   // 本文出力
   {
@@ -449,10 +515,10 @@ var tategaki = function (context: CanvasRenderingContext2D, title: string, text:
       });
     });
   }
-}
+};
 
 function changeCanvasSize() {
-  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   if (!canvas) {
     return;
   }
@@ -463,9 +529,9 @@ function changeCanvasSize() {
 }
 
 function getCanvasSize() {
-  const yokonaga1 = document.querySelector<HTMLInputElement>('.yokonaga1');
-  const masikaku = document.querySelector<HTMLInputElement>('.masikaku');
-  const matiuke = document.querySelector<HTMLInputElement>('.matiuke');
+  const yokonaga1 = document.querySelector<HTMLInputElement>(".yokonaga1");
+  const masikaku = document.querySelector<HTMLInputElement>(".masikaku");
+  const matiuke = document.querySelector<HTMLInputElement>(".matiuke");
 
   if (masikaku?.checked) {
     return { width: 2000, height: 2000 };
@@ -479,18 +545,18 @@ function getCanvasSize() {
 
 function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
   const colors: { [key: string]: string } = {
-    siro: '#ffffff',
-    koniro: '#223a70',
-    aiiro: '#165e83',
-    enjiiro: '#b94047',
-    fujiiro: '#bbbcde',
-    azukiiro: '#96514d',
-    sakurairo: '#fef4f4',
-    momoiro: '#f09199',
-    nezumiiro: '#949495',
-    syuiro: '#ba2636',
-    kuro: '#000000',
-    picker: 'picker'
+    siro: "#ffffff",
+    koniro: "#223a70",
+    aiiro: "#165e83",
+    enjiiro: "#b94047",
+    fujiiro: "#bbbcde",
+    azukiiro: "#96514d",
+    sakurairo: "#fef4f4",
+    momoiro: "#f09199",
+    nezumiiro: "#949495",
+    syuiro: "#ba2636",
+    kuro: "#000000",
+    picker: "picker",
   };
   for (let i = 0; i < radioButtons.length; i++) {
     const radioButton = radioButtons[i] as HTMLInputElement;
@@ -499,41 +565,56 @@ function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
       return colors[propertyName];
     }
   }
-  return '';
+  return "";
 }
 
 function getSelectedCanvasColor(): string {
-  const radioButtons = document.getElementsByName('c_color') as NodeListOf<HTMLInputElement>;
+  const radioButtons = document.getElementsByName(
+    "c_color"
+  ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
-  if (color === 'picker') {
-    let title = <HTMLInputElement>document.getElementsByClassName("c_picker")[0] as HTMLInputElement;
+  if (color === "picker") {
+    let title = (<HTMLInputElement>(
+      document.getElementsByClassName("c_picker")[0]
+    )) as HTMLInputElement;
     return title.value;
   }
   return color;
 }
 
 function getSelectedMainStrColor(): string {
-  const radioButtons = document.getElementsByName('ms_color') as NodeListOf<HTMLInputElement>;
+  const radioButtons = document.getElementsByName(
+    "ms_color"
+  ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
-  if (color === 'picker') {
-    let title = <HTMLInputElement>document.getElementsByClassName("ms_picker")[0] as HTMLInputElement;
+  if (color === "picker") {
+    let title = (<HTMLInputElement>(
+      document.getElementsByClassName("ms_picker")[0]
+    )) as HTMLInputElement;
     return title.value;
   }
   return color;
-};
+}
 
 function getSelectedSubStrColor(): string {
-  const radioButtons = document.getElementsByName('ss_color') as NodeListOf<HTMLInputElement>;
+  const radioButtons = document.getElementsByName(
+    "ss_color"
+  ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
-  if (color === 'picker') {
-    let title = <HTMLInputElement>document.getElementsByClassName("ss_picker")[0] as HTMLInputElement;
+  if (color === "picker") {
+    let title = (<HTMLInputElement>(
+      document.getElementsByClassName("ss_picker")[0]
+    )) as HTMLInputElement;
     return title.value;
   }
   return color;
-};
+}
 
 function insertText(): void {
-  const inputTextElements: HTMLCollectionOf<HTMLInputElement> = document.getElementsByClassName("js_input-text") as HTMLCollectionOf<HTMLInputElement>;
+  const inputTextElements: HTMLCollectionOf<HTMLInputElement> =
+    document.getElementsByClassName(
+      "js_input-text-text"
+    ) as HTMLCollectionOf<HTMLInputElement>;
   const inputText: HTMLInputElement = inputTextElements[1];
 
   let text: string = inputText.value;
