@@ -76,9 +76,13 @@ function chkRotate(text: string, width: number): charPosition {
     return new charPosition(90, 0, 2, -0.8 * width, 0);
   }
   {
-    const kigou = "ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―／＼";
+    const kigou = "ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―";
     if (kigou.indexOf(text) !== -1)
       return new charPosition(90, 0, 2, -width, 0);
+  }
+  {
+    const kigou = "／＼";
+    if (kigou.indexOf(text) !== -1) return new charPosition(0, 0, 5, 0, 0);
   }
   {
     const kigou = "、。，．";
