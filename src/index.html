@@ -1,216 +1,605 @@
 <html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>縦書き画像メーカー</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>縦書き画像メーカー</title>
-  <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+JP"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap"
+      rel="stylesheet"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tangsa:wght@700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Klee+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stick&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Klee+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap" rel="stylesheet">
-</head>
-
-<body>
-  <div class="display">
-    <canvas id="canvas">代替コンテンツ</canvas>
-    <!-- 縦書き表示確認用 -->
-    <!-- あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら -->
-    <div id="displaytext" class="labels js_display"></div>
-    <input class="js_downloadButton" type="button" value="ダウンロード" />
-  </div>
-  <div class="tabs">
-    <input id="all" type="radio" name="tab_item" checked>
-    <label class="tab_item" for="all">文章入力</label>
-    <input id="programming" type="radio" name="tab_item">
-    <label class="tab_item" for="programming">フォント設定</label>
-    <input id="design" type="radio" name="tab_item">
-    <label class="tab_item" for="design">その他設定</label>
-    <div class="tab_content" id="all_content">
-      <div class="tab_content_description">
-        <!-- タブ① -->
-        <div class="editor">
-          <textarea name="text" id="capture" class="js_input-text text-area-small"
-            placeholder="タイトルを入力してください（任意）"></textarea>
-          <textarea name="text" id="capture" class="js_input-text text-area"
-            placeholder="入力">あのイーハトーヴォのすきとおった***風***、夏でも底に冷たさをもつ青いそら</textarea>
-          <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記１　左下（任意）"></textarea>
-          <textarea name="text" id="capture" class="js_input-text text-area-small" placeholder="付記2　右下（任意）"></textarea>
-          <button class="js_insertButton" type="button">
-            詞書を挿入
-          </button>
-          <p>「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。<br>
-            ***で囲んだ文字はサブ文字色で描画されます。
-          </p>
-          <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
+  <body>
+    <div class="display">
+      <img src="assets/github-mark.svg" width="30px" />
+      <svg
+        id="mySvg"
+        width="500"
+        height="500"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <!-- テキストを描画 -->
+        <text
+          x="50"
+          y="50"
+          font-family="RocknRoll_One"
+          font-size="24"
+          fill="black"
+        >
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら
+        </text>
+      </svg>
+      <!-- 画像表示用の要素 -->
+      <div id="imageContainer"></div>
+      <!-- ダウンロードボタン -->
+      <button id="downloadButton" class="js_downloadButton2">
+        Download SVG
+      </button>
+      <canvas id="canvas">代替コンテンツ</canvas>
+      <!-- 縦書き表示確認用 -->
+      <!-- あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら -->
+      <div id="displaytext" class="labels js_display"></div>
+      <input class="js_downloadButton" type="button" value="ダウンロード" />
+    </div>
+    <div class="tabs">
+      <input id="all" type="radio" name="tab_item" checked />
+      <label class="tab_item" for="all">文章入力</label>
+      <input id="programming" type="radio" name="tab_item" />
+      <label class="tab_item" for="programming">フォント設定</label>
+      <input id="design" type="radio" name="tab_item" />
+      <label class="tab_item" for="design">その他設定</label>
+      <div class="tab_content" id="all_content">
+        <div class="tab_content_description">
+          <!-- タブ① -->
+          <div class="editor">
+            <textarea
+              name="text"
+              id="capture"
+              class="js_input-text text-area-small"
+              placeholder="タイトルを入力してください（任意）"
+            ></textarea>
+            <textarea
+              name="text"
+              id="capture"
+              class="js_input-text text-area"
+              placeholder="入力"
+            >
+あのイーハトーヴォのすきとおった***風***、夏でも底に冷たさをもつ青いそら</textarea
+            >
+            <textarea
+              name="text"
+              id="capture"
+              class="js_input-text text-area-small"
+              placeholder="付記１　左下（任意）"
+            ></textarea>
+            <textarea
+              name="text"
+              id="capture"
+              class="js_input-text text-area-small"
+              placeholder="付記2　右下（任意）"
+            ></textarea>
+            <button class="js_insertButton" type="button">詞書を挿入</button>
+            <p>
+              「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。<br />
+              ***で囲んだ文字はサブ文字色で描画されます。
+            </p>
+            <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
             data-hashtags="縦書き画像メーカー" data-lang="ja" data-show-count="false">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-        </div>
-      </div>
-    </div>
-    <div class="tab_content" id="programming_content">
-      <div class="tab_content_description">
-        <!-- タブ② -->
-        <div class="font">
-          <label class="wf-roundedmplus1c"><input type="radio" class="roundedmplus1c" name="font" checked />M
-            PLUS
-            Rounded 1c　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-HinaMincho"><input type="radio" class="HinaMincho"
-              name="font" />ひな明朝　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-ShipporiMincho"><input type="radio" class="ShipporiMincho"
-              name="font" />しっぽり明朝　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-SawarabiMincho"><input type="radio" class="SawarabiMincho"
-              name="font" />さわらび明朝　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-SawarabiGothic"><input type="radio" class="SawarabiGothic"
-              name="font" />さわらびゴシック　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-notosansjapanese"><input type="radio" class="notosansjapanese" name="font" />Noto
-            Sans
-            JP　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-lineseed"><input type="radio" class="lineseed"
-              name="font" />LINESeedJP　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-zenAntique"><input type="radio" class="zenAntique" name="font" />Zen
-            Antique　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-kiwiMaru"><input type="radio" class="kiwiMaru" name="font" />Kiwi
-            Maru　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-zenKakuGothicNew"><input type="radio" class="zenKakuGothicNew" name="font" />Zen
-            Kaku
-            Gothic
-            New　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-KleeOne"><input type="radio" class="KleeOne" name="font" />Klee
-            One　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-zenKurenaido"><input type="radio" class="zenKurenaido" name="font" />Zen
-            Kurenaido　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-hachiMaruPop"><input type="radio" class="hachiMaruPop" name="font" />Hachi Maru
-            Pop　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-kaiseiDecol"><input type="radio" class="kaiseiDecol" name="font" />Kaisei
-            Decol　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-dotGothic16"><input type="radio" class="dotGothic16"
-              name="font" />DotGothic16　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-Stick"><input type="radio" class="Stick" name="font" />Stick　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-rocknroll"><input type="radio" class="rocknroll" name="font" />RocknRoll
-            One　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-yuseiMagic"><input type="radio" class="yuseiMagic" name="font" />Yusei
-            Magic　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-PottaOne"><input type="radio" class="PottaOne" name="font" />Potta
-            One　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-mochiyPop"><input type="radio" class="mochiyPop" name="font" />Mochiy Pop
-            One　あのイーハトーヴォのすきとおった風</label>
-          <label class="wf-delaGothicOne"><input type="radio" class="delaGothicOne" name="font" />Dela Gothic
-            One　あのイーハトーヴォのすきとおった風</label>
-        </div>
-      </div>
-    </div>
-    <div class="tab_content" id="design_content">
-      <div class="tab_content_description">
-        <!-- タブ② -->
-        <div>
-          <div class="otherSetting">
-            <p class="line">キャンバスサイズ</p>
-            <label><input type="radio" class="js_check_size yokonaga1" name="size" checked />基本(1500px*2000px)</label>
-            <label><input type="radio" class="js_check_size masikaku" name="size" />正方形(2000px*2000px)</label>
-            <label><input type="radio" class="js_check_size matiuke" name="size" />スマホ壁紙用(2000px*4000px)</label>
-          </div>
-          <div class="otherSetting">
-            <p class="line">キャンバス色</p>
-            <label class="siro"><input type="radio" class="siro" name="c_color" checked />■白</label>
-            <label class="koniro"><input type="radio" class="koniro" name="c_color" />■紺色</label>
-            <label class="aiiro"><input type="radio" class="aiiro" name="c_color" />■藍色</label>
-            <label class="enjiiro"><input type="radio" class="enjiiro" name="c_color" />■臙脂色</label>
-            <label class="fujiiro"><input type="radio" class="fujiiro" name="c_color" />■藤色</label>
-            <label class="azukiiro"><input type="radio" class="azukiiro" name="c_color" />■小豆色</label>
-            <label class="sakurairo"><input type="radio" class="sakurairo" name="c_color" />■桜色</label>
-            <label class="momoiro"><input type="radio" class="momoiro" name="c_color" />■桃色</label>
-            <label class="nezumiiro"><input type="radio" class="nezumiiro" name="c_color" />■鼠色</label>
-            <label class="syuiro"><input type="radio" class="syuiro" name="c_color" />■朱色</label>
-            <label class="kuro"><input type="radio" class="kuro" name="c_color" />■黒色</label><br>
-            <label class="picker"><input type="radio" class="picker" name="c_color" />
-              カラーピッカーで選択 <input type="color" class="c_picker"></label>
-
-          </div>
-          <div class="otherSetting">
-            <p class="line">メイン文字色</p>
-            <label class="siro"><input type="radio" class="siro" name="ms_color" />■白</label>
-            <label class="koniro"><input type="radio" class="koniro" name="ms_color" />■紺色</label>
-            <label class="aiiro"><input type="radio" class="aiiro" name="ms_color" />■藍色</label>
-            <label class="enjiiro"><input type="radio" class="enjiiro" name="ms_color" />■臙脂色</label>
-            <label class="fujiiro"><input type="radio" class="fujiiro" name="ms_color" />■藤色</label>
-            <label class="azukiiro"><input type="radio" class="azukiiro" name="ms_color" />■小豆色</label>
-            <label class="sakurairo"><input type="radio" class="sakurairo" name="ms_color" />■桜色</label>
-            <label class="momoiro"><input type="radio" class="momoiro" name="ms_color" />■桃色</label>
-            <label class="nezumiiro"><input type="radio" class="nezumiiro" name="ms_color" />■鼠色</label>
-            <label class="syuiro"><input type="radio" class="syuiro" name="ms_color" />■朱色</label>
-            <label class="kuro"><input type="radio" class="kuro" name="ms_color" checked />■黒色</label><br>
-            <label class="picker"><input type="radio" class="picker" name="ms_color" />
-              カラーピッカーで選択 <input type="color" class="ms_picker"></label>
-          </div>
-          <div class="otherSetting">
-            <p class="line">サブ文字色（***で囲った範囲の文字色）</p>
-            <label class="siro"><input type="radio" class="siro" name="ss_color" />■白</label>
-            <label class="koniro"><input type="radio" class="koniro" name="ss_color" />■紺色</label>
-            <label class="aiiro"><input type="radio" class="aiiro" name="ss_color" checked />■藍色</label>
-            <label class="enjiiro"><input type="radio" class="enjiiro" name="ss_color" />■臙脂色</label>
-            <label class="fujiiro"><input type="radio" class="fujiiro" name="ss_color" />■藤色</label>
-            <label class="azukiiro"><input type="radio" class="azukiiro" name="ss_color" />■小豆色</label>
-            <label class="sakurairo"><input type="radio" class="sakurairo" name="ss_color" />■桜色</label>
-            <label class="momoiro"><input type="radio" class="momoiro" name="ss_color" />■桃色</label>
-            <label class="nezumiiro"><input type="radio" class="nezumiiro" name="ss_color" />■鼠色</label>
-            <label class="syuiro"><input type="radio" class="syuiro" name="ss_color" />■朱色</label>
-            <label class="kuro"><input type="radio" class="kuro" name="ss_color" />■黒色</label><br>
-            <label class="picker"><input type="radio" class="picker" name="ss_color" />
-              カラーピッカーで選択 <input type="color" class="ss_picker"></label>
           </div>
         </div>
       </div>
+      <div class="tab_content" id="programming_content">
+        <div class="tab_content_description">
+          <!-- タブ② -->
+          <div class="font">
+            <label class="wf-roundedmplus1c"
+              ><input
+                type="radio"
+                class="roundedmplus1c"
+                name="font"
+                checked
+              />M PLUS Rounded 1c　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-HinaMincho"
+              ><input
+                type="radio"
+                class="HinaMincho"
+                name="font"
+              />ひな明朝　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-ShipporiMincho"
+              ><input
+                type="radio"
+                class="ShipporiMincho"
+                name="font"
+              />しっぽり明朝　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-SawarabiMincho"
+              ><input
+                type="radio"
+                class="SawarabiMincho"
+                name="font"
+              />さわらび明朝　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-SawarabiGothic"
+              ><input
+                type="radio"
+                class="SawarabiGothic"
+                name="font"
+              />さわらびゴシック　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-notosansjapanese"
+              ><input type="radio" class="notosansjapanese" name="font" />Noto
+              Sans JP　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-lineseed"
+              ><input
+                type="radio"
+                class="lineseed"
+                name="font"
+              />LINESeedJP　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-zenAntique"
+              ><input type="radio" class="zenAntique" name="font" />Zen
+              Antique　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-kiwiMaru"
+              ><input type="radio" class="kiwiMaru" name="font" />Kiwi
+              Maru　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-zenKakuGothicNew"
+              ><input type="radio" class="zenKakuGothicNew" name="font" />Zen
+              Kaku Gothic New　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-KleeOne"
+              ><input type="radio" class="KleeOne" name="font" />Klee
+              One　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-zenKurenaido"
+              ><input type="radio" class="zenKurenaido" name="font" />Zen
+              Kurenaido　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-hachiMaruPop"
+              ><input type="radio" class="hachiMaruPop" name="font" />Hachi Maru
+              Pop　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-kaiseiDecol"
+              ><input type="radio" class="kaiseiDecol" name="font" />Kaisei
+              Decol　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-dotGothic16"
+              ><input
+                type="radio"
+                class="dotGothic16"
+                name="font"
+              />DotGothic16　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-Stick"
+              ><input
+                type="radio"
+                class="Stick"
+                name="font"
+              />Stick　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-rocknroll"
+              ><input type="radio" class="rocknroll" name="font" />RocknRoll
+              One　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-yuseiMagic"
+              ><input type="radio" class="yuseiMagic" name="font" />Yusei
+              Magic　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-PottaOne"
+              ><input type="radio" class="PottaOne" name="font" />Potta
+              One　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-mochiyPop"
+              ><input type="radio" class="mochiyPop" name="font" />Mochiy Pop
+              One　あのイーハトーヴォのすきとおった風</label
+            >
+            <label class="wf-delaGothicOne"
+              ><input type="radio" class="delaGothicOne" name="font" />Dela
+              Gothic One　あのイーハトーヴォのすきとおった風</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="tab_content" id="design_content">
+        <div class="tab_content_description">
+          <!-- タブ② -->
+          <div>
+            <div class="otherSetting">
+              <p class="line">キャンバスサイズ</p>
+              <label
+                ><input
+                  type="radio"
+                  class="js_check_size yokonaga1"
+                  name="size"
+                  checked
+                />基本(1500px*2000px)</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  class="js_check_size masikaku"
+                  name="size"
+                />正方形(2000px*2000px)</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  class="js_check_size matiuke"
+                  name="size"
+                />スマホ壁紙用(2000px*4000px)</label
+              >
+            </div>
+            <div class="otherSetting">
+              <p class="line">キャンバス色</p>
+              <label class="siro"
+                ><input
+                  type="radio"
+                  class="siro"
+                  name="c_color"
+                  checked
+                />■白</label
+              >
+              <label class="koniro"
+                ><input
+                  type="radio"
+                  class="koniro"
+                  name="c_color"
+                />■紺色</label
+              >
+              <label class="aiiro"
+                ><input type="radio" class="aiiro" name="c_color" />■藍色</label
+              >
+              <label class="enjiiro"
+                ><input
+                  type="radio"
+                  class="enjiiro"
+                  name="c_color"
+                />■臙脂色</label
+              >
+              <label class="fujiiro"
+                ><input
+                  type="radio"
+                  class="fujiiro"
+                  name="c_color"
+                />■藤色</label
+              >
+              <label class="azukiiro"
+                ><input
+                  type="radio"
+                  class="azukiiro"
+                  name="c_color"
+                />■小豆色</label
+              >
+              <label class="sakurairo"
+                ><input
+                  type="radio"
+                  class="sakurairo"
+                  name="c_color"
+                />■桜色</label
+              >
+              <label class="momoiro"
+                ><input
+                  type="radio"
+                  class="momoiro"
+                  name="c_color"
+                />■桃色</label
+              >
+              <label class="nezumiiro"
+                ><input
+                  type="radio"
+                  class="nezumiiro"
+                  name="c_color"
+                />■鼠色</label
+              >
+              <label class="syuiro"
+                ><input
+                  type="radio"
+                  class="syuiro"
+                  name="c_color"
+                />■朱色</label
+              >
+              <label class="kuro"
+                ><input type="radio" class="kuro" name="c_color" />■黒色</label
+              ><br />
+              <label class="picker"
+                ><input type="radio" class="picker" name="c_color" />
+                カラーピッカーで選択 <input type="color" class="c_picker"
+              /></label>
+            </div>
+            <div class="otherSetting">
+              <p class="line">メイン文字色</p>
+              <label class="siro"
+                ><input type="radio" class="siro" name="ms_color" />■白</label
+              >
+              <label class="koniro"
+                ><input
+                  type="radio"
+                  class="koniro"
+                  name="ms_color"
+                />■紺色</label
+              >
+              <label class="aiiro"
+                ><input
+                  type="radio"
+                  class="aiiro"
+                  name="ms_color"
+                />■藍色</label
+              >
+              <label class="enjiiro"
+                ><input
+                  type="radio"
+                  class="enjiiro"
+                  name="ms_color"
+                />■臙脂色</label
+              >
+              <label class="fujiiro"
+                ><input
+                  type="radio"
+                  class="fujiiro"
+                  name="ms_color"
+                />■藤色</label
+              >
+              <label class="azukiiro"
+                ><input
+                  type="radio"
+                  class="azukiiro"
+                  name="ms_color"
+                />■小豆色</label
+              >
+              <label class="sakurairo"
+                ><input
+                  type="radio"
+                  class="sakurairo"
+                  name="ms_color"
+                />■桜色</label
+              >
+              <label class="momoiro"
+                ><input
+                  type="radio"
+                  class="momoiro"
+                  name="ms_color"
+                />■桃色</label
+              >
+              <label class="nezumiiro"
+                ><input
+                  type="radio"
+                  class="nezumiiro"
+                  name="ms_color"
+                />■鼠色</label
+              >
+              <label class="syuiro"
+                ><input
+                  type="radio"
+                  class="syuiro"
+                  name="ms_color"
+                />■朱色</label
+              >
+              <label class="kuro"
+                ><input
+                  type="radio"
+                  class="kuro"
+                  name="ms_color"
+                  checked
+                />■黒色</label
+              ><br />
+              <label class="picker"
+                ><input type="radio" class="picker" name="ms_color" />
+                カラーピッカーで選択 <input type="color" class="ms_picker"
+              /></label>
+            </div>
+            <div class="otherSetting">
+              <p class="line">サブ文字色（***で囲った範囲の文字色）</p>
+              <label class="siro"
+                ><input type="radio" class="siro" name="ss_color" />■白</label
+              >
+              <label class="koniro"
+                ><input
+                  type="radio"
+                  class="koniro"
+                  name="ss_color"
+                />■紺色</label
+              >
+              <label class="aiiro"
+                ><input
+                  type="radio"
+                  class="aiiro"
+                  name="ss_color"
+                  checked
+                />■藍色</label
+              >
+              <label class="enjiiro"
+                ><input
+                  type="radio"
+                  class="enjiiro"
+                  name="ss_color"
+                />■臙脂色</label
+              >
+              <label class="fujiiro"
+                ><input
+                  type="radio"
+                  class="fujiiro"
+                  name="ss_color"
+                />■藤色</label
+              >
+              <label class="azukiiro"
+                ><input
+                  type="radio"
+                  class="azukiiro"
+                  name="ss_color"
+                />■小豆色</label
+              >
+              <label class="sakurairo"
+                ><input
+                  type="radio"
+                  class="sakurairo"
+                  name="ss_color"
+                />■桜色</label
+              >
+              <label class="momoiro"
+                ><input
+                  type="radio"
+                  class="momoiro"
+                  name="ss_color"
+                />■桃色</label
+              >
+              <label class="nezumiiro"
+                ><input
+                  type="radio"
+                  class="nezumiiro"
+                  name="ss_color"
+                />■鼠色</label
+              >
+              <label class="syuiro"
+                ><input
+                  type="radio"
+                  class="syuiro"
+                  name="ss_color"
+                />■朱色</label
+              >
+              <label class="kuro"
+                ><input type="radio" class="kuro" name="ss_color" />■黒色</label
+              ><br />
+              <label class="picker"
+                ><input type="radio" class="picker" name="ss_color" />
+                カラーピッカーで選択 <input type="color" class="ss_picker"
+              /></label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
-  </div>
 
-  <h1>縦書き画像メーカー</h1>
-  <h2>これは何？</h2>
-  <div class="howtouse">
-    <p>テキストを縦書き画像にして保存することができるツールです。</p>
-    <p>主に短歌を発表する人の使用を想定して作成しています。</p>
-    <p>ツイートするときに <b>#縦書き画像メーカー</b> のハッシュタグを使ってもらえると嬉しいです。</p>
-    <p><a href="https://make-yoko-textcard.netlify.app/">横書き版はこちら</a></p>
-  </div>
-  <h2>使い方</h2>
-  <div class="howtouse">
-    <ol>
-      <li>縦書きにしたい文章を入力する</li>
-      <li>フォントを選択する</li>
-      <li>「ダウンロード」ボタンから画像をダウンロードする</li>
-    </ol>
-  </div>
-  <div class="footer">
-    <a class="copyright" href="https://twitter.com/akami0000" target="_blank">製作者：あかみ</a>
-    <a class="github" href="https://github.com/akami0000/make-textcard" target="_blank">
-      <img src="assets/github-mark.svg" width="30px" />
-    </a>
-  </div>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</body>
-
+    <h1>縦書き画像メーカー</h1>
+    <h2>これは何？</h2>
+    <div class="howtouse">
+      <p>テキストを縦書き画像にして保存することができるツールです。</p>
+      <p>主に短歌を発表する人の使用を想定して作成しています。</p>
+      <p>
+        ツイートするときに
+        <b>#縦書き画像メーカー</b> のハッシュタグを使ってもらえると嬉しいです。
+      </p>
+      <p>
+        <a href="https://make-yoko-textcard.netlify.app/">横書き版はこちら</a>
+      </p>
+    </div>
+    <h2>使い方</h2>
+    <div class="howtouse">
+      <ol>
+        <li>縦書きにしたい文章を入力する</li>
+        <li>フォントを選択する</li>
+        <li>「ダウンロード」ボタンから画像をダウンロードする</li>
+      </ol>
+    </div>
+    <div class="footer">
+      <a class="copyright" href="https://twitter.com/akami0000" target="_blank"
+        >製作者：あかみ</a
+      >
+      <a
+        class="github"
+        href="https://github.com/akami0000/make-textcard"
+        target="_blank"
+      >
+        <img src="assets/github-mark.svg" width="30px" />
+      </a>
+    </div>
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+  </body>
 </html>

@@ -1,5 +1,5 @@
 import "../css/style.scss";
-import "../css/style_radio.scss";
+import "../css/style_rocknroll.scss";
 
 // // ツイートボタン押下時にテキストを動的に変更してツイート
 // function tweet() {
@@ -25,7 +25,13 @@ class charPosition {
   drawPosY: number;
 
   // コンストラクタ
-  constructor(angle: number, transPosX: number, transPosY: number, drawPosX: number, drawPosY: number) {
+  constructor(
+    angle: number,
+    transPosX: number,
+    transPosY: number,
+    drawPosX: number,
+    drawPosY: number,
+  ) {
     this.angle = angle;
     this.transPosX = transPosX;
     this.transPosY = transPosY;
@@ -36,15 +42,15 @@ class charPosition {
 const kotobagaki: string = "詞書：";
 
 function downloadCardImage(): void {
-  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   if (canvas) {
     //アンカータグを作成
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     //canvasをJPEG変換し、そのBase64文字列をhrefへセット
-    a.href = canvas.toDataURL('image/png');
+    a.href = canvas.toDataURL("image/png");
     //ダウンロード時のファイル名を指定
     const date = new Date();
-    const filename = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}.png`;
+    const filename = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}.png`;
     a.download = filename;
     //クリックイベントを発生させる
     a.click();
@@ -127,7 +133,7 @@ function chkRotate(text: string, width: number): charPosition {
     }
   }
   {
-    const kigou = "·\“\'`”‘’";
+    const kigou = "·“'`”‘’";
     if (kigou.indexOf(text) !== -1) {
       return new charPosition(0, 0, 0, 0.3 * width, 0);
     }
@@ -139,9 +145,12 @@ function chkRotate(text: string, width: number): charPosition {
     }
   }
   return new charPosition(0, 0, 0, 0, 0);
-};
+}
 
-function fontSetting(context: CanvasRenderingContext2D | null, mode: number): void {
+function fontSetting(
+  context: CanvasRenderingContext2D | null,
+  mode: number,
+): void {
   let fontText = "";
 
   switch (mode) {
@@ -162,7 +171,7 @@ function fontSetting(context: CanvasRenderingContext2D | null, mode: number): vo
   if (context !== null) {
     context.font = fontText + getCheckedFont();
   }
-};
+}
 
 function getCheckedFont(): string {
   const fontInputs = [
@@ -193,47 +202,47 @@ function getCheckedFont(): string {
     if (checkbox.checked) {
       switch (input) {
         case "roundedmplus1c":
-          return "\"M PLUS Rounded 1c\"";
+          return '"M PLUS Rounded 1c"';
         case "notosansjapanese":
-          return "\"Noto Sans JP\"";
+          return '"Noto Sans JP"';
         case "lineseed":
-          return "\'lineseed\'";
+          return "'lineseed'";
         case "rocknroll":
-          return "\'RocknRoll One\'";
+          return "'RocknRoll One'";
         case "zenAntique":
-          return "\'Zen Antique\'";
+          return "'Zen Antique'";
         case "kiwiMaru":
-          return "\'Kiwi Maru\'";
+          return "'Kiwi Maru'";
         case "mochiyPop":
-          return "\'Mochiy Pop One\'";
+          return "'Mochiy Pop One'";
         case "dotGothic16":
-          return "\'DotGothic16\'";
+          return "'DotGothic16'";
         case "kaiseiDecol":
-          return "\'Kaisei Decol\'";
+          return "'Kaisei Decol'";
         case "zenKurenaido":
-          return "\'Zen Kurenaido\'";
+          return "'Zen Kurenaido'";
         case "yuseiMagic":
-          return "\'Yusei Magic\'";
+          return "'Yusei Magic'";
         case "delaGothicOne":
-          return "\'Dela Gothic One\'";
+          return "'Dela Gothic One'";
         case "hachiMaruPop":
-          return "\'Hachi Maru Pop\'";
+          return "'Hachi Maru Pop'";
         case "zenKakuGothicNew":
-          return "\'Zen Kaku Gothic New\'";
+          return "'Zen Kaku Gothic New'";
         case "ShipporiMincho":
-          return "\'Shippori Mincho\'";
+          return "'Shippori Mincho'";
         case "PottaOne":
-          return "\'Potta One\'";
+          return "'Potta One'";
         case "KleeOne":
-          return "\'Klee One\'";
+          return "'Klee One'";
         case "Stick":
-          return "\'Stick\'";
+          return "'Stick'";
         case "HinaMincho":
-          return "\'Hina Mincho\'";
+          return "'Hina Mincho'";
         case "SawarabiMincho":
-          return "\'Sawarabi Mincho\'";
+          return "'Sawarabi Mincho'";
         case "SawarabiGothic":
-          return "\'Sawarabi Gothic\'";
+          return "'Sawarabi Gothic'";
       }
     }
   }
@@ -256,21 +265,21 @@ function drawCanvas() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   const displayElem = document.getElementsByClassName(
-    "js_display"
+    "js_display",
   )[0] as HTMLInputElement;
   displayElem.style.fontFamily = getCheckedFont();
 
   const title = document.getElementsByClassName(
-    "js_input-text"
+    "js_input-text",
   )[0] as HTMLInputElement;
   const text = document.getElementsByClassName(
-    "js_input-text"
+    "js_input-text",
   )[1] as HTMLInputElement;
   const note1 = document.getElementsByClassName(
-    "js_input-text"
+    "js_input-text",
   )[2] as HTMLInputElement;
   const note2 = document.getElementsByClassName(
-    "js_input-text"
+    "js_input-text",
   )[3] as HTMLInputElement;
 
   tategaki(
@@ -280,7 +289,7 @@ function drawCanvas() {
     note1.value,
     note2.value,
     canvas.width,
-    canvas.height
+    canvas.height,
   );
 }
 
@@ -291,283 +300,395 @@ var tategaki = function (
   note1: string,
   note2: string,
   x: number,
-  y: number
+  y: number,
 ) {
   // タイトル出力
-  {
-    var titleList = title.split("\n");
-    // フォント設定
-    fontSetting(context, 0);
-    var lineWidth = context.measureText("あ").width;
+  // {
+  //   var titleList = title.split("\n");
+  //   // フォント設定
+  //   fontSetting(context, 0);
+  //   var lineWidth = context.measureText("あ").width;
 
-    // タイトル
-    let text: string = titleList[0];
-    let start_index_1: number = -1;
-    let start_index_2: number = -1;
+  //   // タイトル
+  //   let text: string = titleList[0];
+  //   let start_index_1: number = -1;
+  //   let start_index_2: number = -1;
 
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charAt(i);
-      if (char === "*") {
-        if (text.substring(i, i + 3) === "***") {
-          if (start_index_1 === -1) {
-            start_index_1 = i;
-          } else {
-            start_index_2 = i - 4;
-            break;
-          }
-        }
-      }
-    }
+  //   for (let i = 0; i < text.length; i++) {
+  //     const char = text.charAt(i);
+  //     if (char === "*") {
+  //       if (text.substring(i, i + 3) === "***") {
+  //         if (start_index_1 === -1) {
+  //           start_index_1 = i;
+  //         } else {
+  //           start_index_2 = i - 4;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
 
-    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
+  //   if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
 
-    Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
-      if (
-        start_index_1 == -1 ||
-        j < start_index_1 ||
-        (start_index_2 != -1 && start_index_2 < j)
-      )
-        context.fillStyle = getSelectedMainStrColor();
-      else context.fillStyle = getSelectedSubStrColor();
+  //   Array.prototype.forEach.call(text, function (ch, j) {
+  //     // Canvasの文字色設定
+  //     if (
+  //       start_index_1 == -1 ||
+  //       j < start_index_1 ||
+  //       (start_index_2 != -1 && start_index_2 < j)
+  //     )
+  //       context.fillStyle = getSelectedMainStrColor();
+  //     else context.fillStyle = getSelectedSubStrColor();
 
-      // Xは固定値
-      var drawX = x * 0.9;
-      // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-      var drawY = (y - lineWidth * text.length) / 2 + lineWidth;
+  //     // Xは固定値
+  //     var drawX = x * 0.9;
+  //     // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+  //     var drawY = (y - lineWidth * text.length) / 2 + lineWidth;
 
-      var charPos = chkRotate(ch, lineWidth);
-      // パスをリセット
-      context.beginPath();
-      // 回転 (n度)
-      context.translate(
-        drawX - lineWidth + charPos.transPosX,
-        drawY + (lineWidth * j + charPos.transPosY)
-      );
-      context.rotate((charPos.angle * Math.PI) / 180);
-      context.translate(
-        -(drawX - lineWidth + charPos.transPosX),
-        -(drawY + (lineWidth * j + charPos.transPosY))
-      );
+  //     var charPos = chkRotate(ch, lineWidth);
+  //     // パスをリセット
+  //     context.beginPath();
+  //     // 回転 (n度)
+  //     context.translate(
+  //       drawX - lineWidth + charPos.transPosX,
+  //       drawY + (lineWidth * j + charPos.transPosY)
+  //     );
+  //     context.rotate((charPos.angle * Math.PI) / 180);
+  //     context.translate(
+  //       -(drawX - lineWidth + charPos.transPosX),
+  //       -(drawY + (lineWidth * j + charPos.transPosY))
+  //     );
 
-      context.fillText(
-        ch,
-        drawX - lineWidth + charPos.drawPosX,
-        drawY + lineWidth * j + charPos.drawPosY
-      );
+  //     context.fillText(
+  //       ch,
+  //       drawX - lineWidth + charPos.drawPosX,
+  //       drawY + lineWidth * j + charPos.drawPosY
+  //     );
 
-      // 回転 (n度)
-      context.translate(
-        drawX - lineWidth + charPos.transPosX,
-        drawY + (lineWidth * j + charPos.transPosY)
-      );
-      context.rotate((-charPos.angle * Math.PI) / 180);
-      context.translate(
-        -(drawX - lineWidth + charPos.transPosX),
-        -(drawY + (lineWidth * j + charPos.transPosY))
-      );
-    });
-  }
+  //     // 回転 (n度)
+  //     context.translate(
+  //       drawX - lineWidth + charPos.transPosX,
+  //       drawY + (lineWidth * j + charPos.transPosY)
+  //     );
+  //     context.rotate((-charPos.angle * Math.PI) / 180);
+  //     context.translate(
+  //       -(drawX - lineWidth + charPos.transPosX),
+  //       -(drawY + (lineWidth * j + charPos.transPosY))
+  //     );
+  //   });
+  // }
 
-  // 付記1出力
-  {
-    var noteList = note1.split("\n");
-    // フォント設定
-    fontSetting(context, 2);
-    var lineWidth = context.measureText("あ").width;
+  // // 付記1出力
+  // {
+  //   var noteList = note1.split("\n");
+  //   // フォント設定
+  //   fontSetting(context, 2);
+  //   var lineWidth = context.measureText("あ").width;
 
-    // タイトル
-    let text: string = noteList[0];
-    let start_index_1: number = -1;
-    let start_index_2: number = -1;
+  //   // タイトル
+  //   let text: string = noteList[0];
+  //   let start_index_1: number = -1;
+  //   let start_index_2: number = -1;
 
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charAt(i);
-      if (char === "*") {
-        if (text.substring(i, i + 3) === "***") {
-          if (start_index_1 === -1) {
-            start_index_1 = i;
-          } else {
-            start_index_2 = i - 4;
-            break;
-          }
-        }
-      }
-    }
+  //   for (let i = 0; i < text.length; i++) {
+  //     const char = text.charAt(i);
+  //     if (char === "*") {
+  //       if (text.substring(i, i + 3) === "***") {
+  //         if (start_index_1 === -1) {
+  //           start_index_1 = i;
+  //         } else {
+  //           start_index_2 = i - 4;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
 
-    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
+  //   if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
 
-    Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
-      if (
-        start_index_1 == -1 ||
-        j < start_index_1 ||
-        (start_index_2 != -1 && start_index_2 < j)
-      )
-        context.fillStyle = getSelectedMainStrColor();
-      else context.fillStyle = getSelectedSubStrColor();
+  //   Array.prototype.forEach.call(text, function (ch, j) {
+  //     // Canvasの文字色設定
+  //     if (
+  //       start_index_1 == -1 ||
+  //       j < start_index_1 ||
+  //       (start_index_2 != -1 && start_index_2 < j)
+  //     )
+  //       context.fillStyle = getSelectedMainStrColor();
+  //     else context.fillStyle = getSelectedSubStrColor();
 
-      var drawX = x * 0.05;
-      var drawY = y * 0.95;
-      context.fillText(ch, drawX + j * lineWidth, drawY);
-    });
-  }
-  // 付記2出力
-  {
-    var noteList = note2.split("\n");
-    // フォント設定
-    fontSetting(context, 2);
-    var lineWidth = context.measureText("あ").width;
+  //     var drawX = x * 0.05;
+  //     var drawY = y * 0.95;
+  //     context.fillText(ch, drawX + j * lineWidth, drawY);
+  //   });
+  // }
+  // // 付記2出力
+  // {
+  //   var noteList = note2.split("\n");
+  //   // フォント設定
+  //   fontSetting(context, 2);
+  //   var lineWidth = context.measureText("あ").width;
 
-    // タイトル
-    let text: string = noteList[0];
-    let start_index_1: number = -1;
-    let start_index_2: number = -1;
+  //   // タイトル
+  //   let text: string = noteList[0];
+  //   let start_index_1: number = -1;
+  //   let start_index_2: number = -1;
 
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charAt(i);
-      if (char === "*") {
-        if (text.substring(i, i + 3) === "***") {
-          if (start_index_1 === -1) {
-            start_index_1 = i;
-          } else {
-            start_index_2 = i - 4;
-            break;
-          }
-        }
-      }
-    }
+  //   for (let i = 0; i < text.length; i++) {
+  //     const char = text.charAt(i);
+  //     if (char === "*") {
+  //       if (text.substring(i, i + 3) === "***") {
+  //         if (start_index_1 === -1) {
+  //           start_index_1 = i;
+  //         } else {
+  //           start_index_2 = i - 4;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
 
-    if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
+  //   if (text.indexOf("***") !== -1) text = text.replace(/\*/g, "");
 
-    Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
-      if (
-        start_index_1 == -1 ||
-        j < start_index_1 ||
-        (start_index_2 != -1 && start_index_2 < j)
-      )
-        context.fillStyle = getSelectedMainStrColor();
-      else context.fillStyle = getSelectedSubStrColor();
+  //   Array.prototype.forEach.call(text, function (ch, j) {
+  //     // Canvasの文字色設定
+  //     if (
+  //       start_index_1 == -1 ||
+  //       j < start_index_1 ||
+  //       (start_index_2 != -1 && start_index_2 < j)
+  //     )
+  //       context.fillStyle = getSelectedMainStrColor();
+  //     else context.fillStyle = getSelectedSubStrColor();
 
-      var drawX = x * 0.95 - text.length * lineWidth;
-      var drawY = y * 0.95;
-      context.fillText(ch, drawX + j * lineWidth, drawY);
-    });
-  }
+  //     var drawX = x * 0.95 - text.length * lineWidth;
+  //     var drawY = y * 0.95;
+  //     context.fillText(ch, drawX + j * lineWidth, drawY);
+  //   });
+  // }
 
   // 本文出力
+  // {
+  //   var textList = text.split("\n");
+
+  //   // フォント設定
+  //   fontSetting(context, 1);
+  //   var lineWidth = context.measureText("あ").width;
+
+  //   // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
+  //   var startX = x / 2 - lineWidth + (textList.length * lineWidth) / 2;
+
+  //   // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
+  //   var text = "";
+  //   var maxLength = 0;
+
+  //   textList.forEach(function (elm, i) {
+  //     if (elm.indexOf(kotobagaki) === -1) {
+  //       text = textList[i];
+  //       if (text.indexOf(kotobagaki) !== -1) {
+  //         text = text.replace("詞書：", "");
+  //       }
+  //       if (text.indexOf("***") !== -1) {
+  //         text = text.replace(/\*/g, "");
+  //       }
+  //       if (maxLength < text.length) {
+  //         maxLength = text.length;
+  //       }
+  //     }
+  //   });
+
+  //   var startY = (y - lineWidth * (maxLength - 0)) / 2 + lineWidth;
+
+  //   textList.forEach(function (elm, i) {
+  //     fontSetting(context, 1);
+  //     const text: string = elm;
+  //     let start_index_1: number = -1;
+  //     let start_index_2: number = -1;
+
+  //     for (let i = 0; i < text.length; i++) {
+  //       const char = text.charAt(i);
+  //       if (char === "*") {
+  //         if (text.substring(i, i + 3) === "***") {
+  //           if (start_index_1 === -1) {
+  //             start_index_1 = i;
+  //           } else {
+  //             start_index_2 = i - 4;
+  //             break;
+  //           }
+  //         }
+  //       }
+  //     }
+  //     let lineWidthA = lineWidth;
+
+  //     if (start_index_1 != -1) elm = elm.replace(/\*/g, "");
+
+  //     if (text.indexOf(kotobagaki) !== -1) {
+  //       // 詞書用フォント設定
+  //       fontSetting(context, 2);
+  //       elm = elm.replace("詞書：", "");
+  //       lineWidthA = context.measureText("あ").width;
+  //       if (start_index_1 != -1) {
+  //         start_index_1 -= 3;
+  //         start_index_2 -= 3;
+  //       }
+  //     }
+
+  //     Array.prototype.forEach.call(elm, function (ch, j) {
+  //       // Canvasの文字色設定
+  //       if (
+  //         start_index_1 == -1 ||
+  //         j < start_index_1 ||
+  //         (start_index_2 != -1 && start_index_2 < j)
+  //       ) {
+  //         context.fillStyle = getSelectedMainStrColor();
+  //       } else {
+  //         context.fillStyle = getSelectedSubStrColor();
+  //       }
+
+  //       var charPos = chkRotate(ch, lineWidthA);
+  //       // パスをリセット
+  //       context.beginPath();
+  //       // 回転 (n度)
+  //       context.translate(
+  //         startX - lineWidthA * i + charPos.transPosX,
+  //         startY + (lineWidthA * j + charPos.transPosY)
+  //       );
+  //       context.rotate((charPos.angle * Math.PI) / 180);
+  //       context.translate(
+  //         -(startX - lineWidthA * i + charPos.transPosX),
+  //         -(startY + (lineWidthA * j + charPos.transPosY))
+  //       );
+
+  //       context.fillText(
+  //         ch,
+  //         startX - lineWidthA * i + charPos.drawPosX,
+  //         startY + lineWidthA * j + charPos.drawPosY
+  //       );
+
+  //       // 回転 (n度)
+  //       context.translate(
+  //         startX - lineWidthA * i + charPos.transPosX,
+  //         startY + (lineWidthA * j + charPos.transPosY)
+  //       );
+  //       context.rotate((-charPos.angle * Math.PI) / 180);
+  //       context.translate(
+  //         -(startX - lineWidthA * i + charPos.transPosX),
+  //         -(startY + (lineWidthA * j + charPos.transPosY))
+  //       );
+  //     });
+  //   });
+  // }
   {
-    var textList = text.split("\n");
+    // SVG要素を取得して画像に変換
+    const svgElement = document.getElementById("mySvg");
 
-    // フォント設定
-    fontSetting(context, 1);
-    var lineWidth = context.measureText("あ").width;
+    if (svgElement instanceof SVGSVGElement) {
+      // SVGSVGElement型に変換されたsvgElementを使用する
+      svgToImage(svgElement);
+    } else {
+      // svgElementがnullの場合や、HTMLElement型の場合の処理
+    }
 
-    // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
-    var startX = x / 2 - lineWidth + (textList.length * lineWidth) / 2;
+    // context.font = "400 60px RocknRoll_One";
 
-    // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-    var text = "";
-    var maxLength = 0;
+    //   // お試し
+    //   console.log(x, y);
 
-    textList.forEach(function (elm, i) {
-      if (elm.indexOf(kotobagaki) === -1) {
-        text = textList[i];
-        if (text.indexOf(kotobagaki) !== -1) {
-          text = text.replace("詞書：", "");
-        }
-        if (text.indexOf("***") !== -1) {
-          text = text.replace(/\*/g, "");
-        }
-        if (maxLength < text.length) {
-          maxLength = text.length;
-        }
-      }
-    });
+    //   drawSVGWithFont();
 
-    var startY = (y - lineWidth * (maxLength - 0)) / 2 + lineWidth;
+    //   // SVG要素を作成
+    //   const svgElement = document.createElementNS(
+    //     "http://www.w3.org/2000/svg",
+    //     "svg"
+    //   );
+    //   svgElement.setAttribute("width", "1500");
+    //   svgElement.setAttribute("height", "2000");
 
-    textList.forEach(function (elm, i) {
-      fontSetting(context, 1);
-      const text: string = elm;
-      let start_index_1: number = -1;
-      let start_index_2: number = -1;
+    //   // フォントや文字サイズの設定
+    //   const fontFamily = "RocknRoll_One";
+    //   const fontWeight = '400'; // フォントの太さ
+    //   const fontSize = 64;
+    //   const fontStyle = 'italic'; // フォントのスタイル
 
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i);
-        if (char === "*") {
-          if (text.substring(i, i + 3) === "***") {
-            if (start_index_1 === -1) {
-              start_index_1 = i;
-            } else {
-              start_index_2 = i - 4;
-              break;
-            }
-          }
-        }
-      }
-      let lineWidthA = lineWidth;
+    //   // 文字を描画する<text>要素を作成
+    //   const textElement = document.createElementNS(
+    //     "http://www.w3.org/2000/svg",
+    //     "text"
+    //   );
+    //   textElement.setAttribute("x", "50");
+    //   textElement.setAttribute("y", "50");
+    //   textElement.setAttribute("fill", "black");
+    //   textElement.setAttribute("font-family", fontFamily);
+    //   textElement.setAttribute("font-size", fontSize.toString());
+    //   textElement.setAttribute('font-weight', fontWeight);
+    //   // textElement.setAttribute('font-style', fontStyle);
+    //   textElement.textContent = "あの〜イーハトーヴォの空がどうあ";
 
-      if (start_index_1 != -1) elm = elm.replace(/\*/g, "");
+    //   // テキストを縦書きに設定
+    //   // textElement.setAttribute("writing-mode", "tb");
 
-      if (text.indexOf(kotobagaki) !== -1) {
-        // 詞書用フォント設定
-        fontSetting(context, 2);
-        elm = elm.replace("詞書：", "");
-        lineWidthA = context.measureText("あ").width;
-        if (start_index_1 != -1) {
-          start_index_1 -= 3;
-          start_index_2 -= 3;
-        }
-      }
+    //   // テキストの幅を取得
+    //   const textWidth = context.measureText(text).width;
+    //   var textx = (1500 - textWidth) / 2;
+    //   var texty = 200 / 2;
 
-      Array.prototype.forEach.call(elm, function (ch, j) {
-        // Canvasの文字色設定
-        if (
-          start_index_1 == -1 ||
-          j < start_index_1 ||
-          (start_index_2 != -1 && start_index_2 < j)
-        ) {
-          context.fillStyle = getSelectedMainStrColor();
-        } else {
-          context.fillStyle = getSelectedSubStrColor();
-        }
+    //   // テキストを中央に配置
+    //   textElement.setAttribute("x", "100");
+    //   textElement.setAttribute("y", "100");
 
-        var charPos = chkRotate(ch, lineWidthA);
-        // パスをリセット
-        context.beginPath();
-        // 回転 (n度)
-        context.translate(
-          startX - lineWidthA * i + charPos.transPosX,
-          startY + (lineWidthA * j + charPos.transPosY)
-        );
-        context.rotate((charPos.angle * Math.PI) / 180);
-        context.translate(
-          -(startX - lineWidthA * i + charPos.transPosX),
-          -(startY + (lineWidthA * j + charPos.transPosY))
-        );
+    //   // SVGにテキストを追加
+    //   svgElement.appendChild(textElement);
 
-        context.fillText(
-          ch,
-          startX - lineWidthA * i + charPos.drawPosX,
-          startY + lineWidthA * j + charPos.drawPosY
-        );
+    //   // CanvasにSVGを描画
+    //   const svgString = new XMLSerializer().serializeToString(svgElement);
+    //   const DOMURL = window.URL || window.webkitURL || window;
+    //   const img = new Image();
+    //   const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+    //   const url = DOMURL.createObjectURL(svgBlob);
 
-        // 回転 (n度)
-        context.translate(
-          startX - lineWidthA * i + charPos.transPosX,
-          startY + (lineWidthA * j + charPos.transPosY)
-        );
-        context.rotate((-charPos.angle * Math.PI) / 180);
-        context.translate(
-          -(startX - lineWidthA * i + charPos.transPosX),
-          -(startY + (lineWidthA * j + charPos.transPosY))
-        );
-      });
-    });
+    //   img.onload = function () {
+    //     console.log("onload");
+    //     context.drawImage(img, 50, 50);
+    //     DOMURL.revokeObjectURL(url);
+    //   };
+    //   img.src = url;
+    // }
   }
 };
+
+const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+const ctx = canvas.getContext("2d");
+
+function svgToImage(svgElement: SVGSVGElement) {
+  // SVGをCanvasに描画
+  const svgString = new XMLSerializer().serializeToString(svgElement);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
+  const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(svgBlob);
+  console.log("test1");
+  if (!ctx) return;
+  console.log("test2");
+
+  img.onload = function () {
+    // CanvasにSVGを描画
+    canvas.width = svgElement.width.baseVal.value;
+    canvas.height = svgElement.height.baseVal.value;
+    ctx.drawImage(img, 0, 0);
+
+    // Canvasを画像として取得
+    const imageDataURL = canvas.toDataURL("image/png");
+
+    // 画像を表示
+    const imageContainer = document.getElementById("imageContainer");
+    if (!imageContainer) return;
+    const imageElement = document.createElement("img");
+    imageElement.src = imageDataURL;
+    imageContainer.appendChild(imageElement);
+    console.log(imageElement);
+  };
+
+  img.src = url;
+}
 
 function changeCanvasSize() {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -622,7 +743,7 @@ function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
 
 function getSelectedCanvasColor(): string {
   const radioButtons = document.getElementsByName(
-    "c_color"
+    "c_color",
   ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
   if (color === "picker") {
@@ -636,7 +757,7 @@ function getSelectedCanvasColor(): string {
 
 function getSelectedMainStrColor(): string {
   const radioButtons = document.getElementsByName(
-    "ms_color"
+    "ms_color",
   ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
   if (color === "picker") {
@@ -650,7 +771,7 @@ function getSelectedMainStrColor(): string {
 
 function getSelectedSubStrColor(): string {
   const radioButtons = document.getElementsByName(
-    "ss_color"
+    "ss_color",
   ) as NodeListOf<HTMLInputElement>;
   const color = check2Color(radioButtons);
   if (color === "picker") {
@@ -665,7 +786,7 @@ function getSelectedSubStrColor(): string {
 function insertText(): void {
   const inputTextElements: HTMLCollectionOf<HTMLInputElement> =
     document.getElementsByClassName(
-      "js_input-text"
+      "js_input-text",
     ) as HTMLCollectionOf<HTMLInputElement>;
   const inputText: HTMLInputElement = inputTextElements[1];
 
@@ -693,7 +814,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const radioFontInputs = document.querySelectorAll(
-    'input[type="radio"][name="font"]'
+    'input[type="radio"][name="font"]',
   );
   radioFontInputs.forEach((fontInput) => {
     fontInput.addEventListener("change", function () {
@@ -702,7 +823,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const radioSizeInputs = document.querySelectorAll(
-    'input[type="radio"][name="size"]'
+    'input[type="radio"][name="size"]',
   );
   radioSizeInputs.forEach((sizeInput) => {
     sizeInput.addEventListener("change", function () {
@@ -711,7 +832,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const radioCColorInputs = document.querySelectorAll(
-    'input[type="radio"][name="c_color"]'
+    'input[type="radio"][name="c_color"]',
   );
   radioCColorInputs.forEach((ccolorInput) => {
     ccolorInput.addEventListener("change", function () {
@@ -720,7 +841,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const radioMsColorInputs = document.querySelectorAll(
-    'input[type="radio"][name="ms_color"]'
+    'input[type="radio"][name="ms_color"]',
   );
   radioMsColorInputs.forEach((mscolorInput) => {
     mscolorInput.addEventListener("change", function () {
@@ -729,7 +850,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const radioSsColorInputs = document.querySelectorAll(
-    'input[type="radio"][name="ss_color"]'
+    'input[type="radio"][name="ss_color"]',
   );
   radioSsColorInputs.forEach((sscolorInput) => {
     sscolorInput.addEventListener("change", function () {
@@ -741,7 +862,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (colorPicker1) {
     colorPicker1.addEventListener("change", function (event) {
       const selectedRadio = document.querySelector(
-        `input[type="radio"][class="picker"][name="c_color"]`
+        `input[type="radio"][class="picker"][name="c_color"]`,
       ) as HTMLInputElement;
       if (selectedRadio) {
         selectedRadio.checked = true;
@@ -754,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (colorPicker2) {
     colorPicker2.addEventListener("change", function (event) {
       const selectedRadio = document.querySelector(
-        `input[type="radio"][class="picker"][name="ms_color"]`
+        `input[type="radio"][class="picker"][name="ms_color"]`,
       ) as HTMLInputElement;
       if (selectedRadio) {
         selectedRadio.checked = true;
@@ -767,7 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (colorPicker3) {
     colorPicker3.addEventListener("change", function (event) {
       const selectedRadio = document.querySelector(
-        `input[type="radio"][class="picker"][name="ss_color"]`
+        `input[type="radio"][class="picker"][name="ss_color"]`,
       ) as HTMLInputElement;
       if (selectedRadio) {
         selectedRadio.checked = true;
@@ -775,5 +896,35 @@ document.addEventListener("DOMContentLoaded", () => {
       genereteCardImage();
     });
   }
-});
 
+  const downloadButton = document.getElementById("downloadButton");
+  // ボタンにクリックイベントリスナーを追加
+  if (downloadButton) {
+    downloadButton.addEventListener("click", () => {
+      // SVG要素を取得
+      const svgElement = document.getElementById("mySvg");
+      if (!svgElement) {
+        console.error("SVG element not found");
+        return;
+      }
+
+      // SVGを文字列に変換
+      const svgString = new XMLSerializer().serializeToString(svgElement);
+
+      // Blobを作成
+      const blob = new Blob([svgString], { type: "image/svg+xml" });
+
+      // ダウンロード用のURLを作成
+      const url = URL.createObjectURL(blob);
+
+      // ダウンロードリンクを作成し、クリックする
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = "my_svg_file.svg";
+      downloadLink.click();
+
+      // 不要なURLオブジェクトを解放
+      URL.revokeObjectURL(url);
+    });
+  }
+});

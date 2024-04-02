@@ -1,0 +1,6 @@
+<svg id="mySvg" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+        <!-- テキストを描画 -->
+        <text x="50" y="50" font-family="RocknRoll_One" font-size="24" fill="black">
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら
+        </text>
+      </svg>

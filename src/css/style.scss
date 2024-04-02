@@ -30,13 +30,13 @@ h2 {
     font-size: 1em;
     text-decoration: none;
     font-weight: bold;
-    border: 2px solid #6777E6;
-    background: #6777E6;
+    border: 2px solid #6777e6;
+    background: #6777e6;
     color: #fff;
     transition: 0.5s;
 
     &:hover {
-      color: #6777E6;
+      color: #6777e6;
       background: #fff;
     }
 
@@ -83,8 +83,6 @@ h2 {
     // background: linear-gradient(transparent 80%, #a7d6ff 80%);
     border-bottom: solid 3px #a7d6ff;
   }
-
-
 }
 
 .HaneiButton {
@@ -176,7 +174,7 @@ h2 {
 
 /*タブのスタイル*/
 .tab_item {
-  width: calc(100%/3);
+  width: calc(100% / 3);
   height: 50px;
   border-bottom: 3px solid #27acd9;
   background-color: #d9d9d9;
@@ -208,16 +206,15 @@ input[name="tab_item"] {
   overflow: hidden;
 }
 
-
 /*選択されているタブのコンテンツのみを表示*/
-#all:checked~#all_content,
-#programming:checked~#programming_content,
-#design:checked~#design_content {
+#all:checked ~ #all_content,
+#programming:checked ~ #programming_content,
+#design:checked ~ #design_content {
   display: block;
 }
 
 /*選択されているタブのスタイルを変える*/
-.tabs input:checked+.tab_item {
+.tabs input:checked + .tab_item {
   background-color: #27acd9;
   color: #fff;
 }
@@ -231,104 +228,105 @@ input[name="tab_item"] {
 }
 
 @font-face {
-  font-family: 'lineseed';
-  src: url('../assets/LINESeedJP_OTF_Rg.woff') format('woff');
+  font-family: "lineseed";
+  src: url("../assets/LINESeedJP_OTF_Rg.woff") format("woff");
+}
+.base-rocknroll {
+  font-family: "RocknRoll_One", sans-serif;
 }
 
 .wf-lineseed {
-  font-family: 'lineseed', sans-serif
+  font-family: "lineseed", sans-serif;
 }
 
 // RocknRoll One
 .wf-rocknroll {
-  font-family: 'RocknRoll One', sans-serif;
+  font-family: "RocknRoll One", sans-serif;
 }
 
 // Zen Antique
 .wf-zenAntique {
-  font-family: 'Zen Antique', sans-serif;
+  font-family: "Zen Antique", sans-serif;
 }
 
 // Kiwi Maru
 .wf-kiwiMaru {
-  font-family: 'Kiwi Maru', sans-serif;
+  font-family: "Kiwi Maru", sans-serif;
 }
 
 // Mochiy Pop One
 .wf-mochiyPop {
-  font-family: 'Mochiy Pop One', sans-serif;
+  font-family: "Mochiy Pop One", sans-serif;
 }
 
 // DotGothic16
 .wf-dotGothic16 {
-  font-family: 'DotGothic16', sans-serif;
+  font-family: "DotGothic16", sans-serif;
 }
 
 // Kaisei Decol
 .wf-kaiseiDecol {
-  font-family: 'Kaisei Decol', sans-serif;
+  font-family: "Kaisei Decol", sans-serif;
 }
 
 // Zen Kurenaido
 .wf-zenKurenaido {
-  font-family: 'Zen Kurenaido', sans-serif;
+  font-family: "Zen Kurenaido", sans-serif;
 }
 
 // Yusei Magic
 .wf-yuseiMagic {
-  font-family: 'Yusei Magic', sans-serif;
+  font-family: "Yusei Magic", sans-serif;
 }
 
 // Dela Gothic One
 .wf-delaGothicOne {
-  font-family: 'Dela Gothic One', sans-serif;
+  font-family: "Dela Gothic One", sans-serif;
 }
 
 // Hachi Maru Pop
 .wf-hachiMaruPop {
-  font-family: 'Hachi Maru Pop', sans-serif;
+  font-family: "Hachi Maru Pop", sans-serif;
 }
-
-
 
 // Zen Kaku Gothic New
 .wf-zenKakuGothicNew {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 
 // しっぽり明朝
 .wf-ShipporiMincho {
-  font-family: 'Shippori Mincho', sans-serif;
+  font-family: "Shippori Mincho", sans-serif;
 }
 
 // Potta One
 .wf-PottaOne {
-  font-family: 'Potta One', sans-serif;
+  font-family: "Potta One", sans-serif;
 }
 
 // Klee One
 .wf-KleeOne {
-  font-family: 'Klee One', sans-serif;
+  font-family: "Klee One", sans-serif;
 }
 
 // Stick
 .wf-Stick {
-  font-family: 'Stick', sans-serif;
+  font-family: "Stick", sans-serif;
 }
 
 // ひな明朝
 .wf-HinaMincho {
-  font-family: 'Hina Mincho', sans-serif;
+  font-family: "Hina Mincho", sans-serif;
 }
 
 // さわらび明朝
 .wf-SawarabiMincho {
-  font-family: 'Sawarabi Mincho', sans-serif;
+  font-family: "Sawarabi Mincho", sans-serif;
 }
 
 // さわらびゴシック
 .wf-SawarabiGothic {
-  font-family: 'Sawarabi Gothic', sans-serif;
+  font-family: "Sawarabi Gothic", sans-serif;
 }
 
 .siro {

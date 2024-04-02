@@ -37,7 +37,6 @@
 
 // }
 
-
 // function watchFiles() {
 //     watch(dir.style.src, compileSass);
 //     watch(dir.script.src, buildTs);
