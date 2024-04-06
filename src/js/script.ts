@@ -587,6 +587,13 @@ var tategaki = function (
       // svgElementがnullの場合や、HTMLElement型の場合の処理
     }
 
+// SVG要素のパスデータを取得する
+const svgElement = document.getElementById('svg');
+const pathElement = svgElement.querySelector('path');
+const pathData = pathElement.getAttribute('d');
+
+console.log(pathData);
+
     // context.font = "400 60px RocknRoll_One";
 
     //   // お試し
