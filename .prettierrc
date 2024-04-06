@@ -1,19 +1,20 @@
 {
-  "semi": false, // セミコロンの有無
-  "singleQuote": true, // シングルクォートの使用
-  "tabWidth": 2, // インデント幅
-  "printWidth": 80, // 行の最大文字数
-  "trailingComma": "none", // 末尾のカンマ
-  "arrowParens": "avoid", // アロー関数の引数の括弧
-  "bracketSpacing": true, // オブジェクトの中括弧にスペースを追加
-  "jsxBracketSameLine": false, // JSXの閉じタグを新しい行にするかどうか
-  "useTabs": false, // インデントにタブを使用するかどうか
-  "endOfLine": "auto", // 改行コード
-  "overrides": [ // ファイルタイプごとの設定のオーバーライド
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "useTabs": false,
+  "endOfLine": "auto",
+  "overrides": [
     {
-      "files": "*.json", // 拡張子によるファイル指定
+      "files": "*.{js,jsx,ts,tsx,json,css,scss,html,md}",
       "options": {
-        "tabWidth": 4 // JSONファイルのインデント幅を4にする
+        "tabWidth": 2,
+        "semi": false
       }
     }
   ]

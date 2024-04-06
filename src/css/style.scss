@@ -23,20 +23,20 @@ h2 {
   align-items: center;
   gap: 8px;
 
-  input[type="button"] {
+  input[type='button'] {
     width: 320px;
     max-width: 320px;
     padding: 10px;
     font-size: 1em;
     text-decoration: none;
     font-weight: bold;
-    border: 2px solid #6777E6;
-    background: #6777E6;
+    border: 2px solid #6777e6;
+    background: #6777e6;
     color: #fff;
     transition: 0.5s;
 
     &:hover {
-      color: #6777E6;
+      color: #6777e6;
       background: #fff;
     }
 
@@ -83,8 +83,6 @@ h2 {
     // background: linear-gradient(transparent 80%, #a7d6ff 80%);
     border-bottom: solid 3px #a7d6ff;
   }
-
-
 }
 
 .HaneiButton {
@@ -92,19 +90,17 @@ h2 {
   flex-direction: column;
   align-items: center;
 
-  input[type="radio"] {
+  input[type='radio'] {
     align-self: unset;
   }
 
-  input[type="button"] {
+  input[type='button'] {
     margin-top: 30px;
     width: 320px;
     max-width: 320px;
     padding: 10px;
     font-size: 1em;
-
     align-items: center;
-
     text-decoration: none;
     font-weight: bold;
     border: 2px solid #27acd9;
@@ -176,7 +172,7 @@ h2 {
 
 /*タブのスタイル*/
 .tab_item {
-  width: calc(100%/3);
+  width: calc(100% / 3);
   height: 50px;
   border-bottom: 3px solid #27acd9;
   background-color: #d9d9d9;
@@ -196,7 +192,7 @@ h2 {
 }
 
 /*ラジオボタンを全て消す*/
-input[name="tab_item"] {
+input[name='tab_item'] {
   display: none;
 }
 
@@ -208,26 +204,25 @@ input[name="tab_item"] {
   overflow: hidden;
 }
 
-
 /*選択されているタブのコンテンツのみを表示*/
-#all:checked~#all_content,
-#programming:checked~#programming_content,
-#design:checked~#design_content {
+#all:checked ~ #all_content,
+#programming:checked ~ #programming_content,
+#design:checked ~ #design_content {
   display: block;
 }
 
 /*選択されているタブのスタイルを変える*/
-.tabs input:checked+.tab_item {
+.tabs input:checked + .tab_item {
   background-color: #27acd9;
   color: #fff;
 }
 
 .wf-roundedmplus1c {
-  font-family: "M PLUS Rounded 1c";
+  font-family: 'M PLUS Rounded 1c';
 }
 
 .wf-notosansjapanese {
-  font-family: "Noto Sans JP";
+  font-family: 'Noto Sans JP';
 }
 
 @font-face {
@@ -236,7 +231,7 @@ input[name="tab_item"] {
 }
 
 .wf-lineseed {
-  font-family: 'lineseed', sans-serif
+  font-family: 'lineseed', sans-serif;
 }
 
 // RocknRoll One
@@ -288,8 +283,6 @@ input[name="tab_item"] {
 .wf-hachiMaruPop {
   font-family: 'Hachi Maru Pop', sans-serif;
 }
-
-
 
 // Zen Kaku Gothic New
 .wf-zenKakuGothicNew {
