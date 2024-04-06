@@ -2,7 +2,7 @@
   "dependencies": {
     "html2canvas": "^1.4.1"
   },
-  "name": "monthly-card-image",
+  "name": "make-textcard",
   "version": "1.0.0",
   "main": "main.js",
   "devDependencies": {
