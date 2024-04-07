@@ -70,16 +70,9 @@ window.onload = function () {
 }
 
 function chkRotate(text: string, width: number): charPosition {
-  const nums: number[] = []
-
   //無視した記号　→ ¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔
   if (text.match(/[0-9a-zA-Z]/)) {
-    nums.push(90)
-    nums.push(0)
-    nums.push(2)
-    nums.push(-0.8 * width)
-    nums.push(0)
-    return new charPosition(90, 0, 2, -0.8 * width, 0)
+    return new charPosition(90, 0, 2, -width, -width)
   }
   {
     const kigou = 'ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―'
@@ -466,115 +459,161 @@ var tategaki = function (
 
   // 本文出力
   {
-    var textList = text.split('\n')
-
+    // 各行ごとにデータを生成して配列に追加
+    const lines = text.split('\n')
+    const result: { isKotobagaki: boolean; line: string; indices: number[] }[] =
+      []
+    for (const line of lines) {
+      // 各行の前後の空白をトリムする
+      const trimmedLine = line.trim()
+      const lineData = convertTextToArray(trimmedLine)
+      result.push(...lineData)
+    }
     // フォント設定
     fontSetting(context, 1)
-    var lineWidth = context.measureText('あ').width
+    var lineWidth1 = context.measureText('あ').width
+    fontSetting(context, 2)
+    var lineWidth2 = context.measureText('あ').width
+
+    var KotobagakiCnt = 0
+    var maxLength = 0
+    var lineWidthA = 0
+
+    for (let i = 0; i < result.length; i++) {
+      // 配列の要素にアクセスして処理
+      const element = result[i]
+      if (element.isKotobagaki) KotobagakiCnt++
+      if (maxLength < element.line.length) maxLength = element.line.length
+    }
 
     // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
-    var startX = x / 2 - lineWidth + (textList.length * lineWidth) / 2
+    var startX =
+      x / 2 +
+      ((result.length - KotobagakiCnt) * lineWidth1 +
+        KotobagakiCnt * lineWidth2) /
+        2 -
+      lineWidth1 * 2
 
-    // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
-    var text = ''
-    var maxLength = 0
+    var startY = (y - lineWidth1 * maxLength) / 2 + lineWidth1
+    var posX = 0
 
-    textList.forEach(function (elm, i) {
-      if (elm.indexOf(kotobagaki) === -1) {
-        text = textList[i]
-        if (text.indexOf(kotobagaki) !== -1) {
-          text = text.replace('詞書：', '')
-        }
-        if (text.indexOf('***') !== -1) {
-          text = text.replace(/\*/g, '')
-        }
-        if (maxLength < text.length) {
-          maxLength = text.length
-        }
-      }
-    })
-
-    var startY = (y - lineWidth * (maxLength - 0)) / 2 + lineWidth
-
-    textList.forEach(function (elm, i) {
-      fontSetting(context, 1)
-      const text: string = elm
-      let start_index_1: number = -1
-      let start_index_2: number = -1
-
-      for (let i = 0; i < text.length; i++) {
-        const char = text.charAt(i)
-        if (char === '*') {
-          if (text.substring(i, i + 3) === '***') {
-            if (start_index_1 === -1) {
-              start_index_1 = i
-            } else {
-              start_index_2 = i - 4
-              break
-            }
-          }
-        }
-      }
-      let lineWidthA = lineWidth
-
-      if (start_index_1 != -1) elm = elm.replace(/\*/g, '')
-
-      if (text.indexOf(kotobagaki) !== -1) {
-        // 詞書用フォント設定
+    for (let i = 0; i < result.length; i++) {
+      // 配列の要素にアクセスして処理
+      const element = result[i]
+      if (element.isKotobagaki) {
         fontSetting(context, 2)
-        elm = elm.replace('詞書：', '')
-        lineWidthA = context.measureText('あ').width
-        if (start_index_1 != -1) {
-          start_index_1 -= 3
-          start_index_2 -= 3
-        }
+        lineWidthA = lineWidth2
+      } else {
+        fontSetting(context, 1)
+        lineWidthA = lineWidth1
       }
-
-      Array.prototype.forEach.call(elm, function (ch, j) {
-        // Canvasの文字色設定
-        if (
-          start_index_1 == -1 ||
-          j < start_index_1 ||
-          (start_index_2 != -1 && start_index_2 < j)
-        ) {
-          context.fillStyle = getSelectedMainStrColor()
-        } else {
+      var hosei = 0
+      if (element.isKotobagaki) {
+        hosei += lineWidth2 / 2
+      }
+      Array.prototype.forEach.call(element.line, function (ch, j) {
+        if (element.indices.includes(j)) {
+          // j が indices に含まれる場合の処理
           context.fillStyle = getSelectedSubStrColor()
+        } else {
+          // j が indices に含まれない場合の処理
+          context.fillStyle = getSelectedMainStrColor()
         }
 
-        var charPos = chkRotate(ch, lineWidthA)
+        var chWidth = context.measureText(ch).width
+        var charPos = chkRotate(ch, chWidth)
+
         // パスをリセット
         context.beginPath()
         // 回転 (n度)
         context.translate(
-          startX - lineWidthA * i + charPos.transPosX,
+          startX - posX + charPos.transPosX + chWidth + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
         )
         context.rotate((charPos.angle * Math.PI) / 180)
         context.translate(
-          -(startX - lineWidthA * i + charPos.transPosX),
+          -(startX - posX + charPos.transPosX + chWidth + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
 
         context.fillText(
           ch,
-          startX - lineWidthA * i + charPos.drawPosX,
+          startX - posX + charPos.drawPosX + chWidth + hosei,
           startY + lineWidthA * j + charPos.drawPosY
         )
-
         // 回転 (n度)
         context.translate(
-          startX - lineWidthA * i + charPos.transPosX,
+          startX - posX + charPos.transPosX + chWidth + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
         )
         context.rotate((-charPos.angle * Math.PI) / 180)
         context.translate(
-          -(startX - lineWidthA * i + charPos.transPosX),
+          -(startX - posX + charPos.transPosX + chWidth + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
       })
-    })
+      posX += lineWidth1
+    }
   }
+}
+
+function convertTextToArray(
+  text: string
+): { isKotobagaki: boolean; line: string; indices: number[] }[] {
+  const result: { isKotobagaki: boolean; line: string; indices: number[] }[] =
+    []
+
+  let isKotobagaki = false
+  let indices: number[] = []
+
+  // 「詞書：」が文頭にあるかどうかを確認し、isKotobagakiを決定する
+  if (text.startsWith('詞書：')) {
+    isKotobagaki = true
+  }
+
+  // *** で囲まれた文字列の位置を配列に保存する
+  let isInsideStars = false
+  let currentIndex = 0
+  let starsNum = 0
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === '*' && text[i + 1] === '*' && text[i + 2] === '*') {
+      if (!isInsideStars) {
+        isInsideStars = true
+        currentIndex = i + 3
+        starsNum++
+      } else {
+        isInsideStars = false
+      }
+      i += 2 // 3文字分スキップ
+    } else if (isInsideStars) {
+      if (isKotobagaki) indices.push(currentIndex - (starsNum * 6 - 3) - 3)
+      else indices.push(currentIndex - (starsNum * 6 - 3))
+      currentIndex++
+    } else {
+      currentIndex++
+    }
+  }
+
+  // *** で囲まれた文字列の位置を配列に保存する
+  // const regex: RegExp = /\*\*\*(.*?)\*\*\*/g
+  // let match: RegExpExecArray | null
+  // let matchIndex: number = 0
+  // while ((match = regex.exec(text)) !== null) {
+  //   // マッチした文字列の位置を保存する
+  //   for (let i = 0; i < match[0].length; i++) {
+  //     indices.push(matchIndex + i)
+  //   }
+  //   // 次のマッチの位置を更新する
+  //   matchIndex = match.index + match[0].length
+  // }
+
+  // 「詞書：」と *** を置き換える
+  const formattedLine = text.replace(/^詞書：/, '').replace(/\*\*\*/g, '')
+
+  // データを配列に追加
+  result.push({ isKotobagaki, line: formattedLine, indices })
+
+  return result
 }
 
 function changeCanvasSize() {
