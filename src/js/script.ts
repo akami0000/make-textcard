@@ -465,8 +465,8 @@ var tategaki = function (
       []
     for (const line of lines) {
       // 各行の前後の空白をトリムする
-      const trimmedLine = line.trim()
-      const lineData = convertTextToArray(trimmedLine)
+      // const trimmedLine = line.trim()
+      const lineData = convertTextToArray(line)
       result.push(...lineData)
     }
     // フォント設定
