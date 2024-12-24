@@ -40,6 +40,7 @@ class charPosition {
   }
 }
 const kotobagaki: string = '詞書：'
+let img: HTMLImageElement | null = null // imgを外部スコープで宣言
 
 function downloadCardImage(): void {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement
@@ -241,6 +242,56 @@ function getCheckedFont(): string {
   return ''
 }
 
+function drawUploadedImage() {
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement
+  const context = canvas.getContext('2d')
+  if (!context) {
+    return
+  }
+
+  const posX = document.getElementById('posX') as HTMLInputElement
+  const posY = document.getElementById('posY') as HTMLInputElement
+  const size = document.getElementById('size') as HTMLInputElement
+  const angle = document.getElementById('angle') as HTMLInputElement
+
+  var posXValue = 0
+  var posYValue = 0
+  var sizeValue = 0
+  var angleValue = 0
+
+  if (posX) {
+    posXValue = Number(posX.value)
+  }
+  if (posY) {
+    posYValue = Number(posY.value)
+  }
+  if (size) {
+    sizeValue = Number(size.value)
+  }
+  if (angle) {
+    angleValue = Number(angle.value)
+  }
+
+  if (img) {
+    context.save() // 現在のコンテキストを保存
+    context.translate(posXValue, posYValue) // 回転の中心を指定
+    context.rotate((angleValue * Math.PI) / 180) // ラジアンに変換して回転
+    // 画像を描画
+    context.drawImage(
+      img,
+      0,
+      0,
+      img.width,
+      img.height,
+      posXValue,
+      posYValue,
+      (sizeValue * img.width) / 100,
+      (sizeValue * img.height) / 100
+    )
+    context.restore()
+  }
+}
+
 function drawCanvas() {
   changeCanvasSize()
 
@@ -255,6 +306,8 @@ function drawCanvas() {
   //background color
   context.fillStyle = color
   context.fillRect(0, 0, canvas.width, canvas.height)
+
+  drawUploadedImage()
 
   const displayElem = document.getElementsByClassName(
     'js_display'
@@ -666,6 +719,26 @@ function insertText(): void {
   inputText.value = text
 }
 
+const fileInput = document.querySelector('#fileUpload') as HTMLInputElement // IDセレクタを使用
+if (fileInput) {
+  fileInput.addEventListener('change', function (event) {
+    const target = event.target as HTMLInputElement // event.targetをHTMLInputElementにキャスト
+    if (target.files && target.files.length > 0) {
+      // filesプロパティにアクセス
+      const file = target.files[0] // 最初のファイルを取得
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        img = new Image() // 画像オブジェクトを作成
+        img.src = e.target?.result as string // 画像のソースを設定
+        img.onload = function () {
+          genereteCardImage() // 画像を描画する関数を呼び出す
+        }
+      }
+      reader.readAsDataURL(file) // ファイルをDataURLとして読み込む
+    }
+  })
+}
+
 function registerButtonEvent(selector: string, callback: () => void) {
   const button = document.querySelector(selector) as HTMLElement
   button.addEventListener('click', callback)
@@ -763,6 +836,33 @@ document.addEventListener('DOMContentLoaded', () => {
       if (selectedRadio) {
         selectedRadio.checked = true
       }
+      genereteCardImage()
+    })
+  }
+
+  const iposx = document.getElementById('posX') as HTMLInputElement
+  if (iposx) {
+    iposx.addEventListener('change', function (event) {
+      genereteCardImage()
+    })
+  }
+
+  const iposy = document.getElementById('posY') as HTMLInputElement
+  if (iposy) {
+    iposy.addEventListener('change', function (event) {
+      genereteCardImage()
+    })
+  }
+  const isize = document.getElementById('size') as HTMLInputElement
+  if (isize) {
+    isize.addEventListener('change', function (event) {
+      genereteCardImage()
+    })
+  }
+
+  const iangle = document.getElementById('angle') as HTMLInputElement
+  if (iangle) {
+    iangle.addEventListener('change', function (event) {
       genereteCardImage()
     })
   }

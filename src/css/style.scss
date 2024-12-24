@@ -172,7 +172,7 @@ h2 {
 
 /*タブのスタイル*/
 .tab_item {
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   height: 50px;
   border-bottom: 3px solid #27acd9;
   background-color: #d9d9d9;
@@ -207,6 +207,7 @@ input[name='tab_item'] {
 /*選択されているタブのコンテンツのみを表示*/
 #all:checked ~ #all_content,
 #programming:checked ~ #programming_content,
+#image:checked ~ #image_content,
 #design:checked ~ #design_content {
   display: block;
 }
