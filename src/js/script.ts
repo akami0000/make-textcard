@@ -347,6 +347,44 @@ var tategaki = function (
   x: number,
   y: number
 ) {
+  // let selectedValue = ''
+  // const checkbox_none = document.querySelector(`none`) as HTMLInputElement
+  // if (checkbox_none.checked) {
+  //   selectedValue = 'none'
+  // }
+  // const checkbox_white = document.querySelector(`white`) as HTMLInputElement
+  // if (checkbox_white.checked) {
+  //   selectedValue = 'white'
+  // }
+  // const checkbox_black = document.querySelector(`black`) as HTMLInputElement
+  // if (checkbox_black.checked) {
+  //   selectedValue = 'black'
+  // }
+
+  const outlineOptions = document.getElementsByName('outline')
+  let selectedValue = ''
+
+  // HTMLCollectionを配列に変換
+  const optionsArray = Array.from(outlineOptions) as HTMLInputElement[]
+
+  for (const option of optionsArray) {
+    if (option.checked) {
+      selectedValue = option.value
+      break
+    }
+  }
+  if (selectedValue) {
+    if (selectedValue === 'none') {
+      console.log('アウトラインなしが選択されました。')
+    } else if (selectedValue === 'white') {
+      console.log('白いアウトラインが選択されました。')
+    } else if (selectedValue === 'black') {
+      console.log('黒いアウトラインが選択されました。')
+    }
+  } else {
+    console.log('何も選択されていません。')
+  }
+
   // タイトル出力
   {
     var titleList = title.split('\n')
@@ -403,6 +441,18 @@ var tategaki = function (
         -(drawX - lineWidth + charPos.transPosX),
         -(drawY + (lineWidth * j + charPos.transPosY))
       )
+      // アウトラインの色と幅を設定
+      if (selectedValue === 'white' || selectedValue === 'black') {
+        if (selectedValue === 'white') context.strokeStyle = 'white'
+        else context.strokeStyle = 'black' // アウトラインの色
+        context.lineWidth = 10 // アウトラインの幅
+        // アウトラインを描画
+        context.strokeText(
+          ch,
+          drawX - lineWidth + charPos.drawPosX,
+          drawY + lineWidth * j + charPos.drawPosY
+        )
+      }
 
       context.fillText(
         ch,
@@ -434,6 +484,15 @@ var tategaki = function (
 
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
     context.fillStyle = getSelectedMainStrColor()
+
+    // アウトラインの色と幅を設定
+    if (selectedValue === 'white' || selectedValue === 'black') {
+      if (selectedValue === 'white') context.strokeStyle = 'white'
+      else context.strokeStyle = 'black' // アウトラインの色
+      context.lineWidth = 10 // アウトラインの幅
+      // アウトラインを描画
+      context.strokeText(text, x * 0.05, y * 0.95)
+    }
     context.fillText(text, x * 0.05, y * 0.95)
   }
   // 付記2出力
@@ -451,6 +510,14 @@ var tategaki = function (
 
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
     context.fillStyle = getSelectedMainStrColor()
+    // アウトラインの色と幅を設定
+    if (selectedValue === 'white' || selectedValue === 'black') {
+      if (selectedValue === 'white') context.strokeStyle = 'white'
+      else context.strokeStyle = 'black' // アウトラインの色
+      context.lineWidth = 10 // アウトラインの幅
+      // アウトラインを描画
+      context.strokeText(text, x * 0.95 - lineWidth, y * 0.95)
+    }
     context.fillText(text, x * 0.95 - lineWidth, y * 0.95)
   }
 
@@ -458,8 +525,11 @@ var tategaki = function (
   {
     // 各行ごとにデータを生成して配列に追加
     const lines = text.split('\n')
-    const result: { isKotobagaki: boolean; line: string; indices: number[] }[] =
-      []
+    const result: {
+      isKotobagaki: boolean
+      line: string
+      indices: number[]
+    }[] = []
     for (const line of lines) {
       // 各行の前後の空白をトリムする
       // const trimmedLine = line.trim()
@@ -532,6 +602,21 @@ var tategaki = function (
           -(startX - posX + charPos.transPosX + chWidth + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
+        // テキストの基準線を設定
+        // context.textBaseline = 'middle'
+
+        // アウトラインの色と幅を設定
+        if (selectedValue === 'white' || selectedValue === 'black') {
+          if (selectedValue === 'white') context.strokeStyle = 'white'
+          else context.strokeStyle = 'black' // アウトラインの色
+          context.lineWidth = 10 // アウトラインの幅
+          // アウトラインを描画
+          context.strokeText(
+            ch,
+            startX - posX + charPos.drawPosX + chWidth + hosei,
+            startY + lineWidthA * j + charPos.drawPosY
+          )
+        }
 
         context.fillText(
           ch,
@@ -797,6 +882,15 @@ document.addEventListener('DOMContentLoaded', () => {
   )
   radioSsColorInputs.forEach(sscolorInput => {
     sscolorInput.addEventListener('change', function () {
+      genereteCardImage()
+    })
+  })
+
+  const outlineInputs = document.querySelectorAll(
+    'input[type="radio"][name="outline"]'
+  )
+  outlineInputs.forEach(outlineInputs => {
+    outlineInputs.addEventListener('change', function () {
       genereteCardImage()
     })
   })

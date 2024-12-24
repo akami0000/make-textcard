@@ -122,11 +122,11 @@
       <input class="js_downloadButton" type="button" value="ダウンロード" />
     </div>
     <div class="tabs">
-      <input id="all" type="radio" name="tab_item" />
+      <input id="all" type="radio" name="tab_item" checked/>
       <label class="tab_item" for="all">文章入力</label>
       <input id="programming" type="radio" name="tab_item" />
       <label class="tab_item" for="programming">フォント</label>
-      <input id="image" type="radio" name="tab_item"  checked/>
+      <input id="image" type="radio" name="tab_item"  />
       <label class="tab_item" for="image">画像設定</label>
       <input id="design" type="radio" name="tab_item" />
       <label class="tab_item" for="design">その他設定</label>
@@ -161,6 +161,17 @@
               placeholder="付記2　右下（任意）"
             ></textarea>
             <button class="js_insertButton" type="button">詞書を挿入</button>
+            <form>
+              <label>
+                  <input type="radio" name="outline" value="none" checked> アウトラインなし
+              </label><br>
+              <label>
+                  <input type="radio" name="outline" value="white"> アウトライン（白）
+              </label><br>
+              <label>
+                  <input type="radio" name="outline" value="black"> アウトライン（黒）
+              </label>
+          </form>
             <p>
               「詞書：」のあとに詞書（注釈）として表示したい文章を入力してください。<br />
               ***で囲んだ文字はサブ文字色で描画されます。
