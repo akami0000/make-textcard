@@ -377,84 +377,28 @@ var tategaki = function (
     fontSetting(context, 2)
     var lineWidth = context.measureText('あ').width
 
-    // タイトル
     let text: string = noteList[0]
-    let start_index_1: number = -1
-    let start_index_2: number = -1
-
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charAt(i)
-      if (char === '*') {
-        if (text.substring(i, i + 3) === '***') {
-          if (start_index_1 === -1) {
-            start_index_1 = i
-          } else {
-            start_index_2 = i - 4
-            break
-          }
-        }
-      }
-    }
 
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
-
-    Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
-      if (
-        start_index_1 == -1 ||
-        j < start_index_1 ||
-        (start_index_2 != -1 && start_index_2 < j)
-      )
-        context.fillStyle = getSelectedMainStrColor()
-      else context.fillStyle = getSelectedSubStrColor()
-
-      var drawX = x * 0.05
-      var drawY = y * 0.95
-      context.fillText(ch, drawX + j * lineWidth, drawY)
-    })
+    context.fillStyle = getSelectedMainStrColor()
+    context.fillText(text, x * 0.05, y * 0.95)
   }
   // 付記2出力
   {
     var noteList = note2.split('\n')
     // フォント設定
     fontSetting(context, 2)
-    var lineWidth = context.measureText('あ').width
+    var lineWidth = 0
 
-    // タイトル
     let text: string = noteList[0]
-    let start_index_1: number = -1
-    let start_index_2: number = -1
-
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charAt(i)
-      if (char === '*') {
-        if (text.substring(i, i + 3) === '***') {
-          if (start_index_1 === -1) {
-            start_index_1 = i
-          } else {
-            start_index_2 = i - 4
-            break
-          }
-        }
-      }
-    }
-
-    if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
 
     Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
-      if (
-        start_index_1 == -1 ||
-        j < start_index_1 ||
-        (start_index_2 != -1 && start_index_2 < j)
-      )
-        context.fillStyle = getSelectedMainStrColor()
-      else context.fillStyle = getSelectedSubStrColor()
-
-      var drawX = x * 0.95 - text.length * lineWidth
-      var drawY = y * 0.95
-      context.fillText(ch, drawX + j * lineWidth, drawY)
+      lineWidth += context.measureText(ch).width
     })
+
+    if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
+    context.fillStyle = getSelectedMainStrColor()
+    context.fillText(text, x * 0.95 - lineWidth, y * 0.95)
   }
 
   // 本文出力
