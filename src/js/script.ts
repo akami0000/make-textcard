@@ -73,7 +73,7 @@ window.onload = function () {
 function chkRotate(text: string, width: number): charPosition {
   //無視した記号　→ ¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔
   if (text.match(/[0-9a-zA-Z]/)) {
-    return new charPosition(90, 0, 2, -width, -width)
+    return new charPosition(90, 0, 2, -width + 10, -10)
   }
   {
     const kigou = 'ー〜～（）=_;~|><}{][＜＞…‥：；｜「」【】『』［］−―'
@@ -588,18 +588,18 @@ var tategaki = function (
         }
 
         var chWidth = context.measureText(ch).width
-        var charPos = chkRotate(ch, chWidth)
+        var charPos = chkRotate(ch, lineWidthA)
 
         // パスをリセット
         context.beginPath()
         // 回転 (n度)
         context.translate(
-          startX - posX + charPos.transPosX + chWidth + hosei,
+          startX - posX + charPos.transPosX + lineWidthA + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
         )
         context.rotate((charPos.angle * Math.PI) / 180)
         context.translate(
-          -(startX - posX + charPos.transPosX + chWidth + hosei),
+          -(startX - posX + charPos.transPosX + lineWidthA + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
         // テキストの基準線を設定
@@ -613,24 +613,24 @@ var tategaki = function (
           // アウトラインを描画
           context.strokeText(
             ch,
-            startX - posX + charPos.drawPosX + chWidth + hosei,
+            startX - posX + charPos.drawPosX + lineWidthA + hosei,
             startY + lineWidthA * j + charPos.drawPosY
           )
         }
 
         context.fillText(
           ch,
-          startX - posX + charPos.drawPosX + chWidth + hosei,
+          startX - posX + charPos.drawPosX + lineWidthA + hosei,
           startY + lineWidthA * j + charPos.drawPosY
         )
         // 回転 (n度)
         context.translate(
-          startX - posX + charPos.transPosX + chWidth + hosei,
+          startX - posX + charPos.transPosX + lineWidthA + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
         )
         context.rotate((-charPos.angle * Math.PI) / 180)
         context.translate(
-          -(startX - posX + charPos.transPosX + chWidth + hosei),
+          -(startX - posX + charPos.transPosX + lineWidthA + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
       })
