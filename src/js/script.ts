@@ -53,53 +53,26 @@ function downloadCardImage(): void {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement
   if (!canvas) return
 
-  // ファイル名を生成
   const date = new Date()
   const filename = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}.png`
 
-  // 1. iOS環境の場合の対策
-  if (isiOS()) {
-    const dataUrl = canvas.toDataURL('image/png')
-    const newWindow = window.open('', '_blank')
-
-    if (newWindow) {
-      // document.writeを使わず、DOM操作で安全に要素を構築する
-      const doc = newWindow.document
-      doc.open()
-      doc.write('<html><head><title>画像保存</title></head></html>') // 初期化用（最低限のHTML）
-      doc.close()
-
-      // bodyのスタイル設定
-      doc.body.style.margin = '0'
-      doc.body.style.background = '#333'
-      doc.body.style.display = 'flex'
-      doc.body.style.flexDirection = 'column'
-      doc.body.style.alignItems = 'center'
-      doc.body.style.justifyContent = 'center'
-      doc.body.style.minHeight = '100vh'
-
-      // 案内テキスト
-      const p = doc.createElement('p')
-      p.style.color = 'white'
-      p.style.fontFamily = 'sans-serif'
-      p.style.marginBottom = '10px'
-      p.textContent = '画像を長押しして保存してください'
-      doc.body.appendChild(p)
-
-      // 画像要素
-      const img = doc.createElement('img')
-      img.src = dataUrl
-      img.alt = 'Generated Card'
-      img.style.maxWidth = '100%'
-      img.style.height = 'auto'
-      img.style.boxShadow = '0 4px 10px rgba(0,0,0,0.5)'
-      doc.body.appendChild(img)
-    } else {
-      // ポップアップブロックされた場合のフォールバック
-      alert(
-        'ポップアップがブロックされました。ブラウザの設定を確認してください。'
-      )
-    }
+  // 1. Web Share API（画像共有）が使える環境（iOS Safariなど）の場合
+  if (navigator.canShare && navigator.canShare({ files: [new File([], '')] })) {
+    canvas.toBlob(async blob => {
+      if (!blob) return
+      const file = new File([blob], filename, { type: 'image/png' })
+      try {
+        await navigator.share({
+          files: [file],
+          title: '縦書き画像'
+        })
+      } catch (error) {
+        // ユーザーが共有をキャンセルした場合などはエラーになるため無視またはフォールバック
+        if ((error as Error).name !== 'AbortError') {
+          console.error(error)
+        }
+      }
+    }, 'image/png')
     return
   }
 
