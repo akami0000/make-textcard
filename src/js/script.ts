@@ -1,21 +1,6 @@
 import '../css/style.scss'
 import '../css/style_radio.scss'
 
-// // ツイートボタン押下時にテキストを動的に変更してツイート
-// function tweet() {
-//   // 出力結果を取得
-//   var text = (<HTMLInputElement>(
-//     document.getElementsByClassName("js_input-text")[0]
-//   )).value;
-
-//   // オプションパラメータを設定
-//   let hashtags = "縦書き画像メーカー";
-//   let url = "https://make-textcard.netlify.app/";  // location.hrefは今いるURL
-
-//   // URLを生成して遷移
-//   window.open("https://twitter.com/share?text=" + text + "&hashtags=" + hashtags + "&url=" + url);
-// }
-
 class charPosition {
   // プロパティ
   angle: number
@@ -67,7 +52,6 @@ function downloadCardImage(): void {
           title: '縦書き画像'
         })
       } catch (error) {
-        // ユーザーが共有をキャンセルした場合などはエラーになるため無視またはフォールバック
         if ((error as Error).name !== 'AbortError') {
           console.error(error)
         }
@@ -89,16 +73,11 @@ function genereteCardImage() {
   drawCanvas()
 }
 
-/*
- * @author phi_jp
- */
-
 window.onload = function () {
   drawCanvas()
 }
 
 function chkRotate(text: string, width: number): charPosition {
-  //無視した記号　→ ¡¿¥℉℃™€‰※‹µ¤∆¶÷×±»«›‡†№§°π√‾≠≒≡≦≧⊂⊃⊆⊇∈∋∪∩⇒⇔
   if (text.match(/[0-9a-zA-Z]/)) {
     return new charPosition(90, 0, 2, -width + 10, -10)
   }
@@ -269,6 +248,22 @@ function getCheckedFont(): string {
   return ''
 }
 
+// 選択された文字サイズに応じた倍率を返す関数
+function getSelectedFontSizeScale(): number {
+  const xlargeInput = document.querySelector('.text-xlarge') as HTMLInputElement
+  const mediumInput = document.querySelector('.text-medium') as HTMLInputElement
+  const largeInput = document.querySelector('.text-large') as HTMLInputElement
+
+  if (xlargeInput?.checked) {
+    return 1.4 // 特大（必要に応じて 1.5 などに調整してください）[cite: 2]
+  } else if (largeInput?.checked) {
+    return 1.25 // 大[cite: 2]
+  } else if (mediumInput?.checked) {
+    return 1.12 // 中[cite: 2]
+  }
+  return 1.0 // 小（初期値）[cite: 2]
+}
+
 function drawUploadedImage() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement
   const context = canvas.getContext('2d')
@@ -300,10 +295,9 @@ function drawUploadedImage() {
   }
 
   if (img) {
-    context.save() // 現在のコンテキストを保存
-    context.translate(posXValue, posYValue) // 回転の中心を指定
-    context.rotate((angleValue * Math.PI) / 180) // ラジアンに変換して回転
-    // 画像を描画
+    context.save()
+    context.translate(posXValue, posYValue)
+    context.rotate((angleValue * Math.PI) / 180)
     context.drawImage(
       img,
       0,
@@ -330,9 +324,22 @@ function drawCanvas() {
 
   const color = getSelectedCanvasColor()
 
-  //background color
+  // background color
   context.fillStyle = color
   context.fillRect(0, 0, canvas.width, canvas.height)
+
+  // -------------------------------------------------------------------------
+  // 文字サイズ設定に応じた「中心基準のズーム（拡大）」を適用
+  // -------------------------------------------------------------------------
+  const scale = getSelectedFontSizeScale()
+  context.save()
+  if (scale !== 1.0) {
+    const centerX = canvas.width / 2
+    const centerY = canvas.height / 2
+    context.translate(centerX, centerY)
+    context.scale(scale, scale)
+    context.translate(-centerX, -centerY)
+  }
 
   drawUploadedImage()
 
@@ -363,6 +370,9 @@ function drawCanvas() {
     canvas.width,
     canvas.height
   )
+
+  // ズーム用のコンテキスト状態を復元
+  context.restore()
 }
 
 var tategaki = function (
@@ -374,24 +384,9 @@ var tategaki = function (
   x: number,
   y: number
 ) {
-  // let selectedValue = ''
-  // const checkbox_none = document.querySelector(`none`) as HTMLInputElement
-  // if (checkbox_none.checked) {
-  //   selectedValue = 'none'
-  // }
-  // const checkbox_white = document.querySelector(`white`) as HTMLInputElement
-  // if (checkbox_white.checked) {
-  //   selectedValue = 'white'
-  // }
-  // const checkbox_black = document.querySelector(`black`) as HTMLInputElement
-  // if (checkbox_black.checked) {
-  //   selectedValue = 'black'
-  // }
-
   const outlineOptions = document.getElementsByName('outline')
   let selectedValue = ''
 
-  // HTMLCollectionを配列に変換
   const optionsArray = Array.from(outlineOptions) as HTMLInputElement[]
 
   for (const option of optionsArray) {
@@ -400,26 +395,13 @@ var tategaki = function (
       break
     }
   }
-  if (selectedValue) {
-    if (selectedValue === 'none') {
-      console.log('アウトラインなしが選択されました。')
-    } else if (selectedValue === 'white') {
-      console.log('白いアウトラインが選択されました。')
-    } else if (selectedValue === 'black') {
-      console.log('黒いアウトラインが選択されました。')
-    }
-  } else {
-    console.log('何も選択されていません。')
-  }
 
   // タイトル出力
   {
     var titleList = title.split('\n')
-    // フォント設定
     fontSetting(context, 0)
     var lineWidth = context.measureText('あ').width
 
-    // タイトル
     let text: string = titleList[0]
     let start_index_1: number = -1
     let start_index_2: number = -1
@@ -441,7 +423,6 @@ var tategaki = function (
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
 
     Array.prototype.forEach.call(text, function (ch, j) {
-      // Canvasの文字色設定
       if (
         start_index_1 == -1 ||
         j < start_index_1 ||
@@ -450,15 +431,11 @@ var tategaki = function (
         context.fillStyle = getSelectedMainStrColor()
       else context.fillStyle = getSelectedSubStrColor()
 
-      // Xは固定値
       var drawX = x * 0.9
-      // Canvasの横サイズ・文章の長さによる描画開始位置Yの調整調整（詞書は除く）
       var drawY = (y - lineWidth * text.length) / 2 + lineWidth
 
       var charPos = chkRotate(ch, lineWidth)
-      // パスをリセット
       context.beginPath()
-      // 回転 (n度)
       context.translate(
         drawX - lineWidth + charPos.transPosX,
         drawY + (lineWidth * j + charPos.transPosY)
@@ -468,12 +445,10 @@ var tategaki = function (
         -(drawX - lineWidth + charPos.transPosX),
         -(drawY + (lineWidth * j + charPos.transPosY))
       )
-      // アウトラインの色と幅を設定
       if (selectedValue === 'white' || selectedValue === 'black') {
         if (selectedValue === 'white') context.strokeStyle = 'white'
-        else context.strokeStyle = 'black' // アウトラインの色
-        context.lineWidth = 10 // アウトラインの幅
-        // アウトラインを描画
+        else context.strokeStyle = 'black'
+        context.lineWidth = 10
         context.strokeText(
           ch,
           drawX - lineWidth + charPos.drawPosX,
@@ -487,7 +462,6 @@ var tategaki = function (
         drawY + lineWidth * j + charPos.drawPosY
       )
 
-      // 回転 (n度)
       context.translate(
         drawX - lineWidth + charPos.transPosX,
         drawY + (lineWidth * j + charPos.transPosY)
@@ -503,7 +477,6 @@ var tategaki = function (
   // 付記1出力
   {
     var noteList = note1.split('\n')
-    // フォント設定
     fontSetting(context, 2)
     var lineWidth = context.measureText('あ').width
 
@@ -512,12 +485,10 @@ var tategaki = function (
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
     context.fillStyle = getSelectedMainStrColor()
 
-    // アウトラインの色と幅を設定
     if (selectedValue === 'white' || selectedValue === 'black') {
       if (selectedValue === 'white') context.strokeStyle = 'white'
-      else context.strokeStyle = 'black' // アウトラインの色
-      context.lineWidth = 10 // アウトラインの幅
-      // アウトラインを描画
+      else context.strokeStyle = 'black'
+      context.lineWidth = 10
       context.strokeText(text, x * 0.05, y * 0.95)
     }
     context.fillText(text, x * 0.05, y * 0.95)
@@ -525,7 +496,6 @@ var tategaki = function (
   // 付記2出力
   {
     var noteList = note2.split('\n')
-    // フォント設定
     fontSetting(context, 2)
     var lineWidth = 0
 
@@ -537,12 +507,10 @@ var tategaki = function (
 
     if (text.indexOf('***') !== -1) text = text.replace(/\*/g, '')
     context.fillStyle = getSelectedMainStrColor()
-    // アウトラインの色と幅を設定
     if (selectedValue === 'white' || selectedValue === 'black') {
       if (selectedValue === 'white') context.strokeStyle = 'white'
-      else context.strokeStyle = 'black' // アウトラインの色
-      context.lineWidth = 10 // アウトラインの幅
-      // アウトラインを描画
+      else context.strokeStyle = 'black'
+      context.lineWidth = 10
       context.strokeText(text, x * 0.95 - lineWidth, y * 0.95)
     }
     context.fillText(text, x * 0.95 - lineWidth, y * 0.95)
@@ -550,7 +518,6 @@ var tategaki = function (
 
   // 本文出力
   {
-    // 各行ごとにデータを生成して配列に追加
     const lines = text.split('\n')
     const result: {
       isKotobagaki: boolean
@@ -558,12 +525,9 @@ var tategaki = function (
       indices: number[]
     }[] = []
     for (const line of lines) {
-      // 各行の前後の空白をトリムする
-      // const trimmedLine = line.trim()
       const lineData = convertTextToArray(line)
       result.push(...lineData)
     }
-    // フォント設定
     fontSetting(context, 1)
     var lineWidth1 = context.measureText('あ').width
     fontSetting(context, 2)
@@ -574,13 +538,11 @@ var tategaki = function (
     var lineWidthA = 0
 
     for (let i = 0; i < result.length; i++) {
-      // 配列の要素にアクセスして処理
       const element = result[i]
       if (element.isKotobagaki) KotobagakiCnt++
       if (maxLength < element.line.length) maxLength = element.line.length
     }
 
-    // Canvasの縦サイズ・文章の行数による描画開始位置Xの調整
     var startX =
       x / 2 +
       ((result.length - KotobagakiCnt) * lineWidth1 +
@@ -592,7 +554,6 @@ var tategaki = function (
     var posX = 0
 
     for (let i = 0; i < result.length; i++) {
-      // 配列の要素にアクセスして処理
       const element = result[i]
       if (element.isKotobagaki) {
         fontSetting(context, 2)
@@ -607,19 +568,14 @@ var tategaki = function (
       }
       Array.prototype.forEach.call(element.line, function (ch, j) {
         if (element.indices.includes(j)) {
-          // j が indices に含まれる場合の処理
           context.fillStyle = getSelectedSubStrColor()
         } else {
-          // j が indices に含まれない場合の処理
           context.fillStyle = getSelectedMainStrColor()
         }
 
-        var chWidth = context.measureText(ch).width
         var charPos = chkRotate(ch, lineWidthA)
 
-        // パスをリセット
         context.beginPath()
-        // 回転 (n度)
         context.translate(
           startX - posX + charPos.transPosX + lineWidthA + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
@@ -629,15 +585,11 @@ var tategaki = function (
           -(startX - posX + charPos.transPosX + lineWidthA + hosei),
           -(startY + (lineWidthA * j + charPos.transPosY))
         )
-        // テキストの基準線を設定
-        // context.textBaseline = 'middle'
 
-        // アウトラインの色と幅を設定
         if (selectedValue === 'white' || selectedValue === 'black') {
           if (selectedValue === 'white') context.strokeStyle = 'white'
-          else context.strokeStyle = 'black' // アウトラインの色
-          context.lineWidth = 10 // アウトラインの幅
-          // アウトラインを描画
+          else context.strokeStyle = 'black'
+          context.lineWidth = 10
           context.strokeText(
             ch,
             startX - posX + charPos.drawPosX + lineWidthA + hosei,
@@ -650,7 +602,6 @@ var tategaki = function (
           startX - posX + charPos.drawPosX + lineWidthA + hosei,
           startY + lineWidthA * j + charPos.drawPosY
         )
-        // 回転 (n度)
         context.translate(
           startX - posX + charPos.transPosX + lineWidthA + hosei,
           startY + (lineWidthA * j + charPos.transPosY)
@@ -675,12 +626,10 @@ function convertTextToArray(
   let isKotobagaki = false
   let indices: number[] = []
 
-  // 「詞書：」が文頭にあるかどうかを確認し、isKotobagakiを決定する
   if (text.startsWith('詞書：')) {
     isKotobagaki = true
   }
 
-  // *** で囲まれた文字列の位置を配列に保存する
   let isInsideStars = false
   let currentIndex = 0
   let starsNum = 0
@@ -693,7 +642,7 @@ function convertTextToArray(
       } else {
         isInsideStars = false
       }
-      i += 2 // 3文字分スキップ
+      i += 2
     } else if (isInsideStars) {
       if (isKotobagaki) indices.push(currentIndex - (starsNum * 6 - 3) - 3)
       else indices.push(currentIndex - (starsNum * 6 - 3))
@@ -703,23 +652,7 @@ function convertTextToArray(
     }
   }
 
-  // *** で囲まれた文字列の位置を配列に保存する
-  // const regex: RegExp = /\*\*\*(.*?)\*\*\*/g
-  // let match: RegExpExecArray | null
-  // let matchIndex: number = 0
-  // while ((match = regex.exec(text)) !== null) {
-  //   // マッチした文字列の位置を保存する
-  //   for (let i = 0; i < match[0].length; i++) {
-  //     indices.push(matchIndex + i)
-  //   }
-  //   // 次のマッチの位置を更新する
-  //   matchIndex = match.index + match[0].length
-  // }
-
-  // 「詞書：」と *** を置き換える
   const formattedLine = text.replace(/^詞書：/, '').replace(/\*\*\*/g, '')
-
-  // データを配列に追加
   result.push({ isKotobagaki, line: formattedLine, indices })
 
   return result
@@ -746,7 +679,6 @@ function getCanvasSize() {
   } else if (matiuke?.checked) {
     return { width: 2000, height: 4000 }
   } else {
-    // デフォルト値を返す
     return { width: 1500, height: 2000 }
   }
 }
@@ -769,7 +701,7 @@ function check2Color(radioButtons: NodeListOf<HTMLInputElement>): string {
   for (let i = 0; i < radioButtons.length; i++) {
     const radioButton = radioButtons[i] as HTMLInputElement
     if (radioButton.checked) {
-      const propertyName = Object.keys(colors)[i] // プロパティ名を取得
+      const propertyName = Object.keys(colors)[i]
       return colors[propertyName]
     }
   }
@@ -831,22 +763,21 @@ function insertText(): void {
   inputText.value = text
 }
 
-const fileInput = document.querySelector('#fileUpload') as HTMLInputElement // IDセレクタを使用
+const fileInput = document.querySelector('#fileUpload') as HTMLInputElement
 if (fileInput) {
   fileInput.addEventListener('change', function (event) {
-    const target = event.target as HTMLInputElement // event.targetをHTMLInputElementにキャスト
+    const target = event.target as HTMLInputElement
     if (target.files && target.files.length > 0) {
-      // filesプロパティにアクセス
-      const file = target.files[0] // 最初のファイルを取得
+      const file = target.files[0]
       const reader = new FileReader()
       reader.onload = function (e) {
-        img = new Image() // 画像オブジェクトを作成
-        img.src = e.target?.result as string // 画像のソースを設定
+        img = new Image()
+        img.src = e.target?.result as string
         img.onload = function () {
-          genereteCardImage() // 画像を描画する関数を呼び出す
+          genereteCardImage()
         }
       }
-      reader.readAsDataURL(file) // ファイルをDataURLとして読み込む
+      reader.readAsDataURL(file)
     }
   })
 }
@@ -859,7 +790,6 @@ function registerButtonEvent(selector: string, callback: () => void) {
 document.addEventListener('DOMContentLoaded', () => {
   registerButtonEvent('.js_downloadButton', downloadCardImage)
   registerButtonEvent('.js_insertButton', insertText)
-  // registerButtonEvent('.js_tweetButton', tweet);
 
   const textareas = document.querySelectorAll('.js_input-text')
   textareas.forEach(areas => {
@@ -873,6 +803,16 @@ document.addEventListener('DOMContentLoaded', () => {
   )
   radioFontInputs.forEach(fontInput => {
     fontInput.addEventListener('change', function () {
+      genereteCardImage()
+    })
+  })
+
+  // 文字サイズ変更ラジオボタンのイベントリスナー追加
+  const radioFontSizeInputs = document.querySelectorAll(
+    'input[type="radio"][name="font_size_scale"]'
+  )
+  radioFontSizeInputs.forEach(fontSizeInput => {
+    fontSizeInput.addEventListener('change', function () {
       genereteCardImage()
     })
   })
