@@ -1,6 +1,6 @@
 import '../css/style.scss'
 import '../css/style_radio.scss'
-import { selectedFontFamily } from './card-fonts'
+import { loadFontSamples, selectedFontFamily } from './card-fonts'
 import { kotobagakiPrefix, renderCardText } from './card-text'
 
 const palette: Record<string, string> = {
@@ -109,10 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!context) return
 
   const download =
-    document.querySelector<HTMLInputElement>('.js_downloadButton')!
-  const [title, body, leftNote, rightNote] = Array.from(
-    document.querySelectorAll<HTMLTextAreaElement>('.js_input-text')
-  )
+    document.querySelector<HTMLButtonElement>('.js_downloadButton')!
+  const poster = document.querySelector<HTMLImageElement>('.initial-preview')!
+  const dimensions = document.querySelector('.dimensions')!
+  const previewStatus = document.querySelector('.preview-status')!
+  const fontSettings =
+    document.querySelector<HTMLDetailsElement>('.font-settings')!
+  const currentFont = document.querySelector('.current-font')!
+  const title = document.querySelector<HTMLTextAreaElement>('#card-title')!
+  const body = document.querySelector<HTMLTextAreaElement>('#card-body')!
+  const leftNote = document.querySelector<HTMLTextAreaElement>('#left-note')!
+  const rightNote = document.querySelector<HTMLTextAreaElement>('#right-note')!
   let backgroundImage: HTMLImageElement | null = null
   let renderVersion = 0
   let uploadVersion = 0
@@ -121,6 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateDownloadButton() {
     download.disabled = uploadPending || !previewReady
+    const message = uploadPending
+      ? '背景画像を読み込んでいます'
+      : previewReady
+        ? '入力に合わせて自動更新'
+        : 'プレビューを更新しています'
+    if (previewStatus.textContent !== message)
+      previewStatus.textContent = message
   }
 
   const updatePreview = async () => {
@@ -159,17 +173,39 @@ document.addEventListener('DOMContentLoaded', () => {
       if (backgroundImage)
         drawBackgroundImage(context, backgroundImage, width, height, scale)
       context.drawImage(textImage, 0, 0)
+      dimensions.textContent = `${width} × ${height} px`
+      poster.hidden = true
+      canvas.hidden = false
       previewReady = true
       updateDownloadButton()
     } catch (error) {
-      if (version === renderVersion)
+      if (version === renderVersion) {
+        previewStatus.textContent = 'プレビューを更新できませんでした'
         console.error('カードを描画できませんでした', error)
+      }
     }
   }
 
+  fontSettings.addEventListener(
+    'toggle',
+    () => {
+      if (fontSettings.open) loadFontSamples()
+    },
+    { once: true }
+  )
+  fontSettings.addEventListener('change', () => {
+    const name = fontSettings
+      .querySelector<HTMLInputElement>('input[name="font"]:checked')
+      ?.closest('label')
+      ?.querySelector('.font-name')
+    currentFont.textContent = name?.textContent || ''
+  })
+
   download.addEventListener('click', () => saveCard(canvas))
   document.querySelector('.js_insertButton')!.addEventListener('click', () => {
-    body.value += `\n${kotobagakiPrefix}`
+    body.value += `${body.value ? '\n' : ''}${kotobagakiPrefix}`
+    body.focus()
+    body.setSelectionRange(body.value.length, body.value.length)
     updatePreview()
   })
 
