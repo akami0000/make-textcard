@@ -79,6 +79,14 @@ function downloadPng(png: string, filename: string) {
   link.remove()
 }
 
+function isAppleMobileDevice() {
+  return (
+    /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    // iPadOS can report a desktop Mac user agent.
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  )
+}
+
 function saveCard(canvas: HTMLCanvasElement) {
   const date = new Date()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -86,7 +94,7 @@ function saveCard(canvas: HTMLCanvasElement) {
   const filename = `${date.getFullYear()}-${month}-${day}.png`
 
   const png = canvas.toDataURL('image/png')
-  if (navigator.share && navigator.canShare) {
+  if (isAppleMobileDevice() && navigator.share && navigator.canShare) {
     const bytes = Uint8Array.from(atob(png.split(',')[1]), char =>
       char.charCodeAt(0)
     )
