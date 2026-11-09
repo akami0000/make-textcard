@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "ES2015",
-    "lib": ["DOM", "ES2015"],
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
