@@ -228,6 +228,19 @@ a {
   margin-top: 0.65rem;
 }
 
+.insert-tools {
+  flex: 0 0 auto;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, auto);
+  gap: 0.4rem;
+
+  button {
+    padding-inline: 0.375rem;
+    font-size: 0.875rem;
+  }
+}
+
 .hint {
   margin: 0.65rem 0 1.1rem;
 }

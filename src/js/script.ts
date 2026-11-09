@@ -208,6 +208,20 @@ document.addEventListener('DOMContentLoaded', () => {
     body.setSelectionRange(body.value.length, body.value.length)
     updatePreview()
   })
+  document
+    .querySelector('#insert-color-text')!
+    .addEventListener('click', () => {
+      const start = body.selectionStart
+      const marker = '***'
+      const placeholder = '色文字'
+      body.setRangeText(`${marker}${placeholder}${marker}`)
+      body.focus()
+      body.setSelectionRange(
+        start + marker.length,
+        start + marker.length + placeholder.length
+      )
+      updatePreview()
+    })
 
   const fileInput = document.querySelector<HTMLInputElement>('#fileUpload')!
   fileInput.addEventListener('change', async () => {
