@@ -5,14 +5,15 @@
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  color: #222c32;
-  background: #f5f4ef;
-  --paper: #fffefa;
-  --border: #dcded5;
-  --muted: #576461;
-  --accent: #235b50;
-  --accent-dark: #184238;
-  --accent-light: #edf5ee;
+  color: #1e3448;
+  background: #eff8ff;
+  --paper: #fff;
+  --border: #c9deee;
+  --muted: #466176;
+  --accent: #126b91;
+  --accent-dark: #104d6d;
+  --accent-light: #e5f5ff;
+  --sky-blue: #a7d6ff;
 }
 
 * {
@@ -130,7 +131,8 @@ a {
   justify-items: center;
   padding: clamp(0.75rem, 2vw, 1.25rem);
   border-radius: 0.65rem;
-  background: #e9ebe3;
+  background: #dff2ff;
+  box-shadow: inset 0 0 0 1px var(--sky-blue);
 
   canvas,
   img {
@@ -140,9 +142,9 @@ a {
     max-width: 100%;
     max-height: 38vh;
     max-height: 38svh;
-    border: 1px solid #d9dcd4;
+    border: 1px solid #bcd9ec;
     background: #fff;
-    box-shadow: 0 0.3rem 1.1rem #26342b18;
+    box-shadow: 0 0.3rem 1.1rem #1c54751a;
   }
 }
 
@@ -170,8 +172,8 @@ a {
   }
 
   &:disabled {
-    background: #dbe4dc;
-    color: #44524b;
+    background: #dceaf4;
+    color: #425d72;
     cursor: wait;
   }
 }
@@ -368,7 +370,7 @@ a {
 .swatch {
   width: 0.85rem;
   height: 0.85rem;
-  border: 1px solid #222c3244;
+  border: 1px solid #1e344844;
   border-radius: 50%;
 }
 
