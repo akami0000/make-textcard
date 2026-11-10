@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const end = body.selectionEnd
     const selected = body.value.slice(start, end)
     const base = selected || '漢字'
-    const insertion = `${base}（ルビ：かんじ）`
+    const insertion = `『${base}（ルビ：かんじ）』`
     body.setRangeText(insertion, start, end, 'end')
     body.focus()
     if (!selected) body.setSelectionRange(start, start + base.length)
