@@ -231,6 +231,18 @@ document.addEventListener('DOMContentLoaded', () => {
       updatePreview()
     })
 
+  document.querySelector('#insert-ruby')!.addEventListener('click', () => {
+    const start = body.selectionStart
+    const end = body.selectionEnd
+    const selected = body.value.slice(start, end)
+    const base = selected || '漢字'
+    const insertion = `${base}（ルビ：かんじ）`
+    body.setRangeText(insertion, start, end, 'end')
+    body.focus()
+    if (!selected) body.setSelectionRange(start, start + base.length)
+    updatePreview()
+  })
+
   const fileInput = document.querySelector<HTMLInputElement>('#fileUpload')!
   fileInput.addEventListener('change', async () => {
     const version = ++uploadVersion
