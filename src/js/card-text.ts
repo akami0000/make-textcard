@@ -40,15 +40,16 @@ function parseRuby(text: string): { plain: string; marks: RubyMark[] } {
   let cursor = 0
   // 『』 explicitly delimit the ruby base, avoiding ambiguous word boundaries.
   const pattern = /『([^『』\n]+?)（ルビ：([^（）\n]+)）』/g
-  for (const match of text.matchAll(pattern)) {
-    const offset = match.index ?? 0
+  let match: RegExpExecArray | null
+  while ((match = pattern.exec(text)) !== null) {
+    const offset = match.index
     plain += text.slice(cursor, offset)
     const base = match[1]
-    const start = [...plain.replace(/\*\*\*/g, '')].length
+    const start = Array.from(plain.replace(/\*\*\*/g, '')).length
     plain += base
     marks.push({
       start,
-      length: [...base.replace(/\*\*\*/g, '')].length,
+      length: Array.from(base.replace(/\*\*\*/g, '')).length,
       reading: match[2]
     })
     cursor = offset + match[0].length
