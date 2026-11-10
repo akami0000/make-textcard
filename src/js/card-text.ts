@@ -32,6 +32,28 @@ function firstLine(text: string): string {
   return text.split('\n')[0]
 }
 
+type RubyMark = { start: number; length: number; reading: string }
+
+function parseRuby(text: string): { plain: string; marks: RubyMark[] } {
+  const marks: RubyMark[] = []
+  let plain = ''
+  let cursor = 0
+  const pattern = /([^\s（）()]+?)（ルビ：([^（）\n]+)）/g
+  for (const match of text.matchAll(pattern)) {
+    const offset = match.index ?? 0
+    plain += text.slice(cursor, offset)
+    // Keep emphasis markers outside the ruby base when possible.
+    const base = match[1]
+    const cleanBase = base.replace(/\*\*\*/g, '')
+    const start = plain.replace(/\*\*\*/g, '').length
+    plain += base
+    marks.push({ start, length: [...cleanBase].length, reading: match[2] })
+    cursor = offset + match[0].length
+  }
+  plain += text.slice(cursor)
+  return { plain, marks }
+}
+
 function verticalColumn(
   text: string,
   x: number,
@@ -124,16 +146,20 @@ export async function renderCardText(
     horizontalNote(card.rightNote, width * 0.95, height * 0.95, 'end')
   )
 
+  const rubyColumns: { column: SVGTextElement; marks: RubyMark[]; size: number }[] = []
   const columns = lines.map((line, index) => {
     const annotation = line.startsWith(kotobagakiPrefix)
     const text = annotation ? line.slice(kotobagakiPrefix.length) : line
     const x = width / 2 + ((lines.length - 1) / 2 - index) * bodySize
+    const parsed = parseRuby(text)
+    const size = annotation ? noteSize : bodySize
     const column = verticalColumn(
-      text,
+      parsed.plain,
       x,
-      annotation ? noteSize : bodySize,
+      size,
       card.subColor
     )
+    rubyColumns.push({ column, marks: parsed.marks, size })
     group.appendChild(column)
     return column
   })
@@ -145,6 +171,36 @@ export async function renderCardText(
   group.setAttribute('font-family', fontFamily)
   svg.appendChild(group)
   positionBody(svg, columns, height)
+  // Measure the actual vertical glyph positions, then center each reading on its base.
+  svg.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'
+  document.body.appendChild(svg)
+  try {
+    for (const { column, marks, size } of rubyColumns) {
+      for (const mark of marks) {
+        if (!mark.length) continue
+        try {
+          const first = column.getStartPositionOfChar(mark.start)
+          const last = column.getEndPositionOfChar(mark.start + mark.length - 1)
+          const reading = svgElement('text', {
+            x: Number(column.getAttribute('x')) + size * 0.72,
+            y: (first.y + last.y) / 2,
+            'font-size': size * 0.5,
+            'writing-mode': 'vertical-rl',
+            'text-orientation': 'mixed',
+            'text-anchor': 'middle',
+            'dominant-baseline': 'central'
+          })
+          reading.textContent = mark.reading
+          group.appendChild(reading)
+        } catch (error) {
+          console.warn('ルビの位置を計測できませんでした', error)
+        }
+      }
+    }
+  } finally {
+    svg.remove()
+    svg.removeAttribute('style')
+  }
   if (scale !== 1) {
     group.setAttribute(
       'transform',
