@@ -232,7 +232,7 @@ a {
   flex: 0 0 auto;
   max-width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, auto) minmax(0, auto);
+  grid-template-columns: repeat(2, minmax(0, auto));
   gap: 0.4rem;
 
   button {
