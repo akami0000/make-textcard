@@ -215,7 +215,7 @@ export async function renderCardText(
   for (const { x, marks, size } of rubyColumns) {
     for (const mark of marks) {
       if (!mark.length) continue
-      const reading = verticalColumn(mark.reading, x + size * 0.72, size * 0.5, card.subColor)
+      const reading = verticalColumn(mark.reading, x + size * 0.9, size * 0.5, card.subColor)
       const center = offset + (mark.start + mark.length / 2) * size
       reading.column.setAttribute(
         'transform', `translate(0 ${center - reading.length / 2})`
