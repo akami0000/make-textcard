@@ -59,6 +59,7 @@ function parseRuby(text: string): { plain: string; marks: RubyMark[] } {
 }
 
 // Explicit glyph positions avoid iOS WebKit's inconsistent SVG vertical shaping.
+// Prefer Unicode vertical presentation forms where available.
 const verticalForms: Record<string, string> = {
   '、': '︑', '。': '︒', '，': '︐', '．': '︒',
   '「': '﹁', '」': '﹂', '『': '﹃', '』': '﹄',
@@ -68,7 +69,36 @@ const verticalForms: Record<string, string> = {
   '《': '︽', '》': '︾', '〔': '︹', '〕': '︺',
   '…': '︙', '‥': '︰', 'ー': '丨', '―': '︱'
 }
-const rotateSideways = /^[A-Za-z0-9!?.,:;]$/
+
+// Historical chkRotate coverage. Keep explicit glyph positioning for all
+// browsers; only rotate characters without a vertical presentation form.
+const rotateSideways = /^[0-9a-zA-Z]$/
+const rotateSymbols = new Set(Array.from('〜～=_;~|><}{][＜＞：；｜−／＼-＝/\\＿'))
+const unchangedSymbols = new Set(Array.from('!+·“\'\x60”‘’'))
+const punctuationSymbols = new Set(Array.from('、。，．'))
+const specialSymbols = new Set(Array.from('ー（）「」【】『』［］…‥―'))
+
+function glyphLayout(char: string, size: number) {
+  if (verticalForms[char]) {
+    return { text: verticalForms[char], angle: 0, dx: 0, dy: 0 }
+  }
+  if (punctuationSymbols.has(char)) {
+    return { text: char, angle: 180, dx: 0, dy: size * 0.3 }
+  }
+  if (rotateSideways.test(char)) {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (rotateSymbols.has(char) || specialSymbols.has(char)) {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (char === ':' || char === '(' || char === ')') {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (char === '!' || char === '+' || unchangedSymbols.has(char)) {
+    return { text: char, angle: 0, dx: size * 0.15, dy: 0 }
+  }
+  return { text: char, angle: 0, dx: 0, dy: 0 }
+}
 
 function verticalColumn(text: string, x: number, size: number, subColor: string) {
   const column = svgElement('g')
@@ -82,10 +112,15 @@ function verticalColumn(text: string, x: number, size: number, subColor: string)
         'dominant-baseline': 'central',
         ...(highlight ? { fill: subColor } : {})
       })
-      const replacement = verticalForms[char]
-      glyph.textContent = replacement || char
-      if (!replacement && rotateSideways.test(char)) {
-        glyph.setAttribute('transform', `rotate(90 ${x} ${y})`)
+      const layout = glyphLayout(char, size)
+      glyph.textContent = layout.text
+      glyph.setAttribute('x', String(x + layout.dx))
+      glyph.setAttribute('y', String(y + layout.dy))
+      if (layout.angle) {
+        glyph.setAttribute(
+          'transform',
+          `rotate(${layout.angle} ${x + layout.dx} ${y + layout.dy})`
+        )
       }
       column.appendChild(glyph)
       index++
