@@ -69,6 +69,8 @@ function verticalColumn(
     'font-size': size,
     'writing-mode': 'vertical-rl',
     'text-orientation': 'mixed',
+    // Older WebKit SVG engines require this legacy property for vertical glyphs.
+    'glyph-orientation-vertical': 'auto',
     'dominant-baseline': 'central'
   })
   // Color whole runs so the browser can still shape adjacent characters.
@@ -102,10 +104,12 @@ function positionBody(
   svg.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'
   document.body.appendChild(svg)
   try {
-    const longest = columns.reduce(
-      (length, column) => Math.max(length, column.getComputedTextLength()),
-      0
-    )
+    const longest = columns.reduce((length, column) => {
+      // Safari can report the horizontal advance for vertically laid out SVG.
+      // Use the actual vertical bounds instead of getComputedTextLength().
+      const bounds = column.getBBox()
+      return Math.max(length, bounds.height)
+    }, 0)
     for (const column of columns) {
       column.setAttribute('y', String((height - longest) / 2))
     }
@@ -191,6 +195,7 @@ export async function renderCardText(
             'font-size': size * 0.5,
             'writing-mode': 'vertical-rl',
             'text-orientation': 'mixed',
+            'glyph-orientation-vertical': 'auto',
             'text-anchor': 'middle',
             'dominant-baseline': 'central'
           })
