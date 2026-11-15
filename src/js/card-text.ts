@@ -58,27 +58,76 @@ function parseRuby(text: string): { plain: string; marks: RubyMark[] } {
   return { plain, marks }
 }
 
-function verticalColumn(
-  text: string,
-  x: number,
-  size: number,
-  subColor: string
-) {
-  const column = svgElement('text', {
-    x,
-    'font-size': size,
-    'writing-mode': 'vertical-rl',
-    'text-orientation': 'mixed',
-    'dominant-baseline': 'central'
-  })
-  // Color whole runs so the browser can still shape adjacent characters.
-  text.split('***').forEach((run, index) => {
-    if (!run) return
-    const span = svgElement('tspan', index % 2 ? { fill: subColor } : {})
-    span.textContent = run
-    column.appendChild(span)
-  })
-  return column
+// Explicit glyph positions avoid iOS WebKit's inconsistent SVG vertical shaping.
+// Prefer Unicode vertical presentation forms where available.
+const verticalForms: Record<string, string> = {
+  '、': '︑', '。': '︒', '，': '︐', '．': '︒',
+  '「': '﹁', '」': '﹂', '『': '﹃', '』': '﹄',
+  '（': '︵', '）': '︶', '(': '︵', ')': '︶',
+  '［': '﹇', '］': '﹈', '【': '︻', '】': '︼',
+  '｛': '︷', '｝': '︸', '〈': '︿', '〉': '﹀',
+  '《': '︽', '》': '︾', '〔': '︹', '〕': '︺',
+  '…': '︙', '‥': '︰', 'ー': '丨', '―': '︱'
+}
+
+// Historical chkRotate coverage. Keep explicit glyph positioning for all
+// browsers; only rotate characters without a vertical presentation form.
+const rotateSideways = /^[0-9a-zA-Z]$/
+const rotateSymbols = new Set(Array.from('〜～=_;~|><}{][＜＞：；｜−／＼-＝/\\＿'))
+const unchangedSymbols = new Set(Array.from('!+·“\'\x60”‘’'))
+const punctuationSymbols = new Set(Array.from('、。，．'))
+const specialSymbols = new Set(Array.from('ー（）「」【】『』［］…‥―'))
+
+function glyphLayout(char: string, size: number) {
+  if (verticalForms[char]) {
+    return { text: verticalForms[char], angle: 0, dx: 0, dy: 0 }
+  }
+  if (punctuationSymbols.has(char)) {
+    return { text: char, angle: 180, dx: 0, dy: size * 0.3 }
+  }
+  if (rotateSideways.test(char)) {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (rotateSymbols.has(char) || specialSymbols.has(char)) {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (char === ':' || char === '(' || char === ')') {
+    return { text: char, angle: 90, dx: 0, dy: 0 }
+  }
+  if (char === '!' || char === '+' || unchangedSymbols.has(char)) {
+    return { text: char, angle: 0, dx: size * 0.15, dy: 0 }
+  }
+  return { text: char, angle: 0, dx: 0, dy: 0 }
+}
+
+function verticalColumn(text: string, x: number, size: number, subColor: string) {
+  const column = svgElement('g')
+  let index = 0
+  let highlight = false
+  for (const run of text.split('***')) {
+    for (const char of Array.from(run)) {
+      const y = (index + 0.5) * size
+      const glyph = svgElement('text', {
+        x, y, 'font-size': size, 'text-anchor': 'middle',
+        'dominant-baseline': 'central',
+        ...(highlight ? { fill: subColor } : {})
+      })
+      const layout = glyphLayout(char, size)
+      glyph.textContent = layout.text
+      glyph.setAttribute('x', String(x + layout.dx))
+      glyph.setAttribute('y', String(y + layout.dy))
+      if (layout.angle) {
+        glyph.setAttribute(
+          'transform',
+          `rotate(${layout.angle} ${x + layout.dx} ${y + layout.dy})`
+        )
+      }
+      column.appendChild(glyph)
+      index++
+    }
+    highlight = !highlight
+  }
+  return { column, length: index * size }
 }
 
 function horizontalNote(text: string, x: number, y: number, anchor: string) {
@@ -93,25 +142,12 @@ function horizontalNote(text: string, x: number, y: number, anchor: string) {
 }
 
 function positionBody(
-  svg: SVGSVGElement,
-  columns: SVGTextElement[],
-  height: number
+  columns: { column: SVGGElement; length: number }[], height: number
 ) {
-  // SVG measures the same shaped text it will paint. The longest column sets
-  // the shared starting position, including shorter annotation columns.
-  svg.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'
-  document.body.appendChild(svg)
-  try {
-    const longest = columns.reduce(
-      (length, column) => Math.max(length, column.getComputedTextLength()),
-      0
-    )
-    for (const column of columns) {
-      column.setAttribute('y', String((height - longest) / 2))
-    }
-  } finally {
-    svg.remove()
-    svg.removeAttribute('style')
+  const longest = Math.max(0, ...columns.map(item => item.length))
+  const offset = (height - longest) / 2
+  for (const { column } of columns) {
+    column.setAttribute('transform', `translate(0 ${offset})`)
   }
 }
 
@@ -134,14 +170,12 @@ export async function renderCardText(
   }
 
   const titleColumn = verticalColumn(
-    firstLine(card.title),
-    width * 0.9 - 30,
-    60,
-    card.subColor
+    firstLine(card.title), width * 0.9 - 30, 60, card.subColor
   )
-  titleColumn.setAttribute('text-anchor', 'middle')
-  titleColumn.setAttribute('y', String(height / 2))
-  group.appendChild(titleColumn)
+  titleColumn.column.setAttribute(
+    'transform', `translate(0 ${(height - titleColumn.length) / 2})`
+  )
+  group.appendChild(titleColumn.column)
 
   group.appendChild(
     horizontalNote(card.leftNote, width * 0.05, height * 0.95, 'start')
@@ -150,7 +184,7 @@ export async function renderCardText(
     horizontalNote(card.rightNote, width * 0.95, height * 0.95, 'end')
   )
 
-  const rubyColumns: { column: SVGTextElement; marks: RubyMark[]; size: number }[] = []
+  const rubyColumns: { x: number; marks: RubyMark[]; size: number }[] = []
   const columns = lines.map((line, index) => {
     const annotation = line.startsWith(kotobagakiPrefix)
     const text = annotation ? line.slice(kotobagakiPrefix.length) : line
@@ -163,8 +197,8 @@ export async function renderCardText(
       size,
       card.subColor
     )
-    rubyColumns.push({ column, marks: parsed.marks, size })
-    group.appendChild(column)
+    rubyColumns.push({ x, marks: parsed.marks, size })
+    group.appendChild(column.column)
     return column
   })
 
@@ -174,36 +208,20 @@ export async function renderCardText(
   )
   group.setAttribute('font-family', fontFamily)
   svg.appendChild(group)
-  positionBody(svg, columns, height)
-  // Measure the actual vertical glyph positions, then center each reading on its base.
-  svg.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none'
-  document.body.appendChild(svg)
-  try {
-    for (const { column, marks, size } of rubyColumns) {
-      for (const mark of marks) {
-        if (!mark.length) continue
-        try {
-          const first = column.getStartPositionOfChar(mark.start)
-          const last = column.getEndPositionOfChar(mark.start + mark.length - 1)
-          const reading = svgElement('text', {
-            x: Number(column.getAttribute('x')) + size * 0.72,
-            y: (first.y + last.y) / 2,
-            'font-size': size * 0.5,
-            'writing-mode': 'vertical-rl',
-            'text-orientation': 'mixed',
-            'text-anchor': 'middle',
-            'dominant-baseline': 'central'
-          })
-          reading.textContent = mark.reading
-          group.appendChild(reading)
-        } catch (error) {
-          console.warn('ルビの位置を計測できませんでした', error)
-        }
-      }
+  positionBody(columns, height)
+  // Ruby uses the same fixed cell grid as its base glyphs.
+  const longest = Math.max(0, ...columns.map(item => item.length))
+  const offset = (height - longest) / 2
+  for (const { x, marks, size } of rubyColumns) {
+    for (const mark of marks) {
+      if (!mark.length) continue
+      const reading = verticalColumn(mark.reading, x + size * 0.72, size * 0.5, card.subColor)
+      const center = offset + (mark.start + mark.length / 2) * size
+      reading.column.setAttribute(
+        'transform', `translate(0 ${center - reading.length / 2})`
+      )
+      group.appendChild(reading.column)
     }
-  } finally {
-    svg.remove()
-    svg.removeAttribute('style')
   }
   if (scale !== 1) {
     group.setAttribute(
